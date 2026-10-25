@@ -1,6 +1,6 @@
-# CAPTCHAvatye — 3단계 고객사 연결
+# CAPTCHAvatye — 4단계 이벤트 수집 API
 
-[DESIGN.md](DESIGN.md)의 **0~3단계**를 구현했다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 작성한 글을 한 번 등록한다.
+[DESIGN.md](DESIGN.md)의 **0~3단계**와 **4단계의 이벤트 수집 API**를 구현했다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 작성한 글을 한 번 등록한다.
 
 ## 실행
 
@@ -39,7 +39,7 @@ npm run dev
 
 제목이나 본문이 공백뿐이면 인증을 열지 않는다. 글과 포인트는 페이지 메모리만 사용하고 새로고침하면 초기화된다. 제목·본문은 SDK 또는 서버에 전송하지 않는다.
 
-시승 CTA는 아직 비활성이다. 새 탭의 모의 신청 화면과 이벤트·신청 API는 **4단계**에서 연결한다.
+시승 CTA는 아직 비활성이다. 이벤트 수집 API는 준비되었으며, 화면에서 이벤트를 보내는 기능·새 탭의 모의 신청 화면·신청 API는 4단계의 다음 작업이다.
 
 ## SDK 공개 경계와 데이터 처리
 
@@ -83,12 +83,25 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | --- | --- | --- |
 | `POST /api/challenges` | `{creativeId:"bmw-m3-v1"}` | 201 `{challengeId, creative}`; 없는 소재 404 |
 | `POST /api/verify` | `{challengeId, dropX, dropY}` | 200 `{passed:false}` 또는 `{passed:true, completionId, clickId}`; 없는 인증 404 |
+| `POST /api/events` | `{eventId, eventName, clickId, occurredAt}` | 신규 201 `{accepted:true, duplicate:false}`; 동일 재전송 200 `{accepted:true, duplicate:true}` |
 
 문자열·boolean·비유한 값·범위 밖 좌표는 422다. 422의 `detail` 배열을 유지하며, NaN/Infinity가 오류 응답 JSON을 깨뜨리지 않도록 해당 입력값만 문자열로 표현한다.
 
 동기 경로가 사용하는 Store의 공통 `threading.Lock` 안에서 인증 조회, 성공 여부 확인, 위치 판정, ID 생성, `passed`와 `click_links` 저장까지 처리한다. 결과를 저장한 뒤 응답한다. 이미 성공한 인증은 입력 검증을 통과한 다른 좌표에도 기존 ID 쌍을 반환한다. 최초 성공만 `captcha_passed challengeId=… completionId=… clickId=…` 로그를 남긴다.
 
-서버가 `secrets`로 생성하는 `ch_`, `cmp_`, `clk_` ID는 충돌을 확인한다. 프론트엔드는 성공 ID를 만들지 않는다. 이 단계의 Store에는 인증과 클릭 연결이 있고, 이벤트·신청 레코드는 4단계에서 추가한다.
+서버가 `secrets`로 생성하는 `ch_`, `cmp_`, `clk_` ID는 충돌을 확인한다. 프론트엔드는 성공 ID를 만들지 않는다. Store에는 인증·클릭 연결·이벤트가 있다. 신청 레코드와 서버 내부 전환 생성은 다음 작업이다.
+
+### 이벤트 수집과 실패 처리
+
+클라이언트가 보내는 이름은 `cta_shown`, `cta_clicked`, `landing_viewed` 세 개다. `test_drive_requested`는 서버 전용이므로 요청으로 보내면 422다. ID 접두사는 제한하지 않으며, `eventId`와 `clickId`는 공백뿐인 값이 아닌 문자열이어야 한다.
+
+`occurredAt`은 시간대가 있는 ISO 날짜·시각 문자열을 받는다. 이 PoC의 입력 형식은 `T`로 날짜와 시각을 구분하는 일반적인 달력 날짜 표기이며, UTC `Z`·숫자 시간대 오프셋·소수 초를 허용한다. 날짜 유효성과 시간대는 기존 Pydantic 검증기를 사용해 확인하고 원문을 그대로 저장한다. 숫자·Unix 시각 문자열·날짜만 있는 값·시간대 없는 값은 422다. 과거·미래 시각이나 이벤트 도착 순서로 업무 상태를 제한하지 않는다.
+
+스키마 검증 뒤 기존 공통 잠금을 획득한다. 기존 `eventId`가 있으면 `eventName`, `clickId`, 원문 `occurredAt`만 비교한다. JSON 필드 순서는 무관하고, 같은 시각의 `Z`와 `+00:00`도 문자열이 다르면 **409 `EVENT_ID_CONFLICT`**다. 최초 레코드와 서버 UTC `receivedAt`을 바꾸지 않는다.
+
+새 ID에서만 `click_links`를 확인한다. 연결이 없으면 **404 `CLICK_NOT_FOUND`**, 있으면 `events[eventId]`에 한 번 저장한다. 기존 ID의 다른 유효 내용은 연결이 없어도 404보다 409가 우선한다. 업무 오류는 `{detail:{code,message}}`, 입력 오류는 422 `detail` 배열이다.
+
+같은 클릭에 서로 다른 이벤트 ID를 여러 개 저장할 수 있다. 새로 저장된 건만 잠금 해제 후 `event_accepted eventId=… eventName=… clickId=…` 로그를 남긴다. 이 API는 인증 상태·포인트·글 등록·신청 완료를 변경하지 않는다. 클라이언트 전송·재시도 연결은 다음 화면 작업에서 추가한다.
 
 이 PoC는 위치 맞추기 흐름을 검증한다. 실제 봇 탐지·실제 보상·예약·DB·다중 워커는 구현 범위가 아니다.
 
@@ -112,11 +125,15 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | `backend/app/api/routes/captcha.py` | 두 HTTP 진입점과 업무 오류의 상태 코드 변환 |
 | `backend/app/schemas/captcha.py` | camelCase 요청/응답 계약과 엄격한 좌표 검증 |
 | `backend/app/services/captcha.py` | 인증 생성·위치 판정·성공 ID 재사용 |
-| `backend/app/store.py` | 인증·클릭 연결 레코드와 공통 잠금 |
+| `backend/app/api/routes/events.py` | 이벤트 HTTP 진입점, 신규/중복의 201/200과 업무 오류 변환 |
+| `backend/app/schemas/events.py` | 허용 이벤트·엄격한 문자열·시간대 검증, 원문 시각 보존 |
+| `backend/app/services/events.py` | 공통 잠금 안의 중복/충돌·연결 확인·단일 저장, 신규 로그 |
+| `backend/app/store.py` | 인증·클릭 연결·불변 이벤트 레코드와 공통 잠금 |
 | `backend/app/demo_config.py` | 공개 소재 설정과 서버 전용 허용 오차 |
 | `frontend/tests/`, `backend/tests/` | API·좌표·흐름·동시성·연출 회귀 검증 |
 | `frontend/tests/stage3.html`, `stage3Harness.tsx` | 제품 App에서 참조하지 않는 실제 React/공개 SDK 검증 fixture |
-| `docs/verification/stage3/` | 현재 호스트 경계·통합 Chrome 검증 스크립트·결과·캡처 |
+| `docs/verification/stage3/` | 호스트 경계·통합 Chrome 검증 스크립트·결과·캡처 |
+| `docs/verification/stage4-events/` | 이벤트 API의 실제 HTTP 스크립트·결과, 테스트와 리뷰 기록 |
 
 ## 소재와 허용 오차
 
@@ -127,6 +144,35 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 세 이미지와 [asset-manifest.json](docs/assets/asset-manifest.json)은 1단계에서 준비한 파일을 유지한다. 차량 전체 이미지는 정확한 16:9와 약 0.06% 차이가 있어 같은 창 크기로 미세 조정한다. 두 PNG는 원본을 정확히 잘라낸 조각이 아닌 생성된 파생 소재이며, 공통 CSS crop (276, 311, 1172, 350)을 사용한다. 원본과 픽셀 단위 질감의 동일성은 보장하지 않는다. 생성 기록은 [generation-prompts.txt](docs/assets/generation-prompts.txt)에 있다. BMW 소재는 실제 제휴를 전제로 하지 않는 시연용이다.
 
 ## 검증 — 2026-10-25 KST
+
+### 이번 작업: 이벤트 API
+
+| 검증 | 결과 |
+| --- | --- |
+| 변경 전 회귀 | 기존 백엔드 **43/43 통과** |
+| 구현 전 실패 | 기존 43개 통과 뒤 첫 신규 이벤트 테스트가 미구현 경로의 404로 실패 |
+| 구현 후 전체 | **101/101 통과**: 기존 43개 + 이벤트 58개 |
+| 실제 HTTP | **9/9 통과**: 단일 Uvicorn 워커와 Vite 프록시 사용 |
+| 동시 요청 | 동일 12건은 201 한 건·200 열한 건, 다른 내용 12건은 201 한 건·409 열한 건 |
+| 기록 보존 | 동일 재전송·충돌에서 최초 객체와 receivedAt 유지, 같은 순간의 다른 시각 문자열은 충돌 |
+| 서버 로그 | HTTP 검증에서 실제 새 이벤트 5건만 신규 로그로 기록 |
+| 독립 정적 리뷰 | 수정이 필요한 결함 0건. 스키마·잠금·HTTP 상태·기존 테스트 변경을 검토 |
+
+프론트엔드 파일과 의존성은 이번 작업에서 변경하지 않았다. 아래 3단계의 화면·빌드 검증은 이전 실행 기록이며, 이번에는 변경된 백엔드 전체와 실제 HTTP 연결을 검증했다. 전체 PoC의 V01~V08 완료는 아직 아니다.
+
+- [checks.json](docs/verification/stage4-events/checks.json): 기준 테스트·미구현 실패·최종 통과와 소스 해시.
+- [http-results.json](docs/verification/stage4-events/http-results.json): 실행 서버의 9개 검증 결과.
+- [review.md](docs/verification/stage4-events/review.md): 독립 리뷰의 범위·결과·제한.
+- [verify.http.py](docs/verification/stage4-events/verify.http.py): 실제 서버 재검증 스크립트. 실행하면 모의 인증·이벤트가 추가된다.
+
+두 개발 서버가 실행 중일 때 다음 명령으로 HTTP 검증을 반복할 수 있다.
+
+```bash
+cd /Users/jungle/dev/missions/final_mission
+python3 docs/verification/stage4-events/verify.http.py
+```
+
+### 이전 완료 기록: 3단계 고객사 연결
 
 | 검증 | 결과 |
 | --- | --- |
@@ -147,6 +193,7 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 신규 콜백 7개 및 호스트 6개 시험의 미구현 실패를 먼저 확인한 뒤 구현했다. 스마트폰 실기기·Safari 시험이나 전체 PoC V01~V08 완료를 주장하지 않는다. 이벤트·모의 신청을 포함한 V05 후반~V07은 4단계 이후 검증한다.
 
 결과:
+
 - [integration-results.json](docs/verification/stage3/integration-results.json): 실제 서버·브라우저 12개 결과, 단계별 포인트·요청/ID·화면 크기.
 - [host-results.json](docs/verification/stage3/host-results.json): 실제 React 호스트 경계 6개 결과.
 - [checks.json](docs/verification/stage3/checks.json): 단위·빌드·린트와 테스트 실패→통과 기록.
@@ -179,4 +226,4 @@ CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_mod
 
 서버 메모리는 한 프로세스에서만 유지한다. 시연 중에는 `--reload`·다중 워커를 사용하지 않는다. 현재 페이지에서 새 인증을 시작하려면 글 등록 후 **새 글 쓰기**를 누른다. 새로고침은 커뮤니티의 글·포인트·적용 Set을 초기화한다. 모든 서버 기록까지 초기화하려면 백엔드를 재시작한 뒤 열린 데모 탭도 새로고침한다.
 
-다음은 DESIGN.md **4단계 모의 전환**이다. 선택적 새 탭 CTA, 모의 신청 화면, 이벤트·신청 API와 서버 내부 전환 기록을 연결한다. 포인트와 원래 글 등록은 이 전환 흐름과 독립적으로 유지한다.
+다음 작업은 **`POST /api/demo/test-drives`**다. 같은 `clickId`의 신청 중복 처리와 `test_drive_requested` 서버 내부 이벤트를 한 잠금 안에서 저장한다. 예정 커밋은 `feat(api): 모의 시승 신청과 전환 기록 구현`이다. 그다음 선택적 새 탭 CTA·모의 신청 화면·클라이언트 이벤트 전송을 연결한다. 포인트와 원래 글 등록은 이 전환 흐름과 독립적으로 유지한다.

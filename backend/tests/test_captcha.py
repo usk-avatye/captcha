@@ -3,34 +3,13 @@ from concurrent.futures import ThreadPoolExecutor
 import math
 import threading
 
-import asyncio
-import httpx
 import pytest
-
-from app.main import create_app
 
 TARGET_X = 0.2742224880382775  # 공개 lampRect의 x + width/2, binary64 경계
 TARGET_Y = 408 / 941
 TOLERANCE_X = 12 / 1672
 TOLERANCE_Y = 8 / 941
 
-
-class ApiClient:
-    def __init__(self, app):
-        self.app = app
-
-    def post(self, path, **kwargs):
-        async def send():
-            async with httpx.AsyncClient(
-                transport=httpx.ASGITransport(app=self.app), base_url="http://test",
-            ) as client:
-                return await client.post(path, **kwargs)
-        return asyncio.run(send())
-
-
-@pytest.fixture
-def client():
-    return ApiClient(create_app())
 
 
 def start(client):
@@ -165,9 +144,9 @@ def test_simultaneous_success_produces_one_id_pair(client):
     assert len(client.app.state.store.click_links) == 1
 
 
-def test_new_server_store_does_not_recognize_old_challenge(client):
+def test_new_server_store_does_not_recognize_old_challenge(client, client_factory):
     challenge_id = start(client)["challengeId"]
-    restarted = ApiClient(create_app())
+    restarted = client_factory()
     response = verify(restarted, challenge_id)
     assert response.status_code == 404
     assert response.json()["detail"]["code"] == "CHALLENGE_NOT_FOUND"

@@ -19,10 +19,19 @@ class ClickLink:
     completion_id: str
 
 
+@dataclass(frozen=True)
+class EventRecord:
+    event_name: str
+    click_id: str
+    occurred_at: str
+    received_at: datetime
+
+
 @dataclass
 class Store:
     # 조회, 중복 확인, 성공 결과와 연결 저장까지 같은 잠금으로 보호한다.
     lock: Lock = field(default_factory=Lock)
     challenges: dict[str, Challenge] = field(default_factory=dict)
     click_links: dict[str, ClickLink] = field(default_factory=dict)
+    events: dict[str, EventRecord] = field(default_factory=dict)
 
