@@ -1,4 +1,6 @@
 """서버 실행 동안 고정되는 소재. 실측 근거: docs/assets/asset-manifest.json."""
+from typing import Literal
+
 from app.schemas.captcha import Creative, NormalizedRect
 
 CREATIVE = Creative(
@@ -18,3 +20,6 @@ CREATIVE = Creative(
 TOLERANCE_X = 12 / 1672
 TOLERANCE_Y = 8 / 941
 
+# 실제 예약 재고가 아닌 시연 선택지다. 두 지점과 두 시간의 모든 조합을 허용한다.
+DemoLocationId = Literal["demo-center-a", "demo-center-b"]
+DemoSlotId = Literal["demo-slot-1", "demo-slot-2"]

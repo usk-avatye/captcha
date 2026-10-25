@@ -1,0 +1,86 @@
+{
+  "checkedAt": "2026-10-25T09:13:52.087448+00:00",
+  "scope": "DESIGN.md 4단계 중 POST /api/demo/test-drives",
+  "baselineCommit": "65525d1f0d1c07fc9354fcf377d06f0bc99864c6",
+  "baseline": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 101,
+    "exitCode": 0
+  },
+  "red": {
+    "command": ".venv/bin/python -m pytest -q tests/test_demo.py --tb=no",
+    "failed": 51,
+    "exitCode": 1,
+    "initialWarning": "parametrize의 product iterator 경고를 list로 변환하여 해소"
+  },
+  "redContract": {
+    "command": ".venv/bin/python -m pytest -q tests/test_demo.py -k all_four_choices --tb=short",
+    "failed": 4,
+    "deselected": 47,
+    "exitCode": 1,
+    "reason": "미구현 경로가 201 대신 404를 반환",
+    "warnings": 0
+  },
+  "green": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 152,
+    "existingTests": 101,
+    "newTests": 51,
+    "failed": 0,
+    "warnings": 0,
+    "exitCode": 0,
+    "output": "........................................................................ [ 47%]\n........................................................................ [ 94%]\n........                                                                 [100%]\n152 passed in 1.02s\n"
+  },
+  "http": {
+    "passed": 13,
+    "failed": 0,
+    "evidence": "http-results.json",
+    "restartChecked": true,
+    "oldClickId": "clk_2oMebJTBecbenSWI23K6wYA7"
+  },
+  "eventHttpRegression": {
+    "passed": 9,
+    "failed": 0,
+    "evidence": "../stage4-events/http-results.json"
+  },
+  "runtimeLog": {
+    "newApplications": 6,
+    "newCompletionLogs": 6,
+    "duplicateLoggedAsNew": false
+  },
+  "review": {
+    "kind": "independent static source and diff review",
+    "findings": 0,
+    "evidence": "review.md",
+    "reviewerExecutedTests": false
+  },
+  "sourceSha256": {
+    "backend/tests/test_demo.py": "2da556d2baa637804ca5d8017546261f6dca1395d1bb173ba62ba13dc2ee0fae",
+    "backend/tests/test_events.py": "7894b0870a65ac8a5936caa18508447b3bfbf54d8d87504d48968174a42819b6",
+    "backend/tests/test_captcha.py": "66e14b531db7545ac06a93027746bb13c76a80f2a0156c77586e4955985c567c",
+    "backend/tests/conftest.py": "392bd2a7bb56b6172b017d0629fe59a62b288e81fead49af80290fd099fe0d16",
+    "backend/app/store.py": "8a7f165c63f698937f12032a0de6369be1ec03142304f8244144089eee5f47ae",
+    "backend/app/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "backend/app/demo_config.py": "f93ea60b43d213041830bc5191bc886977b3084fc35f604cbcb2d69aaef770dc",
+    "backend/app/services/demo.py": "8e18bbd4cbc1f3babf3ab32606a8899f87c85cfd2feb54afcd0676eda78b65b1",
+    "backend/app/services/captcha.py": "14117bd1c5161a363b07428d1680f7570bd7695a45ec2e41453d5fd280a7b2d9",
+    "backend/app/services/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "backend/app/services/events.py": "50c69df78cdb88ed2824129145c6d692e44e89f1c901dd57ebd8c673a66b3da0",
+    "backend/app/main.py": "3a4ed01c1960e41f5c974478f3ac55de200a9463c350bc6f4477a77087004a8b",
+    "backend/app/api/routes/demo.py": "1e0753348d13400e6f52df8cf4b34d35b6b3232fe62c691e6c8192ccb4439cce",
+    "backend/app/api/routes/captcha.py": "c29216cf357699bb92abf97d70fe8738470e86689670f217bd125a0843d5f41f",
+    "backend/app/api/routes/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "backend/app/api/routes/events.py": "2d8f98e06bc40898df1bbd322d37e19bfa545070fc159877ab4945e981c40285",
+    "backend/app/api/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "backend/app/schemas/demo.py": "a3ac51c75780448f5f237aec81e1b47a9c665df446a829c4e18268eea4379764",
+    "backend/app/schemas/captcha.py": "34d25121a22e193cf336a2fe48d88333abc3472d99290e360e34101a1e62eadc",
+    "backend/app/schemas/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "backend/app/schemas/events.py": "37b21f5c6ef37f1baa6d5a4da249afbeeefedeb83f47709ee47610bc67b708f4",
+    "backend/pyproject.toml": "339fea77a273c7d5d193a7368273e833da53a414d6ccae3eb79f56fb707f8a6e"
+  },
+  "limitations": [
+    "한 프로세스의 서버 메모리만 사용하며 재시작 시 기록이 소멸한다.",
+    "프론트엔드 파일 변경 없음. CTA·신청 화면·이벤트 전송은 다음 작업이다.",
+    "프론트엔드 빌드·브라우저 검증은 이번 범위에서 재실행하지 않았다."
+  ]
+}

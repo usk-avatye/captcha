@@ -1,0 +1,129 @@
+{
+  "checkedAt": "2026-10-25T09:13:52.087448+00:00",
+  "baseUrl": "http://127.0.0.1:8000",
+  "proxyUrl": "http://127.0.0.1:5173",
+  "passed": 13,
+  "failed": 0,
+  "createdApplications": [
+    {
+      "leadId": "lead_Khvc5cpc55xBbvrChqOYfy31",
+      "clickId": "clk_95vpTBeTWEb09qUUMVIql_SF",
+      "locationId": "demo-center-a",
+      "slotId": "demo-slot-1",
+      "status": "completed",
+      "isDemo": true
+    },
+    {
+      "leadId": "lead_V0kXJWb2_V3avNqyH44Zjy_W",
+      "clickId": "clk_GlBgHaBncoN47xDotBUqReTm",
+      "locationId": "demo-center-a",
+      "slotId": "demo-slot-2",
+      "status": "completed",
+      "isDemo": true
+    },
+    {
+      "leadId": "lead_7BOgfBq0POPfhHcp9ruDa6WW",
+      "clickId": "clk_7ZFN-13fmY1bnEwsatv1dNf8",
+      "locationId": "demo-center-b",
+      "slotId": "demo-slot-1",
+      "status": "completed",
+      "isDemo": true
+    },
+    {
+      "leadId": "lead_-yP6Xl_Kv54fAsb2L8NsQaWR",
+      "clickId": "clk_vkG0wuEGpI_PdgD3HMUBGcc8",
+      "locationId": "demo-center-b",
+      "slotId": "demo-slot-2",
+      "status": "completed",
+      "isDemo": true
+    },
+    {
+      "leadId": "lead_8Lx0ebNVULMwz4NsjW3RDrk_",
+      "clickId": "clk_O4LuAAh13P5VrKs9WxFdI_iy",
+      "locationId": "demo-center-a",
+      "slotId": "demo-slot-1",
+      "status": "completed",
+      "isDemo": true
+    },
+    {
+      "leadId": "lead_04kLXTYPrKeoJ4pBw45TZOVr",
+      "clickId": "clk_Y6kPSevxn4JakEYzJb9Ll_1M",
+      "locationId": "demo-center-b",
+      "slotId": "demo-slot-2",
+      "status": "completed",
+      "isDemo": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "four_business_routes_published",
+      "passed": true,
+      "paths": [
+        "/api/challenges",
+        "/api/demo/test-drives",
+        "/api/events",
+        "/api/verify"
+      ]
+    },
+    {
+      "name": "old_click_rejected_after_server_restart",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "name": "all_four_choices_without_client_events",
+      "passed": true,
+      "created": 4
+    },
+    {
+      "name": "identical_retry_through_vite_proxy",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "other_valid_choices_conflict",
+      "passed": true,
+      "status": 409,
+      "choices": 3
+    },
+    {
+      "name": "unknown_click",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "name": "schema_validation_precedes_business_checks",
+      "passed": true,
+      "status": 422
+    },
+    {
+      "name": "client_cannot_submit_server_conversion",
+      "passed": true,
+      "status": 422
+    },
+    {
+      "name": "first_application_preserved_after_errors",
+      "passed": true
+    },
+    {
+      "name": "late_client_events_do_not_change_application",
+      "passed": true
+    },
+    {
+      "name": "twelve_identical_applications",
+      "passed": true,
+      "created": 1,
+      "duplicates": 11
+    },
+    {
+      "name": "four_conflicting_applications",
+      "passed": true,
+      "created": 1,
+      "conflicts": 3
+    },
+    {
+      "name": "original_authentication_result_unchanged",
+      "passed": true
+    }
+  ]
+}

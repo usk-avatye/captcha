@@ -46,8 +46,9 @@ def main():
 
     with urlopen(args.base_url + "/openapi.json", timeout=10) as response:
         paths = sorted(json.load(response)["paths"])
-    assert paths == ["/api/challenges", "/api/events", "/api/verify"], paths
-    checked("three_routes_published", paths=paths)
+    required_paths = {"/api/challenges", "/api/events", "/api/verify"}
+    assert required_paths <= set(paths), paths
+    checked("event_and_auth_routes_published", paths=paths)
 
     status, challenge = post("/api/challenges", {"creativeId": "bmw-m3-v1"})
     assert status == 201

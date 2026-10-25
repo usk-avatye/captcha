@@ -1,6 +1,6 @@
-# CAPTCHAvatye — 4단계 이벤트 수집 API
+# CAPTCHAvatye — 4단계 모의 시승 신청 API
 
-[DESIGN.md](DESIGN.md)의 **0~3단계**와 **4단계의 이벤트 수집 API**를 구현했다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 작성한 글을 한 번 등록한다.
+[DESIGN.md](DESIGN.md)의 **0~3단계**와 **4단계의 백엔드 API**를 구현했다. 설계의 네 업무 API가 모두 준비되었다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 작성한 글을 한 번 등록한다.
 
 ## 실행
 
@@ -39,7 +39,7 @@ npm run dev
 
 제목이나 본문이 공백뿐이면 인증을 열지 않는다. 글과 포인트는 페이지 메모리만 사용하고 새로고침하면 초기화된다. 제목·본문은 SDK 또는 서버에 전송하지 않는다.
 
-시승 CTA는 아직 비활성이다. 이벤트 수집 API는 준비되었으며, 화면에서 이벤트를 보내는 기능·새 탭의 모의 신청 화면·신청 API는 4단계의 다음 작업이다.
+시승 CTA는 아직 비활성이다. 이벤트·모의 신청 API는 준비되었으며, 화면에서 이벤트를 보내는 기능·선택적 CTA·새 탭의 모의 신청 화면 연결이 다음 작업이다.
 
 ## SDK 공개 경계와 데이터 처리
 
@@ -84,12 +84,13 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | `POST /api/challenges` | `{creativeId:"bmw-m3-v1"}` | 201 `{challengeId, creative}`; 없는 소재 404 |
 | `POST /api/verify` | `{challengeId, dropX, dropY}` | 200 `{passed:false}` 또는 `{passed:true, completionId, clickId}`; 없는 인증 404 |
 | `POST /api/events` | `{eventId, eventName, clickId, occurredAt}` | 신규 201 `{accepted:true, duplicate:false}`; 동일 재전송 200 `{accepted:true, duplicate:true}` |
+| `POST /api/demo/test-drives` | `{clickId, locationId, slotId}` | 최초 201; 같은 선택의 재전송 200과 기존 `{leadId, clickId, locationId, slotId, status:"completed", isDemo:true}` |
 
 문자열·boolean·비유한 값·범위 밖 좌표는 422다. 422의 `detail` 배열을 유지하며, NaN/Infinity가 오류 응답 JSON을 깨뜨리지 않도록 해당 입력값만 문자열로 표현한다.
 
 동기 경로가 사용하는 Store의 공통 `threading.Lock` 안에서 인증 조회, 성공 여부 확인, 위치 판정, ID 생성, `passed`와 `click_links` 저장까지 처리한다. 결과를 저장한 뒤 응답한다. 이미 성공한 인증은 입력 검증을 통과한 다른 좌표에도 기존 ID 쌍을 반환한다. 최초 성공만 `captcha_passed challengeId=… completionId=… clickId=…` 로그를 남긴다.
 
-서버가 `secrets`로 생성하는 `ch_`, `cmp_`, `clk_` ID는 충돌을 확인한다. 프론트엔드는 성공 ID를 만들지 않는다. Store에는 인증·클릭 연결·이벤트가 있다. 신청 레코드와 서버 내부 전환 생성은 다음 작업이다.
+서버가 `secrets`로 생성하는 `ch_`, `cmp_`, `clk_` ID는 충돌을 확인한다. 프론트엔드는 성공 ID를 만들지 않는다. Store에는 인증·클릭 연결·이벤트·신청의 네 메모리 맵이 있다.
 
 ### 이벤트 수집과 실패 처리
 
@@ -102,6 +103,22 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 새 ID에서만 `click_links`를 확인한다. 연결이 없으면 **404 `CLICK_NOT_FOUND`**, 있으면 `events[eventId]`에 한 번 저장한다. 기존 ID의 다른 유효 내용은 연결이 없어도 404보다 409가 우선한다. 업무 오류는 `{detail:{code,message}}`, 입력 오류는 422 `detail` 배열이다.
 
 같은 클릭에 서로 다른 이벤트 ID를 여러 개 저장할 수 있다. 새로 저장된 건만 잠금 해제 후 `event_accepted eventId=… eventName=… clickId=…` 로그를 남긴다. 이 API는 인증 상태·포인트·글 등록·신청 완료를 변경하지 않는다. 클라이언트 전송·재시도 연결은 다음 화면 작업에서 추가한다.
+
+### 모의 시승 신청과 내부 전환
+
+`locationId`는 `demo-center-a`(시연 전시장 A)·`demo-center-b`(시연 전시장 B), `slotId`는 `demo-slot-1`(시연 시간 1)·`demo-slot-2`(시연 시간 2)를 받는다. 네 조합을 모두 허용한다. 실제 예약 재고나 이름·연락처를 받지 않는다.
+
+요청 스키마를 검증한 뒤 공통 잠금 안에서 `click_links[clickId]`와 연결된 인증을 확인한다. 인증은 `passed`여야 하고 `completionId`·`clickId`가 연결과 일치해야 한다. **구현 최소안:** 연결 누락·인증 누락·미통과·ID 불일치는 모두 기존 오류 **404 `CLICK_NOT_FOUND`**로 처리한다. 새로운 오류 코드를 추가하지 않고 유효한 성공 연결만 신청에 사용하기 위한 결정이다.
+
+연결 검증을 마친 뒤 `leads[clickId]`를 확인한다. 같은 지점·시간이면 기존 결과를 **200**, 다른 유효 선택이면 **409 `LEAD_CONFLICT`**로 반환한다. 잘못된 선택지·필드·타입은 이 조회보다 먼저 **422**가 된다. 중복·충돌은 최초 신청·완료 시각·전환 레코드를 바꾸지 않는다. 서로 다른 clickId가 같은 지점·시간을 고르는 것은 별도 신청이다.
+
+최초 신청은 기존 `secrets` 기반 생성기를 재사용한다. leadId는 기존 신청 값들의 ID와, 내부 eventId는 모든 클라이언트·서버 이벤트 키와 충돌을 검사한다. **구현 최소안:** 내부 이벤트 ID의 접두사는 `ev_`로 둔다. 접두사에 의존하지 않고 공유 이벤트 맵 전체에서 충돌을 확인한다.
+
+서버 UTC 완료 시각을 한 번 생성해 신청의 `completed_at`, 내부 이벤트의 `received_at`, 그 시각을 ISO 문자열로 표현한 `occurred_at`에 함께 사용한다. 두 ID·레코드·응답을 먼저 준비한 뒤 같은 임계 구역에서 신청과 `test_drive_requested`를 한 번 저장한다. ID 생성 실패 시 일부 레코드만 남지 않는다. 내부 전환은 잠금을 다시 획득하는 클라이언트 이벤트 서비스를 호출하지 않고 직접 저장한다.
+
+공개 성공 응답은 설계의 여섯 필드만 사용한다. 내부 eventId·완료 시각·중복 판단값은 추가하지 않는다. 잠금 해제 후 최초 신청만 `test_drive_completed challengeId=… clickId=… leadId=…`로 기록한다.
+
+신청은 클릭·랜딩 이벤트 수신을 기다리지 않는다. 늦게 도착한 이벤트도 기존 신청을 변경하지 않으며, 신청 처리 자체가 포인트나 원래 글 등록을 조건으로 삼지 않는다.
 
 이 PoC는 위치 맞추기 흐름을 검증한다. 실제 봇 탐지·실제 보상·예약·DB·다중 워커는 구현 범위가 아니다.
 
@@ -128,12 +145,16 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | `backend/app/api/routes/events.py` | 이벤트 HTTP 진입점, 신규/중복의 201/200과 업무 오류 변환 |
 | `backend/app/schemas/events.py` | 허용 이벤트·엄격한 문자열·시간대 검증, 원문 시각 보존 |
 | `backend/app/services/events.py` | 공통 잠금 안의 중복/충돌·연결 확인·단일 저장, 신규 로그 |
-| `backend/app/store.py` | 인증·클릭 연결·불변 이벤트 레코드와 공통 잠금 |
-| `backend/app/demo_config.py` | 공개 소재 설정과 서버 전용 허용 오차 |
+| `backend/app/api/routes/demo.py` | 모의 신청 진입점과 신규/재전송 201/200, 업무 오류 변환 |
+| `backend/app/schemas/demo.py` | 고정 지점·시간 요청 검증과 여섯 필드의 완료 응답 |
+| `backend/app/services/demo.py` | 성공 인증 연결 확인, 신청 중복·충돌 처리, 내부 전환과 함께 저장 |
+| `backend/app/store.py` | 네 메모리 맵, 불변 인증·연결·이벤트·신청 레코드와 공통 잠금 |
+| `backend/app/demo_config.py` | 공개 소재 설정·서버 전용 허용 오차·시연 지점/시간 ID |
 | `frontend/tests/`, `backend/tests/` | API·좌표·흐름·동시성·연출 회귀 검증 |
 | `frontend/tests/stage3.html`, `stage3Harness.tsx` | 제품 App에서 참조하지 않는 실제 React/공개 SDK 검증 fixture |
 | `docs/verification/stage3/` | 호스트 경계·통합 Chrome 검증 스크립트·결과·캡처 |
 | `docs/verification/stage4-events/` | 이벤트 API의 실제 HTTP 스크립트·결과, 테스트와 리뷰 기록 |
+| `docs/verification/stage4-test-drives/` | 신청·재전송·동시성·재시작 HTTP 검증, 테스트와 리뷰 기록 |
 
 ## 소재와 허용 오차
 
@@ -145,7 +166,36 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 
 ## 검증 — 2026-10-25 KST
 
-### 이번 작업: 이벤트 API
+### 이번 작업: 모의 시승 신청 API
+
+| 검증 | 결과 |
+| --- | --- |
+| 변경 전 회귀 | 기존 백엔드 **101/101 통과** |
+| 구현 전 실패 | 신규 51개 실패. 네 조합이 미구현 경로의 404로 실패함을 별도로 확인 |
+| 구현 후 전체 | **152/152 통과**: 기존 101개 + 신청 51개. 경고 없음 |
+| 실제 신청 HTTP | **13/13 통과**: 실제 단일 워커·Vite 프록시·서버 재시작 전 ID 포함 |
+| 기존 이벤트 HTTP 회귀 | **9/9 통과**: 네 번째 API 추가 후에도 동작하도록 경로 존재 검증을 유지 |
+| 동시 신청 | 동일 12건은 201 한 건·200 열한 건, 다른 네 조합은 201 한 건·409 세 건 |
+| ID·기록 보존 | lead 값과 모든 이벤트 키의 충돌 회피, 내부 이벤트 덮어쓰기 방지, 생성 중 오류 시 미저장 |
+| 서버 로그 | HTTP 검증에서 새 신청 6건의 최초 완료 로그가 각각 한 번만 기록 |
+| 독립 정적 리뷰 | 수정이 필요한 결함 0건. 연결·잠금·응답·ID 충돌과 신규 테스트 검토 |
+
+프론트엔드는 이번 작업에서 변경하지 않았다. 네 백엔드 API는 준비되었고, CTA·새 탭 신청 화면·클라이언트 이벤트 전송과 전체 V01~V08 최종 검증은 남아 있다.
+
+- [checks.json](docs/verification/stage4-test-drives/checks.json): 기준·미구현 실패·152개 통과·검토한 소스 해시.
+- [http-results.json](docs/verification/stage4-test-drives/http-results.json): 실제 신청 HTTP 13개 결과.
+- [review.md](docs/verification/stage4-test-drives/review.md): 독립 리뷰의 범위·결과·실행 제한.
+- [verify.http.py](docs/verification/stage4-test-drives/verify.http.py): 실제 서버 재검증 스크립트. 모의 인증·신청·이벤트가 추가된다.
+
+```bash
+cd /Users/jungle/dev/missions/final_mission
+python3 docs/verification/stage4-test-drives/verify.http.py
+python3 docs/verification/stage4-events/verify.http.py
+```
+
+신청 스크립트의 기본 실행은 12개 항목을 검사한다. 재시작 직전에 발급한 ID를 `--stale-click-id <ID>`로 전달하면 재시작 후 404 항목이 추가되어 13개다. 이번 실행은 해당 항목까지 확인했다.
+
+### 이전 완료 기록: 이벤트 수집 API
 
 | 검증 | 결과 |
 | --- | --- |
@@ -158,7 +208,7 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | 서버 로그 | HTTP 검증에서 실제 새 이벤트 5건만 신규 로그로 기록 |
 | 독립 정적 리뷰 | 수정이 필요한 결함 0건. 스키마·잠금·HTTP 상태·기존 테스트 변경을 검토 |
 
-프론트엔드 파일과 의존성은 이번 작업에서 변경하지 않았다. 아래 3단계의 화면·빌드 검증은 이전 실행 기록이며, 이번에는 변경된 백엔드 전체와 실제 HTTP 연결을 검증했다. 전체 PoC의 V01~V08 완료는 아직 아니다.
+이벤트 API 작업에서는 프론트엔드 파일과 의존성을 변경하지 않았다. 아래 3단계의 화면·빌드 검증은 이전 실행 기록이다. 전체 PoC의 V01~V08 완료는 아직 아니다.
 
 - [checks.json](docs/verification/stage4-events/checks.json): 기준 테스트·미구현 실패·최종 통과와 소스 해시.
 - [http-results.json](docs/verification/stage4-events/http-results.json): 실행 서버의 9개 검증 결과.
@@ -226,4 +276,4 @@ CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_mod
 
 서버 메모리는 한 프로세스에서만 유지한다. 시연 중에는 `--reload`·다중 워커를 사용하지 않는다. 현재 페이지에서 새 인증을 시작하려면 글 등록 후 **새 글 쓰기**를 누른다. 새로고침은 커뮤니티의 글·포인트·적용 Set을 초기화한다. 모든 서버 기록까지 초기화하려면 백엔드를 재시작한 뒤 열린 데모 탭도 새로고침한다.
 
-다음 작업은 **`POST /api/demo/test-drives`**다. 같은 `clickId`의 신청 중복 처리와 `test_drive_requested` 서버 내부 이벤트를 한 잠금 안에서 저장한다. 예정 커밋은 `feat(api): 모의 시승 신청과 전환 기록 구현`이다. 그다음 선택적 새 탭 CTA·모의 신청 화면·클라이언트 이벤트 전송을 연결한다. 포인트와 원래 글 등록은 이 전환 흐름과 독립적으로 유지한다.
+다음 작업은 **선택적 CTA·새 탭의 모의 신청 화면·클라이언트 이벤트 전송 연결**이다. 포인트와 원래 글 등록은 이 전환 흐름과 독립적으로 유지한다. 이후 전체 V01~V08과 실행·초기화 안내를 최종 검증한다.

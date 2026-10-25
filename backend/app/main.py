@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.routes.captcha import router as captcha_router
 from app.api.routes.events import router as events_router
+from app.api.routes.demo import router as demo_router
 from app.store import Store
 
 
@@ -15,6 +16,7 @@ def create_app() -> FastAPI:
     app.state.store = Store()
     app.include_router(captcha_router)
     app.include_router(events_router)
+    app.include_router(demo_router)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(_request: Request, error: RequestValidationError):

@@ -27,6 +27,17 @@ class EventRecord:
     received_at: datetime
 
 
+@dataclass(frozen=True)
+class LeadRecord:
+    lead_id: str
+    click_id: str
+    location_id: str
+    slot_id: str
+    completed_at: datetime
+    status: Literal["completed"] = "completed"
+    is_demo: Literal[True] = True
+
+
 @dataclass
 class Store:
     # 조회, 중복 확인, 성공 결과와 연결 저장까지 같은 잠금으로 보호한다.
@@ -34,4 +45,5 @@ class Store:
     challenges: dict[str, Challenge] = field(default_factory=dict)
     click_links: dict[str, ClickLink] = field(default_factory=dict)
     events: dict[str, EventRecord] = field(default_factory=dict)
+    leads: dict[str, LeadRecord] = field(default_factory=dict)
 
