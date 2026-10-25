@@ -1,0 +1,2130 @@
+{
+  "recordedAt": "2026-10-25T11:47:48.646Z",
+  "browser": "155.0.8059.85",
+  "origin": "http://127.0.0.1:5173",
+  "mode": "Current community UI: missing V02/V04 edges and combined V05/V06 all-client-events outage",
+  "selectedCases": [
+    "miss_then_recovery_current_ui",
+    "outside_image_drop_no_clamp_or_verify",
+    "pointercancel_restores_without_verify",
+    "final_pointerup_coordinates",
+    "resize_cancels_drag_and_recovers",
+    "grab_offsets_and_viewports_same_normalized_center",
+    "start_close_ignores_hidden_and_old_responses",
+    "asset_close_ignores_hidden_and_old_decodes",
+    "all_events_503_preserves_application_and_original_post"
+  ],
+  "passed": 9,
+  "failed": 0,
+  "results": [
+    {
+      "name": "miss_then_recovery_current_ui",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 3529,
+      "detail": {
+        "initial": {
+          "x": 340.9599914550781,
+          "y": 551.574951171875,
+          "width": 320.0937194824219,
+          "height": 100.421875
+        },
+        "afterMiss": {
+          "x": 340.9599914550781,
+          "y": 551.574951171875,
+          "width": 320.0937194824219,
+          "height": 100.421875
+        },
+        "missGeometry": {
+          "boxes": {
+            "piece": {
+              "x": 340.9599914550781,
+              "y": 551.574951171875,
+              "width": 320.0937194824219,
+              "height": 100.421875
+            },
+            "socket": {
+              "x": 479.91290283203125,
+              "y": 424.7657165527344,
+              "width": 320.08929443359375,
+              "height": 100.39065551757812
+            },
+            "image": {
+              "x": -18.13397216796875,
+              "y": -110.33474731445312,
+              "width": 2399.9999389648438,
+              "height": 1350.0000305175781
+            }
+          },
+          "grab": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "expected": {
+            "dropX": 0.20422248803827747,
+            "dropY": 0.48358129649309245
+          }
+        },
+        "recovery": {
+          "geometry": {
+            "boxes": {
+              "piece": {
+                "x": 340.9599914550781,
+                "y": 551.574951171875,
+                "width": 320.0937194824219,
+                "height": 100.421875
+              },
+              "socket": {
+                "x": 479.91290283203125,
+                "y": 424.7657165527344,
+                "width": 320.08929443359375,
+                "height": 100.39065551757812
+              },
+              "image": {
+                "x": -18.13397216796875,
+                "y": -110.33474731445312,
+                "width": 2399.9999389648438,
+                "height": 1350.0000305175781
+              }
+            },
+            "grab": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "expected": {
+              "dropX": 0.27420480789705426,
+              "dropY": 0.43355242844074554
+            }
+          },
+          "request": {
+            "challengeId": "ch_gvpaDC5Y68_vCJ7FWKuhQJWq",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_dR4GxBgyu0KvmyRgWx81ke1Y",
+            "clickId": "clk_vLYDzYcWAxqb-cCZaDTg_jaZ"
+          }
+        }
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 2,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_gvpaDC5Y68_vCJ7FWKuhQJWq",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_gvpaDC5Y68_vCJ7FWKuhQJWq",
+            "dropX": 0.2042224947611491,
+            "dropY": 0.4835812943070023
+          },
+          "status": 200,
+          "response": {
+            "passed": false
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_gvpaDC5Y68_vCJ7FWKuhQJWq",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_dR4GxBgyu0KvmyRgWx81ke1Y",
+            "clickId": "clk_vLYDzYcWAxqb-cCZaDTg_jaZ"
+          }
+        },
+        {
+          "sequence": 4,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_1b9125d6-a5eb-48c9-89ca-d0ab29d4ac63",
+            "eventName": "cta_shown",
+            "clickId": "clk_vLYDzYcWAxqb-cCZaDTg_jaZ",
+            "occurredAt": "2026-10-25T11:47:14.421Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "outside_image_drop_no_clamp_or_verify",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 3147,
+      "detail": {
+        "initial": {
+          "piece": {
+            "x": 340.9599914550781,
+            "y": 551.574951171875,
+            "width": 320.0937194824219,
+            "height": 100.421875
+          },
+          "socket": {
+            "x": 479.91290283203125,
+            "y": 424.7657165527344,
+            "width": 320.08929443359375,
+            "height": 100.39065551757812
+          },
+          "image": {
+            "x": -18.13397216796875,
+            "y": -110.33474731445312,
+            "width": 2399.9999389648438,
+            "height": 1350.0000305175781
+          }
+        },
+        "destination": {
+          "x": 2461.865966796875,
+          "y": 1319.665283203125
+        },
+        "outside": {
+          "dropX": 1.0333333341810438,
+          "dropY": 1.0592592579196674
+        },
+        "afterOutside": {
+          "x": 340.9599914550781,
+          "y": 551.574951171875,
+          "width": 320.0937194824219,
+          "height": 100.421875
+        },
+        "recovery": {
+          "geometry": {
+            "boxes": {
+              "piece": {
+                "x": 340.9599914550781,
+                "y": 551.574951171875,
+                "width": 320.0937194824219,
+                "height": 100.421875
+              },
+              "socket": {
+                "x": 479.91290283203125,
+                "y": 424.7657165527344,
+                "width": 320.08929443359375,
+                "height": 100.39065551757812
+              },
+              "image": {
+                "x": -18.13397216796875,
+                "y": -110.33474731445312,
+                "width": 2399.9999389648438,
+                "height": 1350.0000305175781
+              }
+            },
+            "grab": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "expected": {
+              "dropX": 0.27420480789705426,
+              "dropY": 0.43355242844074554
+            }
+          },
+          "request": {
+            "challengeId": "ch_E4Zwmdp4Qp3CLLRYDnLShrzj",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_MkS_teNo5vuYIgtWs3mLa-vg",
+            "clickId": "clk_lBEanUDjciX2Y2402cholQGq"
+          }
+        }
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_E4Zwmdp4Qp3CLLRYDnLShrzj",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_E4Zwmdp4Qp3CLLRYDnLShrzj",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_MkS_teNo5vuYIgtWs3mLa-vg",
+            "clickId": "clk_lBEanUDjciX2Y2402cholQGq"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_bd789b77-01fb-489f-a0f2-c3e3080eab41",
+            "eventName": "cta_shown",
+            "clickId": "clk_lBEanUDjciX2Y2402cholQGq",
+            "occurredAt": "2026-10-25T11:47:17.672Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "pointercancel_restores_without_verify",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 3298,
+      "detail": {
+        "initial": {
+          "x": 340.9599914550781,
+          "y": 551.574951171875,
+          "width": 320.0937194824219,
+          "height": 100.421875
+        },
+        "afterCancel": {
+          "x": 340.9599914550781,
+          "y": 551.574951171875,
+          "width": 320.0937194824219,
+          "height": 100.421875
+        },
+        "recovery": {
+          "geometry": {
+            "boxes": {
+              "piece": {
+                "x": 340.9599914550781,
+                "y": 551.574951171875,
+                "width": 320.0937194824219,
+                "height": 100.421875
+              },
+              "socket": {
+                "x": 479.91290283203125,
+                "y": 424.7657165527344,
+                "width": 320.08929443359375,
+                "height": 100.39065551757812
+              },
+              "image": {
+                "x": -18.13397216796875,
+                "y": -110.33474731445312,
+                "width": 2399.9999389648438,
+                "height": 1350.0000305175781
+              }
+            },
+            "grab": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "expected": {
+              "dropX": 0.27420480789705426,
+              "dropY": 0.43355242844074554
+            }
+          },
+          "request": {
+            "challengeId": "ch_73OochgUZx0KEA662Y0eXF93",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_JQN9eMIW0olcgKQWK321yZZz",
+            "clickId": "clk_PDX5ccEinr9Jb4bjjbHrt-3W"
+          }
+        }
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_73OochgUZx0KEA662Y0eXF93",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_73OochgUZx0KEA662Y0eXF93",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_JQN9eMIW0olcgKQWK321yZZz",
+            "clickId": "clk_PDX5ccEinr9Jb4bjjbHrt-3W"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_16b83c44-d9c7-461e-a974-144d6424f0e4",
+            "eventName": "cta_shown",
+            "clickId": "clk_PDX5ccEinr9Jb4bjjbHrt-3W",
+            "occurredAt": "2026-10-25T11:47:21.132Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "final_pointerup_coordinates",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 2207,
+      "detail": {
+        "lastMove": {
+          "x": 539.9575500488281,
+          "y": 544.9610443115234
+        },
+        "finalPointerup": {
+          "x": 639.9575500488281,
+          "y": 474.96104431152344
+        },
+        "result": {
+          "passed": true,
+          "completionId": "cmp__8NuvOH5nwlZ7bQxQFhBxNlP",
+          "clickId": "clk_L13oQ3x_3-ich-i8Y8JO8yFc"
+        }
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_LNZ9sgscU2vOHog25YwBZwjs",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_LNZ9sgscU2vOHog25YwBZwjs",
+            "dropX": 0.2742048136393229,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp__8NuvOH5nwlZ7bQxQFhBxNlP",
+            "clickId": "clk_L13oQ3x_3-ich-i8Y8JO8yFc"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_8c52e62d-5aaa-4a27-8b85-e6168cb76c25",
+            "eventName": "cta_shown",
+            "clickId": "clk_L13oQ3x_3-ich-i8Y8JO8yFc",
+            "occurredAt": "2026-10-25T11:47:23.229Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "resize_cancels_drag_and_recovers",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 3886,
+      "detail": {
+        "beforeResize": {
+          "piece": {
+            "x": 340.9599914550781,
+            "y": 551.574951171875,
+            "width": 320.0937194824219,
+            "height": 100.421875
+          },
+          "socket": {
+            "x": 479.91290283203125,
+            "y": 424.7657165527344,
+            "width": 320.08929443359375,
+            "height": 100.39065551757812
+          },
+          "image": {
+            "x": -18.13397216796875,
+            "y": -110.33474731445312,
+            "width": 2399.9999389648438,
+            "height": 1350.0000305175781
+          }
+        },
+        "afterResize": {
+          "piece": {
+            "x": 46.37000274658203,
+            "y": 480.0238342285156,
+            "width": 159.09374237060547,
+            "height": 49.906219482421875
+          },
+          "socket": {
+            "x": 115.43638610839844,
+            "y": 423.03448486328125,
+            "width": 159.04017639160156,
+            "height": 49.888427734375
+          },
+          "image": {
+            "x": -132.10826110839844,
+            "y": 157.07469177246094,
+            "width": 1192.857162475586,
+            "height": 670.9821319580078
+          }
+        },
+        "recovery": {
+          "geometry": {
+            "boxes": {
+              "piece": {
+                "x": 46.37000274658203,
+                "y": 480.0238342285156,
+                "width": 159.09374237060547,
+                "height": 49.906219482421875
+              },
+              "socket": {
+                "x": 115.43638610839844,
+                "y": 423.03448486328125,
+                "width": 159.04017639160156,
+                "height": 49.888427734375
+              },
+              "image": {
+                "x": -132.10826110839844,
+                "y": 157.07469177246094,
+                "width": 1192.857162475586,
+                "height": 670.9821319580078
+              }
+            },
+            "grab": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "expected": {
+              "dropX": 0.2741860012256846,
+              "dropY": 0.4335495583304348
+            }
+          },
+          "request": {
+            "challengeId": "ch_rTBzJkmjmdCLmkIZXm0bK-oH",
+            "dropX": 0.2741860105101513,
+            "dropY": 0.43354961367173
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_nxgy40f10n6xNwoiFR9qF3Oa",
+            "clickId": "clk_MfIQyE5MhHlzEe5gnvaC85W7"
+          }
+        }
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_rTBzJkmjmdCLmkIZXm0bK-oH",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_rTBzJkmjmdCLmkIZXm0bK-oH",
+            "dropX": 0.2741860105101513,
+            "dropY": 0.43354961367173
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_nxgy40f10n6xNwoiFR9qF3Oa",
+            "clickId": "clk_MfIQyE5MhHlzEe5gnvaC85W7"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_20fc3fd8-31ed-484b-a6dd-7d9f93ac97b1",
+            "eventName": "cta_shown",
+            "clickId": "clk_MfIQyE5MhHlzEe5gnvaC85W7",
+            "occurredAt": "2026-10-25T11:47:27.082Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "grab_offsets_and_viewports_same_normalized_center",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 8747,
+      "detail": {
+        "trials": [
+          {
+            "width": 1280,
+            "height": 900,
+            "grabX": 0.5,
+            "grabY": 0.5,
+            "geometry": {
+              "boxes": {
+                "piece": {
+                  "x": 340.9599914550781,
+                  "y": 551.574951171875,
+                  "width": 320.0937194824219,
+                  "height": 100.421875
+                },
+                "socket": {
+                  "x": 479.91290283203125,
+                  "y": 424.7657165527344,
+                  "width": 320.08929443359375,
+                  "height": 100.39065551757812
+                },
+                "image": {
+                  "x": -18.13397216796875,
+                  "y": -110.33474731445312,
+                  "width": 2399.9999389648438,
+                  "height": 1350.0000305175781
+                }
+              },
+              "grab": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "expected": {
+                "dropX": 0.27420480789705426,
+                "dropY": 0.43355242844074554
+              }
+            },
+            "request": {
+              "challengeId": "ch_dUz_kPW7BHOpy_4lh04onSSs",
+              "dropX": 0.2742047945658366,
+              "dropY": 0.43355244954427086
+            },
+            "result": {
+              "passed": true,
+              "completionId": "cmp_qTbuQw-Bkp33XhY_k5q_vetw",
+              "clickId": "clk_RCNuCLk3BBuUX1p1WZ7OscHd"
+            }
+          },
+          {
+            "width": 1280,
+            "height": 900,
+            "grabX": 0.06,
+            "grabY": 0.88,
+            "geometry": {
+              "boxes": {
+                "piece": {
+                  "x": 340.9599914550781,
+                  "y": 551.574951171875,
+                  "width": 320.0937194824219,
+                  "height": 100.421875
+                },
+                "socket": {
+                  "x": 479.91290283203125,
+                  "y": 424.7657165527344,
+                  "width": 320.08929443359375,
+                  "height": 100.39065551757812
+                },
+                "image": {
+                  "x": -18.13397216796875,
+                  "y": -110.33474731445312,
+                  "width": 2399.9999389648438,
+                  "height": 1350.0000305175781
+                }
+              },
+              "grab": {
+                "x": 0.06,
+                "y": 0.88
+              },
+              "expected": {
+                "dropX": 0.27420480789705426,
+                "dropY": 0.43355242844074554
+              }
+            },
+            "request": {
+              "challengeId": "ch_bZ7p03T0zkdkd6Ltvz9WdTd-",
+              "dropX": 0.2742047945658366,
+              "dropY": 0.433552404333044
+            },
+            "result": {
+              "passed": true,
+              "completionId": "cmp_d3SO1Eo-yaH2Eg4eQBJRpXNE",
+              "clickId": "clk_syaYV6LA65cvOKNt5KNRUm1E"
+            }
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "grabX": 0.5,
+            "grabY": 0.5,
+            "geometry": {
+              "boxes": {
+                "piece": {
+                  "x": 46.37000274658203,
+                  "y": 480.0238342285156,
+                  "width": 159.09374237060547,
+                  "height": 49.906219482421875
+                },
+                "socket": {
+                  "x": 115.43638610839844,
+                  "y": 423.03448486328125,
+                  "width": 159.04017639160156,
+                  "height": 49.888427734375
+                },
+                "image": {
+                  "x": -132.10826110839844,
+                  "y": 157.07469177246094,
+                  "width": 1192.857162475586,
+                  "height": 670.9821319580078
+                }
+              },
+              "grab": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "expected": {
+                "dropX": 0.2741860012256846,
+                "dropY": 0.4335495583304348
+              }
+            },
+            "request": {
+              "challengeId": "ch_7k7Q3Pc_njlTJclYYsL4dPOw",
+              "dropX": 0.2741860105101513,
+              "dropY": 0.43354961367173
+            },
+            "result": {
+              "passed": true,
+              "completionId": "cmp_SIO6-mHStP5GucJMu8LVjbFZ",
+              "clickId": "clk_i9dbBNGuH7bQVPBr1_7gP6yR"
+            }
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "grabX": 0.9,
+            "grabY": 0.15,
+            "geometry": {
+              "boxes": {
+                "piece": {
+                  "x": 46.37000274658203,
+                  "y": 480.0238342285156,
+                  "width": 159.09374237060547,
+                  "height": 49.906219482421875
+                },
+                "socket": {
+                  "x": 115.43638610839844,
+                  "y": 423.03448486328125,
+                  "width": 159.04017639160156,
+                  "height": 49.888427734375
+                },
+                "image": {
+                  "x": -132.10826110839844,
+                  "y": 157.07469177246094,
+                  "width": 1192.857162475586,
+                  "height": 670.9821319580078
+                }
+              },
+              "grab": {
+                "x": 0.9,
+                "y": 0.15
+              },
+              "expected": {
+                "dropX": 0.2741860012256846,
+                "dropY": 0.4335495583304348
+              }
+            },
+            "request": {
+              "challengeId": "ch_nvtlRSA7IKsLEWXpV-4PFi-h",
+              "dropX": 0.27418599771835245,
+              "dropY": 0.43354961367173
+            },
+            "result": {
+              "passed": true,
+              "completionId": "cmp_t_a-LzlEuwYHPsE30OnXPq0T",
+              "clickId": "clk___jGsVmnrGE0qNXsJpYx9Kpm"
+            }
+          }
+        ],
+        "coordinateTolerance": 0.0001
+      },
+      "requestCounts": {
+        "starts": 4,
+        "verifies": 4,
+        "events": 4,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_dUz_kPW7BHOpy_4lh04onSSs",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_dUz_kPW7BHOpy_4lh04onSSs",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_qTbuQw-Bkp33XhY_k5q_vetw",
+            "clickId": "clk_RCNuCLk3BBuUX1p1WZ7OscHd"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_194f493e-4ea7-45a0-b101-fb40dde8f104",
+            "eventName": "cta_shown",
+            "clickId": "clk_RCNuCLk3BBuUX1p1WZ7OscHd",
+            "occurredAt": "2026-10-25T11:47:30.053Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        },
+        {
+          "sequence": 4,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_bZ7p03T0zkdkd6Ltvz9WdTd-",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 5,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_bZ7p03T0zkdkd6Ltvz9WdTd-",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.433552404333044
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_d3SO1Eo-yaH2Eg4eQBJRpXNE",
+            "clickId": "clk_syaYV6LA65cvOKNt5KNRUm1E"
+          }
+        },
+        {
+          "sequence": 6,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_f29ef388-db92-48dd-b709-745de82785c4",
+            "eventName": "cta_shown",
+            "clickId": "clk_syaYV6LA65cvOKNt5KNRUm1E",
+            "occurredAt": "2026-10-25T11:47:31.904Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        },
+        {
+          "sequence": 7,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_7k7Q3Pc_njlTJclYYsL4dPOw",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 8,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_7k7Q3Pc_njlTJclYYsL4dPOw",
+            "dropX": 0.2741860105101513,
+            "dropY": 0.43354961367173
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_SIO6-mHStP5GucJMu8LVjbFZ",
+            "clickId": "clk_i9dbBNGuH7bQVPBr1_7gP6yR"
+          }
+        },
+        {
+          "sequence": 9,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_0e38aad9-f2f6-44b4-a142-7f3dd53563b5",
+            "eventName": "cta_shown",
+            "clickId": "clk_i9dbBNGuH7bQVPBr1_7gP6yR",
+            "occurredAt": "2026-10-25T11:47:33.702Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        },
+        {
+          "sequence": 10,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_nvtlRSA7IKsLEWXpV-4PFi-h",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 11,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_nvtlRSA7IKsLEWXpV-4PFi-h",
+            "dropX": 0.27418599771835245,
+            "dropY": 0.43354961367173
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_t_a-LzlEuwYHPsE30OnXPq0T",
+            "clickId": "clk___jGsVmnrGE0qNXsJpYx9Kpm"
+          }
+        },
+        {
+          "sequence": 12,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_4cc26251-f9f7-47f9-9e4b-dad4ca69de2c",
+            "eventName": "cta_shown",
+            "clickId": "clk___jGsVmnrGE0qNXsJpYx9Kpm",
+            "occurredAt": "2026-10-25T11:47:35.873Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "start_close_ignores_hidden_and_old_responses",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 3572,
+      "detail": {
+        "deliveries": [
+          {
+            "index": 0,
+            "held": true,
+            "response": {
+              "challengeId": "ch_F8mW0dh5i1IrBc7hA2mQtb6X",
+              "creative": {
+                "creativeId": "bmw-m3-v1",
+                "version": "1",
+                "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+                "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+                "pieceUrl": "/creatives/bmw-m3/lamp.png",
+                "sourceWidth": 1672,
+                "sourceHeight": 941,
+                "lampRect": {
+                  "x": 0.2075358851674641,
+                  "y": 0.39638682252922425,
+                  "width": 0.13337320574162678,
+                  "height": 0.07438894792773645
+                },
+                "zoomRect": {
+                  "x": 0.13422248803827747,
+                  "y": 0.29358129649309245,
+                  "width": 0.28,
+                  "height": 0.28
+                },
+                "brandTitle": "BMW M3",
+                "tagline": "Sheer Driving Pleasure",
+                "ctaLabel": "시승 신청",
+                "landingPath": "/demo/test-drive",
+                "snapMs": 180,
+                "revealMs": 650
+              }
+            },
+            "delivered": true,
+            "abortedAtDelivery": true,
+            "status": 201
+          },
+          {
+            "index": 1,
+            "held": true,
+            "response": {
+              "challengeId": "ch_wjbr3Pt_xYyEhLKQdTHLkaTb",
+              "creative": {
+                "creativeId": "bmw-m3-v1",
+                "version": "1",
+                "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+                "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+                "pieceUrl": "/creatives/bmw-m3/lamp.png",
+                "sourceWidth": 1672,
+                "sourceHeight": 941,
+                "lampRect": {
+                  "x": 0.2075358851674641,
+                  "y": 0.39638682252922425,
+                  "width": 0.13337320574162678,
+                  "height": 0.07438894792773645
+                },
+                "zoomRect": {
+                  "x": 0.13422248803827747,
+                  "y": 0.29358129649309245,
+                  "width": 0.28,
+                  "height": 0.28
+                },
+                "brandTitle": "BMW M3",
+                "tagline": "Sheer Driving Pleasure",
+                "ctaLabel": "시승 신청",
+                "landingPath": "/demo/test-drive",
+                "snapMs": 180,
+                "revealMs": 650
+              }
+            },
+            "delivered": true,
+            "abortedAtDelivery": true,
+            "status": 201
+          },
+          {
+            "index": 2,
+            "held": false,
+            "response": {
+              "challengeId": "ch_6TUIBmm9HvLkn2sWCtTnDHz5",
+              "creative": {
+                "creativeId": "bmw-m3-v1",
+                "version": "1",
+                "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+                "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+                "pieceUrl": "/creatives/bmw-m3/lamp.png",
+                "sourceWidth": 1672,
+                "sourceHeight": 941,
+                "lampRect": {
+                  "x": 0.2075358851674641,
+                  "y": 0.39638682252922425,
+                  "width": 0.13337320574162678,
+                  "height": 0.07438894792773645
+                },
+                "zoomRect": {
+                  "x": 0.13422248803827747,
+                  "y": 0.29358129649309245,
+                  "width": 0.28,
+                  "height": 0.28
+                },
+                "brandTitle": "BMW M3",
+                "tagline": "Sheer Driving Pleasure",
+                "ctaLabel": "시승 신청",
+                "landingPath": "/demo/test-drive",
+                "snapMs": 180,
+                "revealMs": 650
+              }
+            },
+            "delivered": true,
+            "abortedAtDelivery": false,
+            "status": 201
+          }
+        ],
+        "recovery": {
+          "geometry": {
+            "boxes": {
+              "piece": {
+                "x": 340.9599914550781,
+                "y": 551.574951171875,
+                "width": 320.0937194824219,
+                "height": 100.421875
+              },
+              "socket": {
+                "x": 479.91290283203125,
+                "y": 424.7657165527344,
+                "width": 320.08929443359375,
+                "height": 100.39065551757812
+              },
+              "image": {
+                "x": -18.13397216796875,
+                "y": -110.33474731445312,
+                "width": 2399.9999389648438,
+                "height": 1350.0000305175781
+              }
+            },
+            "grab": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "expected": {
+              "dropX": 0.27420480789705426,
+              "dropY": 0.43355242844074554
+            }
+          },
+          "request": {
+            "challengeId": "ch_6TUIBmm9HvLkn2sWCtTnDHz5",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_R0orhPbhhyMjaCDrGnAbCiZ7",
+            "clickId": "clk_mN7jSUePZpwpnSwpQlSFA406"
+          }
+        }
+      },
+      "requestCounts": {
+        "starts": 3,
+        "verifies": 1,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_F8mW0dh5i1IrBc7hA2mQtb6X",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_wjbr3Pt_xYyEhLKQdTHLkaTb",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_6TUIBmm9HvLkn2sWCtTnDHz5",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 4,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_6TUIBmm9HvLkn2sWCtTnDHz5",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_R0orhPbhhyMjaCDrGnAbCiZ7",
+            "clickId": "clk_mN7jSUePZpwpnSwpQlSFA406"
+          }
+        },
+        {
+          "sequence": 5,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_d4f78742-ba76-4451-a397-3eacf134b3ef",
+            "eventName": "cta_shown",
+            "clickId": "clk_mN7jSUePZpwpnSwpQlSFA406",
+            "occurredAt": "2026-10-25T11:47:39.544Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "asset_close_ignores_hidden_and_old_decodes",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 3262,
+      "detail": {
+        "challengeId": "ch_HOJNjmkqxq6k64Pvk3sJ0fY1",
+        "deliveries": [
+          {
+            "index": 0,
+            "epoch": 0,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 1,
+            "epoch": 0,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/socket-cover.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1671,
+            "naturalHeight": 941
+          },
+          {
+            "index": 2,
+            "epoch": 0,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/lamp.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 3,
+            "epoch": 0,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 4,
+            "epoch": 0,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/socket-cover.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1671,
+            "naturalHeight": 941
+          },
+          {
+            "index": 5,
+            "epoch": 0,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/lamp.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 6,
+            "epoch": 1,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 7,
+            "epoch": 1,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/socket-cover.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1671,
+            "naturalHeight": 941
+          },
+          {
+            "index": 8,
+            "epoch": 1,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/lamp.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 9,
+            "epoch": 2,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          },
+          {
+            "index": 10,
+            "epoch": 2,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/socket-cover.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1671,
+            "naturalHeight": 941
+          },
+          {
+            "index": 11,
+            "epoch": 2,
+            "src": "http://127.0.0.1:5173/creatives/bmw-m3/lamp.png",
+            "nativeReady": true,
+            "delivered": true,
+            "naturalWidth": 1672,
+            "naturalHeight": 941
+          }
+        ],
+        "recovery": {
+          "geometry": {
+            "boxes": {
+              "piece": {
+                "x": 340.9599914550781,
+                "y": 551.574951171875,
+                "width": 320.0937194824219,
+                "height": 100.421875
+              },
+              "socket": {
+                "x": 479.91290283203125,
+                "y": 424.7657165527344,
+                "width": 320.08929443359375,
+                "height": 100.39065551757812
+              },
+              "image": {
+                "x": -18.13397216796875,
+                "y": -110.33474731445312,
+                "width": 2399.9999389648438,
+                "height": 1350.0000305175781
+              }
+            },
+            "grab": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "expected": {
+              "dropX": 0.27420480789705426,
+              "dropY": 0.43355242844074554
+            }
+          },
+          "request": {
+            "challengeId": "ch_HOJNjmkqxq6k64Pvk3sJ0fY1",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_QHm856RIBY8uUl5G-NY6uwKc",
+            "clickId": "clk_0VrwVMTsj8wM4CrP1biTBCnb"
+          }
+        }
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "events": 1,
+        "applications": 0
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_HOJNjmkqxq6k64Pvk3sJ0fY1",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_HOJNjmkqxq6k64Pvk3sJ0fY1",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_QHm856RIBY8uUl5G-NY6uwKc",
+            "clickId": "clk_0VrwVMTsj8wM4CrP1biTBCnb"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_9e61921a-839f-407e-9c56-a4a554e8cb30",
+            "eventName": "cta_shown",
+            "clickId": "clk_0VrwVMTsj8wM4CrP1biTBCnb",
+            "occurredAt": "2026-10-25T11:47:42.660Z"
+          },
+          "status": 201,
+          "response": {
+            "accepted": true,
+            "duplicate": false
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "name": "all_events_503_preserves_application_and_original_post",
+      "status": "passed",
+      "passed": true,
+      "durationMs": 5607,
+      "detail": {
+        "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+        "application": {
+          "leadId": "lead_SWjzqm74OL8fVWz1QVEdgAAa",
+          "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+          "locationId": "demo-center-b",
+          "slotId": "demo-slot-2",
+          "status": "completed",
+          "isDemo": true
+        },
+        "applicationStatus": 201,
+        "deliveryCounts": {
+          "cta_shown": {
+            "attempts": 3,
+            "statuses": [
+              503,
+              503,
+              503
+            ],
+            "eventId": "ev_8e3de1e5-2ac0-4430-a972-ca6beefb6522"
+          },
+          "cta_clicked": {
+            "attempts": 3,
+            "statuses": [
+              503,
+              503,
+              503
+            ],
+            "eventId": "ev_02b2da7a-2834-463c-9b72-a10831ea4d85"
+          },
+          "landing_viewed": {
+            "attempts": 3,
+            "statuses": [
+              503,
+              503,
+              503
+            ],
+            "eventId": "ev_2e3ffef2-0287-444a-88ca-38f338e5cdb9"
+          }
+        },
+        "acceptedClientEvents": 0,
+        "points": 10,
+        "posts": 1
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "events": 9,
+        "applications": 1
+      },
+      "requests": [
+        {
+          "sequence": 1,
+          "path": "/api/challenges",
+          "method": "POST",
+          "body": {
+            "creativeId": "bmw-m3-v1"
+          },
+          "status": 201,
+          "response": {
+            "challengeId": "ch_1uM-zeUoPExZK3cii6fAYJj8",
+            "creative": {
+              "creativeId": "bmw-m3-v1",
+              "version": "1",
+              "imageUrl": "/creatives/bmw-m3/vehicle.webp",
+              "coverUrl": "/creatives/bmw-m3/socket-cover.png",
+              "pieceUrl": "/creatives/bmw-m3/lamp.png",
+              "sourceWidth": 1672,
+              "sourceHeight": 941,
+              "lampRect": {
+                "x": 0.2075358851674641,
+                "y": 0.39638682252922425,
+                "width": 0.13337320574162678,
+                "height": 0.07438894792773645
+              },
+              "zoomRect": {
+                "x": 0.13422248803827747,
+                "y": 0.29358129649309245,
+                "width": 0.28,
+                "height": 0.28
+              },
+              "brandTitle": "BMW M3",
+              "tagline": "Sheer Driving Pleasure",
+              "ctaLabel": "시승 신청",
+              "landingPath": "/demo/test-drive",
+              "snapMs": 180,
+              "revealMs": 650
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "path": "/api/verify",
+          "method": "POST",
+          "body": {
+            "challengeId": "ch_1uM-zeUoPExZK3cii6fAYJj8",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "status": 200,
+          "response": {
+            "passed": true,
+            "completionId": "cmp_e1gpX5mP-CZ9h08otExfMYYH",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m"
+          }
+        },
+        {
+          "sequence": 3,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_8e3de1e5-2ac0-4430-a972-ca6beefb6522",
+            "eventName": "cta_shown",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:45.523Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 4,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_02b2da7a-2834-463c-9b72-a10831ea4d85",
+            "eventName": "cta_clicked",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:45.825Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 5,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_8e3de1e5-2ac0-4430-a972-ca6beefb6522",
+            "eventName": "cta_shown",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:45.523Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 6,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_2e3ffef2-0287-444a-88ca-38f338e5cdb9",
+            "eventName": "landing_viewed",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:46.205Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 7,
+          "path": "/api/demo/test-drives",
+          "method": "POST",
+          "body": {
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "locationId": "demo-center-b",
+            "slotId": "demo-slot-2"
+          },
+          "status": 201,
+          "response": {
+            "leadId": "lead_SWjzqm74OL8fVWz1QVEdgAAa",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "locationId": "demo-center-b",
+            "slotId": "demo-slot-2",
+            "status": "completed",
+            "isDemo": true
+          }
+        },
+        {
+          "sequence": 8,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_02b2da7a-2834-463c-9b72-a10831ea4d85",
+            "eventName": "cta_clicked",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:45.825Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 9,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_2e3ffef2-0287-444a-88ca-38f338e5cdb9",
+            "eventName": "landing_viewed",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:46.205Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 10,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_8e3de1e5-2ac0-4430-a972-ca6beefb6522",
+            "eventName": "cta_shown",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:45.523Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 11,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_02b2da7a-2834-463c-9b72-a10831ea4d85",
+            "eventName": "cta_clicked",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:45.825Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        },
+        {
+          "sequence": 12,
+          "path": "/api/events",
+          "method": "POST",
+          "body": {
+            "eventId": "ev_2e3ffef2-0287-444a-88ca-38f338e5cdb9",
+            "eventName": "landing_viewed",
+            "clickId": "clk_oe1Df9EowUDEI6P5zdjMxO7m",
+            "occurredAt": "2026-10-25T11:47:46.205Z"
+          },
+          "status": 503,
+          "response": {
+            "detail": {
+              "code": "STAGE5_EVENT_OUTAGE",
+              "message": "Controlled client-event delivery failure"
+            }
+          }
+        }
+      ],
+      "pageErrors": []
+    }
+  ],
+  "pageErrors": []
+}

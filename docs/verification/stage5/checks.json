@@ -1,0 +1,198 @@
+{
+  "recordedAt": "2026-10-25T11:51:17.036487+00:00",
+  "status": "passed",
+  "scope": "설계된 로컬 PoC V01~V08 최종 재현·기록",
+  "testedProductCommit": "87668373e1612062f2567fd9b1b80d1022dc8b7c",
+  "productionSourceChanged": false,
+  "sourceIdentity": {
+    "backendPaths": 22,
+    "frontendPaths": 35,
+    "designAndAssets": 4,
+    "mismatches": [],
+    "sourceSha256": {
+      "backend/tests/test_demo.py": "2da556d2baa637804ca5d8017546261f6dca1395d1bb173ba62ba13dc2ee0fae",
+      "backend/tests/test_events.py": "7894b0870a65ac8a5936caa18508447b3bfbf54d8d87504d48968174a42819b6",
+      "backend/tests/test_captcha.py": "66e14b531db7545ac06a93027746bb13c76a80f2a0156c77586e4955985c567c",
+      "backend/tests/conftest.py": "392bd2a7bb56b6172b017d0629fe59a62b288e81fead49af80290fd099fe0d16",
+      "backend/app/store.py": "8a7f165c63f698937f12032a0de6369be1ec03142304f8244144089eee5f47ae",
+      "backend/app/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "backend/app/demo_config.py": "f93ea60b43d213041830bc5191bc886977b3084fc35f604cbcb2d69aaef770dc",
+      "backend/app/services/demo.py": "8e18bbd4cbc1f3babf3ab32606a8899f87c85cfd2feb54afcd0676eda78b65b1",
+      "backend/app/services/captcha.py": "14117bd1c5161a363b07428d1680f7570bd7695a45ec2e41453d5fd280a7b2d9",
+      "backend/app/services/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "backend/app/services/events.py": "50c69df78cdb88ed2824129145c6d692e44e89f1c901dd57ebd8c673a66b3da0",
+      "backend/app/main.py": "3a4ed01c1960e41f5c974478f3ac55de200a9463c350bc6f4477a77087004a8b",
+      "backend/app/api/routes/demo.py": "1e0753348d13400e6f52df8cf4b34d35b6b3232fe62c691e6c8192ccb4439cce",
+      "backend/app/api/routes/captcha.py": "c29216cf357699bb92abf97d70fe8738470e86689670f217bd125a0843d5f41f",
+      "backend/app/api/routes/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "backend/app/api/routes/events.py": "2d8f98e06bc40898df1bbd322d37e19bfa545070fc159877ab4945e981c40285",
+      "backend/app/api/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "backend/app/schemas/demo.py": "a3ac51c75780448f5f237aec81e1b47a9c665df446a829c4e18268eea4379764",
+      "backend/app/schemas/captcha.py": "34d25121a22e193cf336a2fe48d88333abc3472d99290e360e34101a1e62eadc",
+      "backend/app/schemas/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "backend/app/schemas/events.py": "37b21f5c6ef37f1baa6d5a4da249afbeeefedeb83f47709ee47610bc67b708f4",
+      "backend/pyproject.toml": "339fea77a273c7d5d193a7368273e833da53a414d6ccae3eb79f56fb707f8a6e",
+      "frontend/src/App.tsx": "988ed426ed928afbfddd2683dad46db45c87be15adde2bdddaf0e10d3cb0dc3c",
+      "frontend/src/main.tsx": "6e9e5807fcbd48b75a96db5cbef36c996262196be42e6d4760dc86babbe61ad2",
+      "frontend/src/App.css": "af86a0fb80666f16c6f47d9aa597d262ea767288021ff38131c987eeb672ef80",
+      "frontend/src/index.css": "926d361d46236019978f6e6fdd6988c62ed8613db7116184b90def8e459bef2e",
+      "frontend/src/demo/testDriveApi.ts": "97096b62d2c7dc7b4b50ab9107ac14154d6babb4a0bec550010e8d283cfd74d0",
+      "frontend/src/demo/testDriveOptions.ts": "32333b040a9e7a116ff5099d7af057963c1f689cc0deaf8aea4a64c51790e0fb",
+      "frontend/src/pages/useCommunityDraft.ts": "239ef690c671469e65578daacdfddc6160bab4642b04626bdfa1755c84c5920f",
+      "frontend/src/pages/TestDrivePage.tsx": "e9b6f5dd83d998b7260627189c1c2c2b5296501e294464313aca64d66437caea",
+      "frontend/src/pages/TestDrivePage.css": "908d1e262ea6dfad6ac28f39238ebf6f712bf3fe92bd5ee2d47851588a97256e",
+      "frontend/src/pages/DemoCommunityPage.tsx": "26a047f7be5314914240c28d1fba357e045f76bf9900a67b0c46af0b8b5ee49d",
+      "frontend/src/sdk/captchavatye/tracking.ts": "d0b6e4a4803d2595b9ca2d506d9e47b4e5663dc28d7aabd44d4c7f50d800933d",
+      "frontend/src/sdk/captchavatye/stageCompletion.ts": "3d282d548bc18c8b009f6df33d61ac10442868281090136de20a5dbe23f736b0",
+      "frontend/src/sdk/captchavatye/CaptchaModal.tsx": "9c1cc821c32e92bd7d193ceb6476691f01d5ef050a13ca11d33facefc8da7d69",
+      "frontend/src/sdk/captchavatye/geometry.ts": "000b992b3b088afd052d19b5602c2ef041059001b0911f8680285caf935b74d5",
+      "frontend/src/sdk/captchavatye/CarPuzzle.tsx": "5cdd612b194bf360171b199b749976b88cab64d277a515b2b4660bf1afd3a3c9",
+      "frontend/src/sdk/captchavatye/api.ts": "c26af383b63a3fd13a27407f4192456159716e880fc57fcdfd5381ac56778ec2",
+      "frontend/src/sdk/captchavatye/types.ts": "d9ab56e61ca50dd65787065e08a170ba6c09c38d44560c32cbfac41e7f1464e1",
+      "frontend/src/sdk/captchavatye/captchavatye.css": "90d1f304672948c414b1307641945dac537dde21483917b6259ab39e1bbbf5eb",
+      "frontend/src/sdk/captchavatye/flow.ts": "42bfcd4d10ffb2c1fc4560d7d4906e4008f3cdf1d77dea11f2781ccdf780191e",
+      "frontend/src/sdk/captchavatye/useCaptchaFlow.ts": "d5b6ad1b7d7a00d5b0e7c3e6a05999aab99e0dc4a1948d4b201060ae61203cd8",
+      "frontend/src/sdk/captchavatye/index.ts": "24df2a9bc981644ab881ed00aa1863dd15d509adc6bd9edb5c2c4bf69958f728",
+      "frontend/src/sdk/captchavatye/creativeAssets.ts": "5057141954614cd756e629b08cb9b4e9756e25a022329d1577763644a56124da",
+      "frontend/tests/stage3Harness.tsx": "b6ee700d0eb9a41bccc49291565616e5c090b3f548c138c4e3b5938bfd9d308a",
+      "frontend/tests/fixtures.ts": "4a901c659fe293189e2a7b46b7b16c3e598647a669fda50a87dcac3773d360c8",
+      "frontend/tests/testDriveApi.test.ts": "92b97394fae1d88f89f41476a778d03dc9c99f1ad3d0d862b5b8eaef57bc46d5",
+      "frontend/tests/geometry.test.ts": "6ee9f65bdabfdb64e5e4310c7738b7591eecc19ce51f0d79ba5f539b86722bba",
+      "frontend/tests/stageCompletion.test.ts": "38c9f21538fc93eaea999a9a7af6fba6067d072e2382704554dd99316fd8e477",
+      "frontend/tests/stage3.html": "3b3fc66061558cfc5e5be6cafb6e3d57185e548f9447700e5fe275aed14a8d81",
+      "frontend/tests/dragGeometry.test.ts": "b4879583cced685736c87b4405be56380153df0822ab880dea0fe48866d09ecf",
+      "frontend/tests/flow.test.ts": "bbb4568b1ae9806c18dae269c4053864f72eb3fbb25d33fe3e433a4662d16e0d",
+      "frontend/tests/tracking.test.ts": "ceb1ec924199631aa4c4467ccf984956f8badb2cd86443a5804cfecb3e6a17e3",
+      "frontend/tests/conversionContracts.test.ts": "561400aaa8db9443d4ecb9290639446cb0f4429c7b23b575dd8be59b4d45c106",
+      "frontend/tests/api.test.ts": "65341fbb239ba95bc1b59154f3474157baab115171d2e754defb778cefff649b",
+      "frontend/package.json": "95ef3647d1fcae85bdf3056ac018e4438201cce7c61510953a40de9eb86893e6",
+      "frontend/tsconfig.app.json": "8e5d12ba330e7d86409edec74b95451e0db22ee09b9426c94b5bf817571eddb0",
+      "DESIGN.md": "6dc2bb74265fe7712be817ecc3b4d6536d7696055caf4426601e20f9081c9342",
+      "frontend/public/creatives/bmw-m3/vehicle.webp": "c3680a008bdc0923c365c9e02e5b2ed9f33235bf4082fdaebbe0c5e82871a1af",
+      "frontend/public/creatives/bmw-m3/lamp.png": "36f5466b968b18063916e40538941a189e7fcc2a1a1457039c06c890edec75f7",
+      "frontend/public/creatives/bmw-m3/socket-cover.png": "217dbcd666ddb7e0db6731f9636c76ff2e639a0d80b018c658826225684084c3"
+    }
+  },
+  "freshExecutions": {
+    "edges": {
+      "script": "verify.edges.cjs",
+      "result": "edges-results.json",
+      "passed": 9,
+      "failed": 0,
+      "pageErrors": [],
+      "cases": [
+        "miss_then_recovery_current_ui",
+        "outside_image_drop_no_clamp_or_verify",
+        "pointercancel_restores_without_verify",
+        "final_pointerup_coordinates",
+        "resize_cancels_drag_and_recovers",
+        "grab_offsets_and_viewports_same_normalized_center",
+        "start_close_ignores_hidden_and_old_responses",
+        "asset_close_ignores_hidden_and_old_decodes",
+        "all_events_503_preserves_application_and_original_post"
+      ]
+    },
+    "concurrentVerification": {
+      "script": "verify.concurrent-verify.py",
+      "result": "concurrent-verify-results.json",
+      "status": "passed",
+      "concurrentRequests": 2,
+      "additionalDifferentValidCoordinateRequests": 1
+    },
+    "restartReplay": {
+      "script": "verify.restart.cjs",
+      "result": "restart-results.json",
+      "passed": 11,
+      "failed": 0,
+      "pageErrors": [],
+      "runId": "ac574607-d984-4ba2-9805-176f2232cd05",
+      "oldPid": 80368,
+      "newPid": 81043,
+      "fullSuccessfulDemos": 2,
+      "checks": [
+        "environment_and_gate",
+        "first_full_demo",
+        "preserve_old_tabs_and_payload",
+        "external_backend_restart",
+        "pending_challenge_rejected",
+        "old_application_link_rejected",
+        "old_accepted_event_replay_rejected",
+        "old_completed_challenge_rejected",
+        "community_reload_resets_client",
+        "second_full_demo_with_new_ids",
+        "request_and_ui_invariants"
+      ]
+    }
+  },
+  "inheritedVerification": {
+    "freshlyRerunInThisStage": false,
+    "frontendUnit": {
+      "passed": 49,
+      "source": "../stage4-ui/checks.json"
+    },
+    "backendUnit": {
+      "passed": 152,
+      "source": "../stage4-test-drives/checks.json"
+    },
+    "browserConversion": {
+      "passed": 16,
+      "source": "../stage4-ui/conversion-results.json"
+    },
+    "browserRegression": {
+      "passed": 12,
+      "source": "../stage4-ui/regression-results.json"
+    },
+    "hostBoundary": {
+      "passed": 6,
+      "source": "../stage4-ui/host-results.json"
+    },
+    "eventsLiveHttp": {
+      "passed": 9,
+      "source": "../stage4-events/http-results.json"
+    },
+    "applicationLiveHttp": {
+      "passed": 13,
+      "source": "../stage4-test-drives/http-results.json"
+    },
+    "lintAndBuild": {
+      "source": "../stage4-ui/checks.json",
+      "status": "passed"
+    },
+    "basis": "현재 소스 SHA-256 일치 확인. 각 실제 결과 JSON의 실행 시각을 사용하며 이전 checks의 embedded timestamp로 덮어쓰지 않는다."
+  },
+  "executionArtifactSha256": {
+    "docs/verification/stage5/restart-verification-error.png": "eaca58ce7b1fdbc83ad455dc5d00914e27ff259d339c6c14733d693279f895ee",
+    "docs/verification/stage5/edges-results.json": "72c2a1820a041d55e58fe6e22a96a51c9ff939a5a6454e94349e54b370a73dc9",
+    "docs/verification/stage5/verify.restart.cjs": "2149021d3f9e250f3aeb53f9f603c44da8c48af0aa21315e42ef013efe3a93db",
+    "docs/verification/stage5/concurrent-verify-results.json": "ea2c3b3294798bf08934b4197c5cab9444202041aa2fd2143998c21af704d08d",
+    "docs/verification/stage5/restart-results.json": "e7c36c15be78dcf8fea4e41da149eca66237fb3d013d4318b77bc7a395d41c04",
+    "docs/verification/stage5/verify.concurrent-verify.py": "97dbcc17c0df48be5752493c429f9e4f4775670af202d89f48063e76bc286e73",
+    "docs/verification/stage5/replay-completed.png": "87cd74a5efda4c504d385e9c953f5a5469e6751ee7741bd889001b59da594b41",
+    "docs/verification/stage5/replay-application-completed.png": "4d7dac2aa0dffc6eb38afb61c300b6ce9f6802d528dc32ce3e95f1f1da483c66",
+    "docs/verification/stage5/restart-application-error.png": "1440003a8533785e1fe90b3e3dc9586e0250e52a162cca58f4496e16b3d6faa3",
+    "docs/verification/stage5/verify.edges.cjs": "87543158aca207e4fabb5b059b0a225ecec941436fe9abb0915ad5a1b9f85455",
+    "docs/verification/stage5/server-observation.json": "03cfa2566b51f8229daaeab2c6357143ec784c25443ce918978ff5abfeb73ea4"
+  },
+  "review": {
+    "evidenceAudit": "completed",
+    "runnerStaticReview": "completed; no findings before execution",
+    "initialInstrumentationFailure": {
+      "error": "Cannot redefine property: __captchavatyeStage5Points",
+      "pageErrors": 2,
+      "passedBefore": 10,
+      "failedBefore": 1,
+      "fix": "Document별 초기화 가드와 configurable 관찰 속성; pageerror 판정 유지",
+      "productionCodeChanged": false,
+      "archivedReport": "/Users/jungle/dev/missions/final_mission/.git/stage5-restart-tghmd1z6/probe-before-fix-results.json",
+      "finalRestartRunPassed": true
+    },
+    "documentationReview": "completed; approved; no concrete findings"
+  },
+  "limitations": [
+    "Chrome headless와 모바일 viewport 확인; Safari·모바일 실기기 미실행",
+    "브라우저는 UI/HTTP를 관찰. 내부 lead/전환 수·최초 객체 보존은 기존 백엔드 Store assertion",
+    "단일 워커 메모리 PoC; 실제 봇 탐지·보상·예약·DB·배포 없음",
+    "페이지 종료 후 이벤트 전달 보장 없음"
+  ],
+  "verificationScriptsCommit": "d91b91f8d71ae3330f127348473136505a530d21"
+}
