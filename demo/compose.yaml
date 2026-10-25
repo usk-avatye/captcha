@@ -1,0 +1,114 @@
+name: captchavatye-demo
+
+services:
+  postgres:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: meeting_room_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run start.command to initialize the demo}
+    volumes:
+      - captchavatye-demo-postgres:/var/lib/postgresql/data
+      - ./create-provider-database.sql:/docker-entrypoint-initdb.d/10-provider.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d meeting_room_demo"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  provider-api:
+    image: captchavatye-demo-provider-api:${DEMO_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: final_mission/demo/Dockerfile.api
+      args:
+        APP_SOURCE: final_mission/backend
+        DEPENDENCIES: final_mission/demo/provider-requirements.txt
+    environment:
+      CAPTCHAVATYE_DATABASE_URL: postgresql+psycopg://postgres:${POSTGRES_PASSWORD:?Run start.command to initialize the demo}@postgres:5432/captchavatye_demo
+      CAPTCHAVATYE_SERVICE_KEY: ${CAPTCHAVATYE_SERVICE_KEY:?Run start.command to initialize the demo}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${DEMO_PROVIDER_API_PORT:-58001}:8001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8001/openapi.json', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 18
+      start_period: 5s
+
+  customer-api:
+    image: captchavatye-demo-customer-api:${DEMO_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: final_mission/demo/Dockerfile.api
+      args:
+        APP_SOURCE: Internship-finalproject/backend
+        DEPENDENCIES: final_mission/demo/customer-requirements.txt
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:${POSTGRES_PASSWORD:?Run start.command to initialize the demo}@postgres:5432/meeting_room_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run start.command to initialize the demo}
+      SECRET_KEY: ${CUSTOMER_SECRET_KEY:?Run start.command to initialize the demo}
+      APP_ENV: development
+      DEMO_ORIGIN: http://127.0.0.1:${DEMO_CUSTOMER_WEB_PORT:-55175}
+      APP_ORIGINS: http://127.0.0.1:${DEMO_CUSTOMER_WEB_PORT:-55175},http://localhost:${DEMO_CUSTOMER_WEB_PORT:-55175}
+      CAPTCHAVATYE_API_URL: http://provider-api:8001
+      CAPTCHAVATYE_SERVICE_KEY: ${CAPTCHAVATYE_SERVICE_KEY:?Run start.command to initialize the demo}
+      COMPANY_IPS: 127.0.0.1,::1
+      SMTP_USER: ""
+      SMTP_PASSWORD: ""
+    depends_on:
+      postgres:
+        condition: service_healthy
+      provider-api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${DEMO_CUSTOMER_API_PORT:-58002}:8002"
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8002/openapi.json', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+
+  provider-web:
+    image: captchavatye-demo-provider-web:${DEMO_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: final_mission/demo/Dockerfile.provider-web
+      args:
+        ASSET_SITE_URL: http://127.0.0.1:${DEMO_PROVIDER_WEB_PORT:-55173}
+    depends_on:
+      provider-api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${DEMO_PROVIDER_WEB_PORT:-55173}:5173"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5173/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  customer-web:
+    image: captchavatye-demo-customer-web:${DEMO_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: final_mission/demo/Dockerfile.customer-web
+      args:
+        ASSET_SITE_URL: http://127.0.0.1:${DEMO_PROVIDER_WEB_PORT:-55173}
+    depends_on:
+      customer-api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${DEMO_CUSTOMER_WEB_PORT:-55175}:5175"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5175/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  captchavatye-demo-postgres:

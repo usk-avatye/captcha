@@ -1,0 +1,14 @@
+FROM node:24.21.0-bookworm-slim
+
+WORKDIR /app
+COPY final_mission/package.json final_mission/package-lock.json ./
+COPY final_mission/frontend/package.json ./frontend/package.json
+COPY final_mission/packages/react/package.json ./packages/react/package.json
+RUN npm ci --no-audit --no-fund
+COPY final_mission/frontend/ ./frontend/
+COPY final_mission/packages/react/ ./packages/react/
+RUN npm run build --workspace captchavatye
+
+COPY final_mission/demo/provider-preview.config.mjs /opt/demo/provider-preview.config.mjs
+EXPOSE 5173
+CMD ["npm", "run", "preview", "--workspace", "captchavatye", "--", "--config", "/opt/demo/provider-preview.config.mjs", "--host", "0.0.0.0", "--port", "5173", "--strictPort"]

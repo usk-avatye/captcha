@@ -1,0 +1,15 @@
+FROM node:24.21.0-bookworm-slim
+
+ARG ASSET_SITE_URL
+
+WORKDIR /app
+COPY Internship-finalproject/frontend/package.json Internship-finalproject/frontend/package-lock.json ./
+COPY Internship-finalproject/frontend/vendor/ ./vendor/
+RUN npm ci --no-audit --no-fund
+COPY Internship-finalproject/frontend/ ./
+ENV VITE_CAPTCHAVATYE_SITE_URL=${ASSET_SITE_URL}
+RUN npm run build
+ENV BACKEND_URL=http://customer-api:8002
+ENV CAPTCHAVATYE_URL=http://provider-api:8001
+EXPOSE 5175
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "5175", "--strictPort"]

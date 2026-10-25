@@ -1,0 +1,18 @@
+FROM python:3.12-slim-bookworm
+
+ARG APP_SOURCE
+ARG DEPENDENCIES
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+COPY ${DEPENDENCIES} /tmp/requirements.txt
+RUN python -m pip install --no-cache-dir -r /tmp/requirements.txt
+COPY ${APP_SOURCE}/ /app/
+COPY final_mission/demo/launch-api.sh /opt/demo/launch-api.sh
+COPY final_mission/demo/smoke.py /opt/demo/smoke.py
+ENV PYTHONPATH=/app
+
+EXPOSE 8001 8002
+ENTRYPOINT ["sh", "/opt/demo/launch-api.sh"]

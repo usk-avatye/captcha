@@ -1,0 +1,10 @@
+**
+!Internship-finalproject
+!Internship-finalproject/frontend
+!Internship-finalproject/frontend/**
+**/.env
+**/.env.*
+**/.git
+**/node_modules
+**/.venv
+**/dist
