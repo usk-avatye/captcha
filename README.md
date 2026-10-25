@@ -1,6 +1,10 @@
-# CAPTCHAvatye — PoC 구현·검증 완료
+# CAPTCHAvatye
 
 [DESIGN.md](DESIGN.md)의 **0~5단계 구현·검증을 완료했다.** 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 글을 한 번 등록한다. 선택적인 **시승 신청**은 새 탭에서 서버에 모의 신청 완료를 기록한다. 보상·글 등록은 CTA나 신청 여부에 의존하지 않는다. 실제 서버 재시작과 초기화 후 두 번째 시연까지 확인했으며, [V01~V08 최종 완료 표](docs/verification/stage5/coverage.md)에 실행 근거와 확인 범위를 기록했다.
+
+## 예약 서비스 연동
+
+PostgreSQL 영속화, 고객사 서버 간 인증 확인, 회의실 예약 연동을 추가했다. 실행 및 검증 범위는 [예약 연동 기록](docs/verification/reservation-integration/README.md)에 있다. 아래 0~5단계 시연 결과는 초기 메모리 PoC의 이력이며 현재 저장소는 재시작 후에도 기록을 유지한다.
 
 ## 실행
 
@@ -13,7 +17,10 @@ cd /Users/jungle/dev/missions/final_mission/backend
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[test]'
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1
+export CAPTCHAVATYE_DATABASE_URL='postgresql+psycopg://USER:PASSWORD@127.0.0.1:5433/captchavatye'
+export CAPTCHAVATYE_SERVICE_KEY='32자_이상의_공유_비밀키'
+python -m alembic upgrade head
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --workers 2
 ```
 
 ### 프론트엔드
@@ -24,7 +31,7 @@ npm ci
 npm run dev
 ```
 
-브라우저에서 **http://127.0.0.1:5173/** 를 연다. Vite가 `/api`를 `127.0.0.1:8000`으로 전달한다. 이미지와 화면은 Vite에서 제공한다. 포트가 사용 중이면 다른 포트로 자동 이동하지 않는다.
+브라우저에서 **http://127.0.0.1:5173/** 를 연다. Vite가 `/api`를 `127.0.0.1:8001`로 전달한다. 이미지와 화면은 Vite에서 제공한다. 포트가 사용 중이면 다른 포트로 자동 이동하지 않는다.
 
 확인한 환경: Python **3.14.6**, FastAPI **0.162.0**, Pydantic **2.14.1**, Uvicorn **0.54.0**; Node.js **26.7.0**, npm **11.19.0**, React **19.3.1**, Vite **8.3.5**, TypeScript **6.0.3**. 프론트엔드와 SDK 버전은 루트 package-lock.json, 백엔드 직접 의존성은 pyproject.toml에 고정했다.
 
@@ -59,7 +66,7 @@ CAPTCHAVATYE_PLAYWRIGHT_MODULE=/absolute/path/to/playwright node scripts/verify-
 CAPTCHAVATYE_PLAYWRIGHT_MODULE=/absolute/path/to/playwright node scripts/verify-demo-regression.cjs
 ```
 
-SDK 소비 앱의 검증은 React 19.3.1, Vite, Chrome으로 수행했다. React 19 peer 범위이며 다른 버전 조합·SSR·모바일 실기기는 확인하지 않았다. SDK는 실제 봇 탐지를 제공하지 않으며 인증 서버는 여전히 메모리 저장소다. PostgreSQL·고객사 서버의 완료 결과 확인·실제 예약 서비스 연동은 다음 단계다.
+SDK 소비 앱의 검증은 React 19.3.1, Vite, Chrome으로 수행했다. React 19 peer 범위이며 다른 버전 조합, SSR, 모바일 실기기는 확인하지 않았다. SDK는 실제 봇 탐지를 제공하지 않는다. 현재 인증 서버는 PostgreSQL을 사용하며 고객사 백엔드가 완료 결과를 확인한다. 이전 패키지화 검증 기록은 당시 범위를 설명한다.
 
 패키지화 검증과 한계는 [검증 기록](docs/verification/sdk-package/README.md)에 있다.
 
@@ -408,14 +415,8 @@ CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_mod
 
 다른 Mac에서는 설치된 Playwright 모듈 경로를 위 환경 변수에 지정한다. 위 명령은 현재 CTA 동작에 맞춘 회귀·호스트 검증이며 결과와 캡처를 stage4-ui 폴더에 저장한다. stage1~stage3의 스크립트·기록은 당시 화면 기준의 보존 자료다.
 
-## 초기화와 시연 반복
+## 시연 반복과 기록 보존
 
-서버 메모리는 한 프로세스에서만 유지한다. 시연 중에는 `--reload`·다중 워커를 사용하지 않는다.
+현재 서버 기록은 PostgreSQL에 남는다. 서버 재시작이나 다중 워커 실행으로 인증, 이벤트, 전환을 초기화하지 않는다. 공개 데모 인증은 기존 계약에 따라 재조회할 수 있고, 고객사 인증은 미사용 상태에서 10분이 지나면 새로 발급해야 한다. 고객사가 이미 저장한 예약의 동일 요청 재전송은 만료 후에도 기존 예약을 반환한다.
 
-- **다음 글만 시작:** 글 등록 뒤 **새 글 쓰기**. 누적 포인트·기존 글은 유지하고 새 인증을 시작한다.
-- **커뮤니티만 초기화:** `/` 탭 새로고침. 초안·글·포인트·적용 ID Set은 초기화되고 서버 기록은 유지된다.
-- **서버 기록까지 초기화:** 백엔드 종료 → 위의 단일 워커 명령으로 재실행 → 커뮤니티 `/` 탭 새로고침 → 기존 신청 탭 닫기 → 새 인증의 CTA로 다시 신청 탭 열기.
-
-서버 재시작만으로 이미 열린 화면의 완료·포인트 표시가 자동으로 지워지지는 않는다. 오래된 인증·신청 요청에는 404와 다시 시작 안내가 나온다. **기존 신청 탭을 새로고침해도 URL의 옛 clickId는 유지되므로, 새 인증의 CTA로 다시 열어야 한다.**
-
-추가 검증 스크립트의 실행 방법과 재시작 대기 절차는 [최종 검증 문서](docs/verification/stage5/coverage.md#4-실행과-초기화)에 있다.
+커뮤니티에서 새 글을 쓰거나 페이지를 새로고침하면 로컬 초안과 화면 상태만 바뀐다. 기존 DB를 초기화하는 명령은 제공하지 않는다. 초기 메모리 PoC의 재시작 및 404 검증은 stage5의 역사적 기록이다.

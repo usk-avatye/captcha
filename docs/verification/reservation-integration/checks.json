@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-25",
+  "provider_backend_tests": 164,
+  "sdk_unit_tests": 54,
+  "customer_backend_tests": 184,
+  "customer_frontend_tests": 57,
+  "http": {
+    "booking_without_cta_and_concurrent_retry": "PASS",
+    "forgery_payload_binding_and_service_key": "PASS",
+    "provider_multiworker_concurrent_verify": "PASS",
+    "cross_intent_completion_replay": "PASS",
+    "both_processes_restarted_exact_booking_retry": "PASS",
+    "durable_challenge_event_lead_conversion": "PASS",
+    "pending_challenge_resumed_after_restart": "PASS"
+  },
+  "browser": {
+    "actual_drag": true,
+    "close_reopen": true,
+    "booking_before_continue": 0,
+    "booking_after_continue": 1,
+    "cta_shown": 1,
+    "cta_clicked": 0,
+    "conversion": 0,
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "tarball_sha256": "920c4c881706031ee6da8513b37e549444b0a14e97f9b13d7113faec796fbf2a",
+  "existing_databases_reset": false,
+  "remote_push": false,
+  "npm_publication": false
+}
