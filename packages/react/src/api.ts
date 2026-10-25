@@ -86,18 +86,27 @@ async function post<T>(
   }
 }
 
-export function createCaptchaApi(baseUrl = '/api', bases?: CreativeUrlBases): CaptchaApi {
+export function createCaptchaApi(baseUrl = '/api', bases?: CreativeUrlBases, initialChallenge?: ChallengeResponse): CaptchaApi {
   const base = baseUrl.replace(/\/+$/, '');
+  function parseChallenge(value: unknown, creativeId: string): ChallengeResponse | null {
+    if (!record(value) || !text(value.challengeId) || !creative(value.creative, creativeId)) return null;
+    try {
+      return { challengeId: value.challengeId,
+        creative: bases ? resolveCreativeUrls(value.creative, bases) : value.creative };
+    } catch {
+      throw new ApiError('CREATIVE_URL', '광고 주소 설정을 확인해 주세요.', false);
+    }
+  }
   return {
-    start: (creativeId, signal) => post(base + '/challenges', { creativeId }, signal, 201, value => {
-      if (!record(value) || !text(value.challengeId) || !creative(value.creative, creativeId)) return null;
-      try {
-        return { challengeId: value.challengeId,
-          creative: bases ? resolveCreativeUrls(value.creative, bases) : value.creative };
-      } catch {
-        throw new ApiError('CREATIVE_URL', '광고 주소 설정을 확인해 주세요.', false);
+    start: async (creativeId, signal) => {
+      if (signal.aborted) throw new DOMException('Request aborted', 'AbortError');
+      if (initialChallenge) {
+        const parsed = parseChallenge(initialChallenge, creativeId);
+        if (!parsed) throw new ApiError('INVALID_RESPONSE', '서버가 발급한 인증 정보를 확인해 주세요.', false);
+        return parsed;
       }
-    }),
+      return post(base + '/challenges', { creativeId }, signal, 201, value => parseChallenge(value, creativeId));
+    },
     verify: (request, signal) => post<VerifyResult>(base + '/verify', request, signal, 200, value => {
       if (!record(value)) return null;
       if (value.passed === false) return { passed: false };

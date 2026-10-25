@@ -60,6 +60,8 @@ export type FlowError = {
 export type CaptchaModalProps = {
   open: boolean;
   creativeId: string;
+  /** 고객사 서버가 발급한 인증. 시도 변경은 React key로 구분한다. */
+  challenge?: ChallengeResponse;
   apiBaseUrl?: string;
   /** 상대 소재 URL을 해석할 절대 HTTP(S) 주소. 기본값은 현재 origin. */
   assetBaseUrl?: string;

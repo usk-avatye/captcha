@@ -82,3 +82,16 @@ test('닫혀서 취소된 요청은 전송하지 않는다', async () => {
   assert.equal(received, null);
 });
 
+test('고객사 서버가 발급한 인증은 공개 시작 API를 호출하지 않는다', async () => {
+  received = null;
+  const challenge = { challengeId: 'ch_bound', creative };
+  const api = createCaptchaApi(origin, undefined, challenge);
+  assert.deepEqual(await api.start('bmw-m3-v1', new AbortController().signal), challenge);
+  assert.equal(received, null);
+  await assert.rejects(api.start('other', new AbortController().signal),
+    (error: unknown) => error instanceof ApiError && error.code === 'INVALID_RESPONSE');
+  const abort = new AbortController();
+  abort.abort();
+  await assert.rejects(api.start('bmw-m3-v1', abort.signal), { name: 'AbortError' });
+});
+

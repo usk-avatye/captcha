@@ -67,7 +67,7 @@ URL은 `new URL(value, base)` 규칙을 따른다. `/creatives/...`처럼 `/`로
 
 ## 로컬 접속 구성
 
-SDK는 브라우저 코드이고 FastAPI 서버·이미지·랜딩 페이지를 설치하지 않는다. 현재 개발 서버는 데모/소재/랜딩 `5173`, 인증 API `8000`이다.
+SDK는 브라우저 코드이고 FastAPI 서버, 이미지, 랜딩 페이지를 설치하지 않는다. 현재 개발 서버는 데모/소재/랜딩 `5173`, 인증 API `8001`이다.
 
 소비 앱의 Vite 설정 예:
 
@@ -75,7 +75,7 @@ SDK는 브라우저 코드이고 FastAPI 서버·이미지·랜딩 페이지를 
 server: {
   proxy: {
     '/captcha-api': {
-      target: 'http://127.0.0.1:8000',
+      target: 'http://127.0.0.1:8001',
       rewrite: path => path.replace(/^\/captcha-api/, '/api'),
     },
   },
@@ -96,10 +96,14 @@ void track('landing_viewed', clickId);
 
 ## 현재 한계
 
-실제 봇 탐지, 고객사 서버용 인증 결과 확인, PostgreSQL 영속 저장은 구현하지 않았다. 현재 서버 기록은 메모리이며 재시작하면 사라진다. BMW 이미지·래스터 crop은 기존 단일 소재 PoC 기준을 유지한다. 범용 광고 소재 관리나 공개 운영용 보안 제품으로 설명하지 않는다.
+실제 봇 탐지는 제공하지 않는다. 고객사 서버용 인증 결과 확인과 PostgreSQL 영속 저장은 backend에서 제공하며 SDK는 결과만 전달한다. BMW 이미지, 래스터 crop은 기존 단일 소재 PoC 기준을 유지한다. 범용 광고 소재 관리나 공개 운영용 보안 제품으로 설명하지 않는다.
 
 ## 참고
 
 - https://vite.dev/guide/build#library-mode
 - https://docs.npmjs.com/cli/v11/commands/npm-pack/
 - https://docs.npmjs.com/cli/v11/commands/npm-install/
+
+## 고객사 서버가 발급한 인증
+
+`challenge?: ChallengeResponse`에 고객사 백엔드가 비공개 발급 API로 받은 `{challengeId, creative}`를 전달하면 SDK는 공개 시작 API를 호출하지 않고 해당 퍼즐을 표시한다. `creativeId`는 발급 소재와 같아야 한다. 인증 시도가 바뀔 때 `key={intent_id}`로 새 모달을 만든다. 기존 `onComplete`와 `onContinue` 계약은 유지한다. 브라우저 콜백은 서버 검증을 대체하지 않으며, 공유 비밀키는 고객사 백엔드에만 둔다.
