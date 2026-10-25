@@ -1,0 +1,127 @@
+{
+  "sourceWidth": 1672,
+  "sourceHeight": 941,
+  "sourceAspectRatio": 1.7768331562167907,
+  "lampRectPixels": {
+    "x": 347,
+    "y": 373,
+    "width": 223,
+    "height": 70
+  },
+  "lampRect": {
+    "x": 0.2075358851674641,
+    "y": 0.39638682252922425,
+    "width": 0.13337320574162678,
+    "height": 0.07438894792773645
+  },
+  "zoomRect": {
+    "x": 0.13422248803827747,
+    "y": 0.29358129649309245,
+    "width": 0.28,
+    "height": 0.28
+  },
+  "zoomRectPixels": {
+    "x": 224.41999999999993,
+    "y": 276.26,
+    "width": 468.16,
+    "height": 263.48
+  },
+  "spriteCropPixels": {
+    "x": 276,
+    "y": 311,
+    "width": 1172,
+    "height": 350
+  },
+  "assets": {
+    "vehicle.webp": {
+      "path": "frontend/public/creatives/bmw-m3/vehicle.webp",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 1194556,
+      "sha256": "c3680a008bdc0923c365c9e02e5b2ed9f33235bf4082fdaebbe0c5e82871a1af"
+    },
+    "lamp.png": {
+      "path": "frontend/public/creatives/bmw-m3/lamp.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGBA",
+      "bytes": 517405,
+      "sha256": "36f5466b968b18063916e40538941a189e7fcc2a1a1457039c06c890edec75f7",
+      "alphaNonzeroBox": {
+        "x": 152,
+        "y": 231,
+        "width": 1474,
+        "height": 653
+      },
+      "alphaAboveOneBox": {
+        "x": 277,
+        "y": 314,
+        "width": 1168,
+        "height": 347
+      },
+      "alphaMajorityBox": {
+        "x": 280,
+        "y": 317,
+        "width": 1162,
+        "height": 339
+      },
+      "cssCrop": {
+        "widthPercent": 142.66211604095562,
+        "heightPercent": 268.8571428571429,
+        "leftPercent": -23.549488054607508,
+        "topPercent": -88.85714285714286
+      }
+    },
+    "socket-cover.png": {
+      "path": "frontend/public/creatives/bmw-m3/socket-cover.png",
+      "width": 1671,
+      "height": 941,
+      "mode": "RGBA",
+      "bytes": 455415,
+      "sha256": "217dbcd666ddb7e0db6731f9636c76ff2e639a0d80b018c658826225684084c3",
+      "alphaNonzeroBox": {
+        "x": 168,
+        "y": 21,
+        "width": 1320,
+        "height": 764
+      },
+      "alphaAboveOneBox": {
+        "x": 276,
+        "y": 311,
+        "width": 1172,
+        "height": 348
+      },
+      "alphaMajorityBox": {
+        "x": 279,
+        "y": 315,
+        "width": 1167,
+        "height": 340
+      },
+      "cssCrop": {
+        "widthPercent": 142.57679180887374,
+        "heightPercent": 268.8571428571429,
+        "leftPercent": -23.549488054607508,
+        "topPercent": -88.85714285714286
+      }
+    }
+  },
+  "validation": {
+    "webpPixelIdenticalToSource": true,
+    "lampSocketOpaqueMaskIoU": 0.9924055784478311,
+    "sourceRedLensPixels": 3294,
+    "sourceRedLensCoverageAtAlphaAbove240": 1
+  },
+  "caveats": [
+    "Imagegen enlarged and repositioned the extracted lamp; both transparent PNGs are preserved as generated. Use the common CSS crop rectangle to fit the sprites to lampRect.",
+    "The source was used for the lamp edit and the resulting lamp was used for the socket edit. The lamp is a generated derivation, not an exact pixel cutout of the source.",
+    "The source is 1672x941, slightly different from exact 16:9. Socket canvas is 1671x941; use its actual width when setting CSS cropping.",
+    "Alpha=1 pixels exist outside the meaningful sprite; the common crop excludes most such low-opacity noise without modifying image files.",
+    "Source red coverage is a numeric check using a red-dominance mask; verify the final composite visually in the implemented zoom state."
+  ],
+  "generatedSourcePng": {
+    "sha256": "3523f713342628a78eaaa8c7672a9dc4ec14316110684a8ee6f2c792a9f8ae32",
+    "webpPixelIdentical": true,
+    "note": "배포 원본은 동일 픽셀의 vehicle.webp. PNG 원본은 실행 파일에 포함하지 않음."
+  }
+}

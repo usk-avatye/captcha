@@ -1,0 +1,26 @@
+Built-in image_gen generation/edit lineage. Originals are preserved.
+
+VEHICLE ORIGINAL
+Use case: ads-marketing.
+Asset type: photorealistic website hero photograph and source image for a matching car-tail-lamp puzzle.
+Primary request: one premium, realistic emerald-green BMW M3 sedan, rear three-quarter view, fully visible in a clean pale warm-white photographic studio.
+Canvas/composition: wide 16:9 image, ideally 2048 x 1152. Put the complete car entirely in the LEFT 62 percent of the canvas, occupying approximately x=5% through x=63%, y=25% through y=84%. The rear is nearest the camera at the LEFT and the front points toward the RIGHT. Show the rear and near side of the car clearly. Keep the RIGHT 35 percent completely empty, clean off-white negative space for a separately rendered headline. Keep generous space around the entire car; no cropping.
+Subject detail: recognizable modern BMW M3 sedan proportions, rich metallic green body, dark sporty wheels, restrained black trim and diffuser. The large near-side rear tail-lamp nearest the camera must be a complete, clearly visible, crisp red lens assembly with a distinct silhouette and black bezel, large enough to become a small draggable image puzzle piece. This lamp is intact in this original photo. Both tail lamps intact. Refined believable automotive geometry and materials.
+Lighting: large soft studio lights, realistic soft reflections on green paint, modest gray contact shadow on a light gray studio floor that blends smoothly into the off-white background. High-end automotive advertising photograph, natural perspective, no fisheye or dramatic distortion.
+Constraints: this is only a photograph. No headline, no words, no letters or numbers, blank license plate, no UI, no frames, no arrows, no overlays, no watermarks. No people or extra objects. Preserve the empty right area.
+
+LAMP EXTRACTION
+Use case: background-extraction.
+Asset type: transparent PNG sprite derived from the provided vehicle photograph.
+Input image 1 is the edit target. It is a 1672 by 941 pixel photograph. Keep that exact wide canvas and the exact original object position/scale/perspective.
+Extract ONLY the complete near-side rear tail-light cluster on the right half of the car's rear, approximately within x=346 to 571 and y=373 to 444 in the source. This is the larger two-part red and black horizontal lamp nearest the camera, immediately left of the rear fender, with a rising red hook on its right end. Keep BOTH its inner trunk-mounted part and outer fender-mounted part as ONE correctly aligned sprite, including the narrow internal seam and black outer housing/bezel. Preserve all its original red lens detail, highlights, shape, illumination, perspective, and exact scale.
+Make EVERY other pixel fully transparent, including the whole car, background, floor, green body paint around the lamp, shadow and badges. The selected lamp remains at its original source coordinates on the original 1672x941 canvas. Do not center, move, enlarge, rotate, redraw, or change the selected lamp. Outside the actual black bezel/lamp silhouette must have clean transparent alpha.
+No text, frame, arrows, outlines, labels, other lamps, shadows outside the original lamp or checkerboard baked into the pixels.
+
+FINAL SOCKET, EDIT TARGET: lamp.png
+Use case: precise-object-edit.
+Input image 1 is the edit target: an isolated red and black tail-light on a transparent 1672 by 941 canvas.
+Produce its matching EMPTY SOCKET as a second transparent sprite.
+Change ONLY the material and interior of the existing tail-light object. Replace all red illuminated lenses and optics with a nearly black recessed empty cavity, subtle inner thickness and dark charcoal surfaces. Keep the exact overall silhouette, camera perspective, every outer contour, the dividing seam between the two segments, and outer black bezel.
+Critical invariants: the output canvas must have the same 1672x941 dimensions as the reference; the object must stay at EXACTLY its current position and scale with the same transparent padding. Do not move, center, crop, resize, widen, flatten, rotate or change the outer silhouette. Do not add wires, screws, lenses, glowing areas, red material, labels or any extra objects. Preserve actual alpha transparency everywhere around the object, without shadows or stray pixels.
+This socket will be placed directly over the original provided red lamp, so their outer contours need to match when overlaid. Keep the original lamp's placement and black frame exactly; modify just its inside to a matte-black empty socket.
