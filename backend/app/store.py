@@ -11,6 +11,9 @@ class Challenge:
     status: Literal["pending", "passed"] = "pending"
     completion_id: str | None = None
     click_id: str | None = None
+    client_id: str | None = None
+    subject: str | None = None
+    expires_at: datetime | None = None
 
 
 @dataclass(frozen=True)

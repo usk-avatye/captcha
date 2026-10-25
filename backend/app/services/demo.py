@@ -4,6 +4,7 @@ import logging
 from app.schemas.demo import TestDriveRequest, TestDriveResponse
 from app.services.captcha import unique_id
 from app.store import EventRecord, LeadRecord, Store
+from app.persistence import PostgresStore
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -24,8 +25,13 @@ def _response(lead: LeadRecord) -> TestDriveResponse:
     )
 
 
-def request_test_drive(store: Store, request: TestDriveRequest) -> tuple[TestDriveResponse, bool]:
+def request_test_drive(store: Store | PostgresStore, request: TestDriveRequest) -> tuple[TestDriveResponse, bool]:
     """완료 응답과 신규 생성 여부를 반환한다. 재전송은 기존 결과를 그대로 사용한다."""
+    if isinstance(store, PostgresStore):
+        result = store.request_test_drive(request, datetime.now(timezone.utc))
+        if result[1]:
+            logger.info("test_drive_completed clickId=%s leadId=%s", request.clickId, result[0].leadId)
+        return result
     with store.lock:
         link = store.click_links.get(request.clickId)
         challenge = store.challenges.get(link.challenge_id) if link is not None else None

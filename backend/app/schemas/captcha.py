@@ -1,8 +1,9 @@
 from typing import Annotated, Literal
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
 Identifier = Annotated[str, Field(strict=True, min_length=1, pattern=r"\S")]
 Coordinate = Annotated[float, Field(strict=True, ge=0, le=1, allow_inf_nan=False)]
+Subject = Annotated[str, Field(strict=True, min_length=1, max_length=255, pattern=r"\S")]
 
 
 class StartRequest(BaseModel):
@@ -55,4 +56,25 @@ class VerifyPassed(BaseModel):
     passed: Literal[True] = True
     completionId: str
     clickId: str
+
+
+class InternalStartRequest(StartRequest):
+    subject: Subject
+
+
+class InternalStartResponse(StartResponse):
+    expiresAt: AwareDatetime
+
+
+class InternalVerifyRequest(BaseModel):
+    challengeId: Identifier
+    completionId: Identifier
+    subject: Subject
+
+
+class InternalVerifyResponse(BaseModel):
+    passed: Literal[True] = True
+    challengeId: str
+    completionId: str
+    subject: str
 

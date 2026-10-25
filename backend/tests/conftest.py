@@ -5,6 +5,7 @@ import httpx
 import pytest
 
 from app.main import create_app
+from app.store import Store
 
 
 class ApiClient:
@@ -22,7 +23,7 @@ class ApiClient:
 
 @pytest.fixture
 def client_factory():
-    return lambda: ApiClient(create_app())
+    return lambda: ApiClient(create_app(store=Store()))
 
 
 @pytest.fixture

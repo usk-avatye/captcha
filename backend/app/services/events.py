@@ -3,6 +3,7 @@ import logging
 
 from app.schemas.events import EventRequest, EventResponse
 from app.store import EventRecord, Store
+from app.persistence import PostgresStore
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -15,7 +16,9 @@ class EventRejected(Exception):
         super().__init__(message)
 
 
-def collect_event(store: Store, request: EventRequest) -> EventResponse:
+def collect_event(store: Store | PostgresStore, request: EventRequest) -> EventResponse:
+    if isinstance(store, PostgresStore):
+        return store.collect_event(request, datetime.now(timezone.utc))
     with store.lock:
         existing = store.events.get(request.eventId)
         if existing is not None:
