@@ -9,7 +9,7 @@ Git과 Docker Desktop이 필요합니다. 최초 실행에는 인터넷 연결�
 ```bash
 mkdir -p ~/dev/captchavatye-demo
 cd ~/dev/captchavatye-demo
-git clone --branch feat/captchavatye-demo --single-branch https://github.com/usk-avatye/captcha.git final_mission
+git clone --branch main --single-branch https://github.com/usk-avatye/captcha.git final_mission
 git clone --branch feat/captchavatye-demo --single-branch https://github.com/kimheejun-avatye/Internship-finalproject.git
 cd final_mission
 bash demo/start.command
