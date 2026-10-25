@@ -1,0 +1,16 @@
+# Dependencies and generated outputs
+node_modules/
+.venv/
+dist/
+dist-ssr/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+*.tsbuildinfo
+
+# Local machine files
+.DS_Store
+.env
+.env.*
+!.env.example
