@@ -27,10 +27,17 @@ def path_svg(path) -> str:
         for label, point in [('시작', points[0]), ('끝', points[-1])]:
             x, y = float(point['x']) * 1000, float(point['y']) * 562.5
             title = escape(f"드래그 {drag} {label}, {point['t']}ms")
-            drawings.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6" fill="{color}"><title>{title}</title></circle>')
-    return '<svg viewBox="-10 -10 1020 582.5" role="img" aria-label="퍼즐 영역 기준 드래그 경로">' \
+            tooltip_x = min(max(x + 14, 4), 716)
+            tooltip_y = y + 16 if y < 60 else y - 48
+            drawings.append(f'''<g class="path-marker" tabindex="0" aria-label="{title}">
+<circle class="point-hit" cx="{x:.1f}" cy="{y:.1f}" r="16" fill="transparent"/>
+<circle class="point-visible" cx="{x:.1f}" cy="{y:.1f}" r="6" fill="{color}"/>
+<g class="point-tooltip" role="tooltip" transform="translate({tooltip_x:.1f} {tooltip_y:.1f})">
+<rect width="280" height="36" rx="6" fill="#172c49"/>
+<text x="10" y="24" fill="white" font-size="18">{title}</text></g></g>''')
+    return '<svg viewBox="-18 -18 1036 598.5" role="group" aria-label="퍼즐 영역 기준 드래그 경로">' \
         '<rect width="1000" height="562.5" fill="#f3f6fb" stroke="#bdc9da"/>' + ''.join(drawings) + '</svg>' \
-        '<p class="hint">같은 색은 같은 드래그. 점에 마우스를 올리면 시작과 끝의 시간을 볼 수 있습니다.</p>'
+        '<p class="hint">같은 색은 같은 드래그. 시작점과 끝점에 마우스를 올리거나 Tab 키로 선택하면 시간을 볼 수 있습니다.</p>'
 
 
 def render(records: list[dict]) -> str:
@@ -52,6 +59,10 @@ main{max-width:1000px;margin:auto}h1{font-size:28px}h2{font-size:17px;overflow-w
 article{background:white;padding:24px;border-radius:14px;margin:20px 0;box-shadow:0 2px 12px #172c4910}
 .meta,.hint,.empty{color:#536780;font-size:14px;overflow-wrap:anywhere}.metrics{display:flex;gap:24px;flex-wrap:wrap;margin:20px 0}
 strong{font-size:20px}svg{width:100%;display:block}.hint{margin-bottom:0}
+.path-marker{outline:none;cursor:help}.point-hit{pointer-events:all}.point-visible{pointer-events:none}
+.point-tooltip{display:none;pointer-events:none}
+.path-marker:hover .point-tooltip,.path-marker:focus .point-tooltip{display:block}
+.path-marker:focus .point-visible{stroke:#172c49;stroke-width:3}
 </style><main><h1>CAPTCHAvatye 상호작용 점검</h1>
 <p>최근 수신한 인증 요약 최대 20건. 시간은 이미지 준비 후 모달이 열려 있고 탭이 보이는 동안 누적합니다.</p>''' \
         + (''.join(cards) or '<p>수집된 요약이 없습니다. 퍼즐을 조작한 뒤 성공하거나 닫아 주세요.</p>') + '</main></html>'
