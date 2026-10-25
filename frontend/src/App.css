@@ -1,0 +1,89 @@
+.community-header {
+  max-width: 1200px; margin: auto; padding: 24px 36px;
+  display: flex; align-items: center; gap: 48px; border-bottom: 1px solid #dfe4dc;
+}
+.community-logo { display: flex; align-items: baseline; gap: 10px; color: #203f33; text-decoration: none; font-size: 24px; font-weight: 750; letter-spacing: -.08em; }
+.community-logo > span { color: #849389; font-size: 9px; font-weight: 650; letter-spacing: .15em; }
+.community-nav { color: #78867c; font-size: 12px; }
+.community-balance { display: flex; align-items: center; gap: 15px; margin-left: auto; }
+.community-balance > span { color: #758276; font-size: 11px; }
+.community-balance output { font-size: 21px; font-weight: 700; letter-spacing: -.03em; color: #265441; }
+.community-main { max-width: 1200px; padding: 48px 36px 56px; margin: auto; }
+.community-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.community-heading h1 { margin-top: 12px; font-size: clamp(24px, 3vw, 32px); font-weight: 650; letter-spacing: -.055em; line-height: 1.45; }
+.demo-chip { border: 1px solid #d7dfd3; border-radius: 20px; padding: 6px 10px; color: #73806d; font-size: 10px; white-space: nowrap; }
+.community-layout { display: grid; grid-template-columns: minmax(0, 1fr) 278px; gap: 28px; align-items: start; }
+.community-primary { min-width: 0; }
+.composer-card { background: #fff; border: 1px solid #e1e6de; border-radius: 14px; padding: 28px; }
+.composer-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.composer-topline h2 { font-size: 17px; font-weight: 650; letter-spacing: -.04em; }
+.composer-topline > span { background: #f1f4ee; color: #7c8a77; padding: 5px 9px; border-radius: 4px; font-size: 10px; }
+.composer-field + .composer-field { margin-top: 24px; }
+.composer-field label { display: block; margin-bottom: 10px; color: #46544a; font-size: 12px; font-weight: 600; }
+.composer-field input, .composer-field textarea { width: 100%; border: 1px solid #dce3d8; border-radius: 7px; padding: 13px 14px; background: #fff; color: #23362b; font: inherit; font-size: 14px; line-height: 1.75; }
+.composer-field input::placeholder, .composer-field textarea::placeholder { color: #9aa598; }
+.composer-field input:focus, .composer-field textarea:focus { border-color: #71977c; outline: 2px solid #dcebdd; outline-offset: 1px; }
+.composer-field textarea { display: block; resize: vertical; min-height: 180px; }
+.composer-field [aria-invalid="true"] { border-color: #af6556; }
+.composer-footer { margin-top: 24px; padding-top: 22px; border-top: 1px solid #edf0e9; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.composer-footer p { color: #7d8a7b; font-size: 11px; line-height: 1.7; }
+.composer-footer .primary-button { flex-shrink: 0; }
+.form-error { margin-top: 15px; color: #a44337; font-size: 12px; }
+.draft-complete { margin-top: 16px; color: #2d6645; background: #eef6ec; border-radius: 6px; padding: 11px 12px; font-size: 11px; line-height: 1.6; }
+.reward-card { position: relative; overflow: hidden; padding: 28px 24px; border: 1px solid #dbe2d1; border-radius: 14px; background: #eef1e7; }
+.reward-symbol { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 28px; background: #dce6cf; border: 1px solid #d0ddbd; border-radius: 50%; color: #648448; font-weight: 650; }
+.reward-card h2 { margin-top: 12px; color: #304d39; font-size: 26px; font-weight: 550; letter-spacing: -.05em; line-height: 1.4; }
+.reward-card > p { margin-top: 17px; font-size: 12px; line-height: 1.8; color: #718168; }
+.reward-card > p strong { color: #4a6a34; }
+.reward-card ol { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid #dae1ce; padding-top: 20px; display: grid; gap: 14px; }
+.reward-card li { display: flex; align-items: center; gap: 12px; font-size: 11px; color: #5e7253; }
+.reward-card li span { font-size: 9px; color: #91a17d; }
+.reward-card p.reward-optional { margin-top: 25px; padding-top: 20px; border-top: 1px solid #dae1ce; font-size: 10px; line-height: 1.8; }
+.community-disclaimer { margin: 16px 6px 0; color: #84907e; font-size: 10px; line-height: 1.9; }
+.community-posts { margin-top: 32px; }
+.posts-heading { display: flex; align-items: center; gap: 10px; padding: 0 2px 16px; }
+.posts-heading h2 { font-size: 15px; font-weight: 600; letter-spacing: -.03em; }
+.posts-heading > span { font-size: 11px; color: #889581; }
+.empty-posts { padding: 26px 20px; border: 1px dashed #d5ddce; border-radius: 10px; text-align: center; color: #8b9884; font-size: 12px; }
+.community-post { padding: 24px 26px; background: #fff; border: 1px solid #e1e6de; border-radius: 12px; }
+.community-post + .community-post { margin-top: 14px; }
+.post-meta { display: flex; align-items: center; gap: 8px; color: #85917d; font-size: 10px; }
+.post-meta > span:last-child { margin-left: auto; }
+.post-avatar { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; background: #eef2e9; color: #718463; font-size: 10px; }
+.community-post h3 { margin-top: 16px; font-size: 17px; font-weight: 600; letter-spacing: -.03em; overflow-wrap: anywhere; white-space: pre-wrap; }
+.post-body { margin-top: 11px; font-size: 13px; line-height: 1.9; color: #71806a; white-space: pre-wrap; overflow-wrap: anywhere; }
+.publish-confirmation { padding: 34px 26px; border: 1px solid #dbe5d6; border-radius: 14px; background: #fff; text-align: center; }
+.confirmation-mark { display: grid; place-items: center; width: 40px; height: 40px; margin: 0 auto 18px; background: #edf5e7; border-radius: 50%; color: #5e8545; font-size: 20px; }
+.publish-confirmation h2 { font-size: 23px; font-weight: 600; letter-spacing: -.04em; }
+.publish-confirmation h2:focus { outline: none; }
+.publish-confirmation p { margin-top: 11px; color: #7d8975; font-size: 12px; }
+.publish-confirmation .primary-button { margin-top: 24px; }
+.community-site-footer { display: flex; justify-content: space-between; gap: 20px; max-width: 1128px; margin: auto; padding: 22px 0; border-top: 1px solid #dde4d6; color: #8c9884; font-size: 10px; }
+.community-site-footer > span:first-child { letter-spacing: .07em; }
+@media (max-width: 900px) {
+  .community-layout { grid-template-columns: minmax(0, 1fr); }
+  .community-aside { max-width: none; }
+  .reward-card { display: none; }
+  .community-site-footer { margin: 0 36px; }
+}
+@media (max-width: 600px) {
+  .community-header { padding: 20px; gap: 16px; }
+  .community-nav, .community-logo > span { display: none; }
+  .community-logo { font-size: 22px; }
+  .community-balance { gap: 8px; }
+  .community-balance > span { font-size: 10px; }
+  .community-balance output { font-size: 18px; }
+  .community-main { padding: 30px 20px; }
+  .community-heading { align-items: start; gap: 12px; margin-bottom: 20px; }
+  .community-heading h1 { font-size: 23px; max-width: 245px; }
+  .demo-chip { display: none; }
+  .composer-card { padding: 22px 18px; }
+  .composer-topline { margin-bottom: 22px; }
+  .composer-field input, .composer-field textarea { padding: 11px 12px; font-size: 14px; }
+  .composer-field textarea { min-height: 220px; }
+  .composer-footer { align-items: stretch; flex-direction: column; gap: 16px; }
+  .composer-footer .primary-button { min-height: 46px; justify-content: space-between; }
+  .community-post { padding: 22px 20px; }
+  .community-site-footer { margin: 0 20px; font-size: 9px; }
+  .community-site-footer > span:last-child { display: none; }
+}
