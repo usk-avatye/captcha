@@ -9,8 +9,8 @@ Docker Desktop을 실행하고 터미널에서 다음 명령을 한 번 입력�
 ```bash
 mkdir -p ~/dev/missions
 cd ~/dev/missions
-git clone https://github.com/usk-avatye/captcha.git final_mission
-git clone --branch feat/calendar --single-branch https://github.com/kimheejun-avatye/Internship-finalproject.git
+git clone --branch codex/captchavatye-demo --single-branch https://github.com/usk-avatye/captcha.git final_mission
+git clone --branch codex/captchavatye-demo --single-branch https://github.com/kimheejun-avatye/Internship-finalproject.git
 cd final_mission
 bash demo/start.command
 ```
