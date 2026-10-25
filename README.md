@@ -1,6 +1,6 @@
-# CAPTCHAvatye — 4단계 모의 시승 신청 API
+# CAPTCHAvatye — 4단계 모의 전환
 
-[DESIGN.md](DESIGN.md)의 **0~3단계**와 **4단계의 백엔드 API**를 구현했다. 설계의 네 업무 API가 모두 준비되었다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 작성한 글을 한 번 등록한다.
+[DESIGN.md](DESIGN.md)의 **0~4단계**를 구현했다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 글을 한 번 등록한다. 선택적으로 **시승 신청**을 누르면 새 탭에서 지점·시간을 고르고 서버에 모의 신청 완료를 기록할 수 있다. 보상·글 등록은 CTA나 신청 여부에 의존하지 않는다. 다음 작업은 5단계의 전체 V01~V08 재현과 최종 기록이다.
 
 ## 실행
 
@@ -39,7 +39,7 @@ npm run dev
 
 제목이나 본문이 공백뿐이면 인증을 열지 않는다. 글과 포인트는 페이지 메모리만 사용하고 새로고침하면 초기화된다. 제목·본문은 SDK 또는 서버에 전송하지 않는다.
 
-시승 CTA는 아직 비활성이다. 이벤트·모의 신청 API는 준비되었으며, 화면에서 이벤트를 보내는 기능·선택적 CTA·새 탭의 모의 신청 화면 연결이 다음 작업이다.
+완료 화면의 **시승 신청**은 선택 사항이다. 링크가 즉시 새 탭의 `/demo/test-drive?clickId=…`를 연다. 그 탭에서 **시연 전시장·시연 시간**을 고르고 **모의 시승 신청**을 누르면 완료 결과와 신청 ID가 표시된다. 원래 탭으로 돌아가 글을 등록하거나 원래 탭을 닫아도 이미 열린 신청 탭은 독립적으로 동작한다. 이름·연락처와 실제 예약 정보는 받지 않는다.
 
 ## SDK 공개 경계와 데이터 처리
 
@@ -102,7 +102,29 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 
 새 ID에서만 `click_links`를 확인한다. 연결이 없으면 **404 `CLICK_NOT_FOUND`**, 있으면 `events[eventId]`에 한 번 저장한다. 기존 ID의 다른 유효 내용은 연결이 없어도 404보다 409가 우선한다. 업무 오류는 `{detail:{code,message}}`, 입력 오류는 422 `detail` 배열이다.
 
-같은 클릭에 서로 다른 이벤트 ID를 여러 개 저장할 수 있다. 새로 저장된 건만 잠금 해제 후 `event_accepted eventId=… eventName=… clickId=…` 로그를 남긴다. 이 API는 인증 상태·포인트·글 등록·신청 완료를 변경하지 않는다. 클라이언트 전송·재시도 연결은 다음 화면 작업에서 추가한다.
+같은 클릭에 서로 다른 이벤트 ID를 여러 개 저장할 수 있다. 새로 저장된 건만 잠금 해제 후 `event_accepted eventId=… eventName=… clickId=…` 로그를 남긴다. 이 API는 인증 상태·포인트·글 등록·신청 완료를 변경하지 않는다.
+
+### 클라이언트 이벤트와 신청 화면
+
+`tracking.ts`는 각 행동 시점에 `ev_` + UUID와 ISO 시각을 한 번 생성하고, 동결한 payload를 직렬화해 전송한다. 모달이 열린 `completed`에서 실제 CTA가 표시될 때 같은 clickId의 `cta_shown`을 한 번 만든다. 닫기·재열기·부모 재렌더는 노출을 추가하지 않는다. 링크의 기본 클릭·Enter·마우스 가운데 버튼 활성화는 매번 새 `cta_clicked`를 만든다. 오른쪽 버튼은 클릭으로 기록하지 않는다.
+
+새 탭은 URL의 clickId만 읽어 `landing_viewed`를 보낸다. StrictMode 초기 effect 반복은 가드로 막고, 새 탭이나 새로고침은 새 이벤트를 만든다. ID는 공백뿐인지 확인할 때만 trim을 사용하며 원문은 변경하지 않는다. 부모 탭·window.opener·localStorage·신청 조회 API에 의존하지 않는다.
+
+이벤트는 요청마다 10초 기한을 적용한다. 네트워크 실패·시간 초과·실제 5xx만 500ms, 1500ms 뒤 최대 두 번 재시도한다. 최초 eventId·시각·내용을 재사용한다. 4xx와 잘못된 200/201 본문은 재시도하지 않는다. 이벤트 생성·전송 실패는 호출한 화면에 예외를 전달하지 않으며 포인트·글 등록·신청을 막지 않는다. 모달을 닫아도 이미 생성한 이벤트의 유한 재시도는 이어가지만 페이지 종료 후 전달은 보장하지 않는다.
+
+신청 화면의 상태는 `editing → sending → completed`, 불확실한 결과의 `retry`, 복구가 필요한 `blocked`다. SDK의 일곱 상태와 별도로 소유한다. 제출 순간 clickId·locationId·slotId를 동결하고, 동기 ref 가드로 동일 이벤트 루프의 이중 제출을 막는다.
+
+| 신청 결과 | 화면 처리 |
+| --- | --- |
+| 정상 200/201 | 반환된 연결·선택지가 제출 스냅샷과 같고 leadId·completed·isDemo가 유효할 때만 완료 |
+| 연결 유실·10초 초과·5xx·잘못된 성공 본문 | 선택지 잠금 유지. **같은 내용으로 다시 시도**만 제공 |
+| 실제 HTTP 422 | 서버가 거절한 요청으로 판단하고 선택지를 다시 편집 가능하게 함 |
+| 404·409 | 완료로 표시하지 않고 오류와 **광고 데모로 돌아가기** 제공 |
+| 화면 종료 | 요청 취소를 시도하고 이전 실행의 늦은 응답을 무시 |
+
+신청 HTTP 클라이언트는 상태 코드를 보존한다. 503의 detail 배열을 422로 오인하지 않고, HTML 형태의 422도 편집 가능한 오류로 분류한다. 응답 유실 뒤 동일 선택을 재시도하면 서버의 기존 leadId를 받는다. 새로고침은 폼과 완료 표시를 초기화하지만 서버 신청은 유지되므로 같은 선택은 200, 다른 유효 선택은 409다.
+
+**구현 최소안:** 지점·시간의 초기 선택은 빈 placeholder로 둔다. 단순한 두 경로이므로 기존 App에서 pathname으로 분기하고 라우터 의존성은 추가하지 않았다. 이벤트 수집기는 SDK 내부 모듈을 신청 페이지가 재사용하며 공개 SDK 입력·콜백을 늘리지 않는다.
 
 ### 모의 시승 신청과 내부 전환
 
@@ -126,14 +148,18 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 
 | 경로 | 책임 |
 | --- | --- |
-| `frontend/src/App.tsx` | 현재 커뮤니티 화면 진입점. 모의 신청 화면 분기는 4단계 |
+| `frontend/src/App.tsx` | 커뮤니티와 `/demo/test-drive` 진입점 분기 |
 | `frontend/src/pages/DemoCommunityPage.tsx` | 글쓰기·등록 목록·포인트 표시, 공개 SDK 연결 |
 | `frontend/src/pages/useCommunityDraft.ts` | 페이지의 React 상태와 적용 ID Set·시도/등록 ref 가드 |
+| `frontend/src/pages/TestDrivePage.tsx`, `TestDrivePage.css` | URL ID, 랜딩 이벤트, 선택·신청 스냅샷, 오류·완료 화면과 반응형 배치 |
+| `frontend/src/demo/testDriveApi.ts` | 신청 HTTP, 10초 기한·취소, 실제 상태 코드와 요청/응답 일치 검사 |
+| `frontend/src/demo/testDriveOptions.ts` | 서버와 동일한 두 지점·두 시간 ID 및 표시 이름 |
 | `frontend/src/sdk/captchavatye/index.ts`, `types.ts` | 공개 컴포넌트와 입력/결과 타입 |
 | `frontend/src/sdk/captchavatye/api.ts` | 시작·검증 HTTP, 10초 기한·취소, 응답 계약 검사·오류 정규화 |
 | `frontend/src/sdk/captchavatye/flow.ts` | 한 인증 시도의 상태·요청·성공 ID·재시도·실행 세대·완료 전달 가드 |
 | `frontend/src/sdk/captchavatye/useCaptchaFlow.ts` | 흐름 구독, 표시/마운트 수명과 최신 콜백 참조를 분리해 연결 |
-| `frontend/src/sdk/captchavatye/CaptchaModal.tsx` | 안내·닫기·재시도·계속하기와 CarPuzzle 연결 |
+| `frontend/src/sdk/captchavatye/CaptchaModal.tsx` | 안내·닫기·재시도·계속하기, 완료 CTA URL과 노출/클릭 이벤트 연결 |
+| `frontend/src/sdk/captchavatye/tracking.ts` | 클라이언트 이벤트 생성·동일 payload 재시도·실패 격리 |
 | `frontend/src/sdk/captchavatye/CarPuzzle.tsx` | 이미지 준비, Pointer Events, 캡처/취소, scene·조각, 스냅·줌아웃 |
 | `frontend/src/sdk/captchavatye/geometry.ts` | 확대 변환, 조각 중심 정규화, 포인터 오프셋 계산 |
 | `frontend/src/sdk/captchavatye/stageCompletion.ts` | 종료 이벤트·우회 타이머의 한 번 완료와 늦은 이벤트 방어 |
@@ -155,6 +181,7 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | `docs/verification/stage3/` | 호스트 경계·통합 Chrome 검증 스크립트·결과·캡처 |
 | `docs/verification/stage4-events/` | 이벤트 API의 실제 HTTP 스크립트·결과, 테스트와 리뷰 기록 |
 | `docs/verification/stage4-test-drives/` | 신청·재전송·동시성·재시작 HTTP 검증, 테스트와 리뷰 기록 |
+| `docs/verification/stage4-ui/` | 새 탭 전환·기존 흐름·호스트 Chrome 검증, 결과·캡처·리뷰 |
 
 ## 소재와 허용 오차
 
@@ -166,7 +193,41 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 
 ## 검증 — 2026-10-25 KST
 
-### 이번 작업: 모의 시승 신청 API
+### 이번 작업: 선택적 CTA·새 탭 신청 화면·클라이언트 이벤트
+
+| 검증 | 결과 |
+| --- | --- |
+| 프론트엔드 단위 검증 | **49/49 통과**. 기존 34개 + 이벤트·신청 15개 |
+| 백엔드 회귀 | **152/152 통과**. 이번 작업에서 백엔드 변경 없음 |
+| 새 탭·신청·이벤트 브라우저 검증 | **16/16 통과**, page error 0 |
+| 기존 인증·커뮤니티 브라우저 회귀 | **12/12 통과**, page error 0 |
+| 실제 React 호스트 경계 | **6/6 통과**, page error 0 |
+| 린트·빌드 | 경고 0·오류 0, TypeScript 검사·Vite production build 통과 |
+| 화면 | Chrome 155.0.8059.85, 1280×900·390×844. CTA·신청·완료·불확실한 요청 화면 확인, 가로 넘침 없음 |
+| 독립 코드 리뷰 | 가운데 버튼 CTA 이벤트 누락 1건 발견 → 실제 실패 재현 → 수정·통과. 잔여 지적 없음 |
+| 보존 | DESIGN.md·세 소재·백엔드·SDK 공개 타입·인증 흐름·의존성 유지 |
+
+실제 단일 워커 FastAPI와 Vite 프록시를 사용했다. 클릭 이벤트가 서버에 도착하기 전에도 새 탭이 바로 열리며, 원래 탭에서 글 등록 후 그 탭을 닫아도 신청을 완료했다. 기본 클릭·가운데 버튼·Enter 활성화를 확인했고 새 탭의 `window.opener`는 null이었다. 모달 닫기 뒤 이벤트 재시도, 완료 재열기의 노출 1회, StrictMode·새로고침의 랜딩 이벤트, 실제 404·409, 422 이후 수정, 동일 이벤트 루프의 중복 제출도 확인했다.
+
+첫 신청은 실제 서버에 저장하고 응답 전달만 유실시켰다. 선택지 잠금과 같은 payload 재시도 뒤 기존 leadId의 200 완료를 확인했다. 503 HTML·잘못된 성공 본문도 같은 스냅샷을 유지한다. 이벤트 4xx는 한 번에 종료하고 5xx는 동일 내용으로 총 세 번 전송한다. 두 실패 모두 포인트·원래 글 등록을 바꾸지 않는다.
+
+추가 경계 테스트에서는 잘못된 2xx 이벤트 재시도, 이벤트 생성 예외, 신청 오류 분류·스냅샷의 다섯 실패를 먼저 확인했다. URL ID 원문 보존과 가운데 버튼 클릭 기록도 브라우저에서 실패를 재현한 뒤 고쳤다. 실패 기록은 `red-*.json`, 해당 시점 캡처는 `*-failed.png`로 보존했으며 현재 결과와 구분한다.
+
+- [checks.json](docs/verification/stage4-ui/checks.json): 실행 결과, 검토·검증한 소스 SHA-256, 보존 범위.
+- [conversion-results.json](docs/verification/stage4-ui/conversion-results.json): 새 탭·신청·이벤트 16개.
+- [regression-results.json](docs/verification/stage4-ui/regression-results.json): 기존 인증·글 등록 12개.
+- [host-results.json](docs/verification/stage4-ui/host-results.json): React 호스트 경계 6개.
+- [review.md](docs/verification/stage4-ui/review.md): 독립 검토의 발견 사항·해결·한계.
+
+```bash
+cd /Users/jungle/dev/missions/final_mission
+CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_modules/playwright \
+  node docs/verification/stage4-ui/verify.conversion.cjs
+```
+
+두 개발 서버가 필요하며 스크립트 실행 시 메모리에 모의 인증·이벤트·신청이 추가된다. 각 사례는 격리된 headless Chrome context에서 실행한다. 모바일 실기기·Safari 검증과 현재 UI의 서버 재시작 후 전체 V01~V08 최종 재시연은 5단계에 남아 있다.
+
+### 이전 완료 기록: 모의 시승 신청 API
 
 | 검증 | 결과 |
 | --- | --- |
@@ -180,7 +241,7 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | 서버 로그 | HTTP 검증에서 새 신청 6건의 최초 완료 로그가 각각 한 번만 기록 |
 | 독립 정적 리뷰 | 수정이 필요한 결함 0건. 연결·잠금·응답·ID 충돌과 신규 테스트 검토 |
 
-프론트엔드는 이번 작업에서 변경하지 않았다. 네 백엔드 API는 준비되었고, CTA·새 탭 신청 화면·클라이언트 이벤트 전송과 전체 V01~V08 최종 검증은 남아 있다.
+이 API 작업 당시에는 프론트엔드를 변경하지 않았다. 이후 CTA·신청 화면·클라이언트 이벤트 연결을 완료했으며 결과는 위의 최신 검증 기록에 있다.
 
 - [checks.json](docs/verification/stage4-test-drives/checks.json): 기준·미구현 실패·152개 통과·검토한 소스 해시.
 - [http-results.json](docs/verification/stage4-test-drives/http-results.json): 실제 신청 HTTP 13개 결과.
@@ -240,7 +301,7 @@ python3 docs/verification/stage4-events/verify.http.py
 
 공개 SDK fixture는 React StrictMode에서 부모를 검증·줌아웃 중 재렌더하고 콜백 참조를 바꾼다. 같은 인증을 유지하면서 최신 콜백을 한 번 호출하는지 확인한다. 호스트 fixture는 실제 페이지 hook에 완료/계속하기를 각각 같은 이벤트 루프에서 다섯 번 전달하여 중복 가드를 검사한다. 이 fixture에서 사용하는 ID는 콜백 경계 시험용이며 실제 서버 통합 시험과 구분한다. 제품 App이나 SDK에는 시험용 메서드를 추가하지 않았다.
 
-신규 콜백 7개 및 호스트 6개 시험의 미구현 실패를 먼저 확인한 뒤 구현했다. 스마트폰 실기기·Safari 시험이나 전체 PoC V01~V08 완료를 주장하지 않는다. 이벤트·모의 신청을 포함한 V05 후반~V07은 4단계 이후 검증한다.
+신규 콜백 7개 및 호스트 6개 시험의 미구현 실패를 먼저 확인한 뒤 구현했다. 스마트폰 실기기·Safari 시험이나 전체 PoC V01~V08 완료를 주장하지 않는다. 이 기록은 3단계 완료 시점의 범위다. 이벤트·신청 UI 검증은 위의 4단계 기록에 추가했다.
 
 결과:
 
@@ -265,15 +326,15 @@ npm run build
 ```bash
 cd /Users/jungle/dev/missions/final_mission
 CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_modules/playwright \
-  node docs/verification/stage3/verify.host.cjs
+  node docs/verification/stage4-ui/verify.host.cjs
 CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_modules/playwright \
-  node docs/verification/stage3/verify.integration.cjs
+  node docs/verification/stage4-ui/verify.regression.cjs
 ```
 
-다른 Mac에서는 설치된 Playwright 모듈 경로를 위 환경 변수에 지정한다. 결과와 캡처는 stage3 폴더에 저장한다. stage1/stage2의 스크립트·기록은 당시 화면 기준의 보존 자료이며 현재 글쓰기 화면의 검증에는 stage3 스크립트를 사용한다.
+다른 Mac에서는 설치된 Playwright 모듈 경로를 위 환경 변수에 지정한다. 위 명령은 현재 CTA 동작에 맞춘 회귀·호스트 검증이며 결과와 캡처를 stage4-ui 폴더에 저장한다. stage1~stage3의 스크립트·기록은 당시 화면 기준의 보존 자료다.
 
 ## 초기화와 다음 단계
 
 서버 메모리는 한 프로세스에서만 유지한다. 시연 중에는 `--reload`·다중 워커를 사용하지 않는다. 현재 페이지에서 새 인증을 시작하려면 글 등록 후 **새 글 쓰기**를 누른다. 새로고침은 커뮤니티의 글·포인트·적용 Set을 초기화한다. 모든 서버 기록까지 초기화하려면 백엔드를 재시작한 뒤 열린 데모 탭도 새로고침한다.
 
-다음 작업은 **선택적 CTA·새 탭의 모의 신청 화면·클라이언트 이벤트 전송 연결**이다. 포인트와 원래 글 등록은 이 전환 흐름과 독립적으로 유지한다. 이후 전체 V01~V08과 실행·초기화 안내를 최종 검증한다.
+다음 작업은 **5단계: 전체 V01~V08 최종 재현과 실행·초기화 안내 확정**이다. 특히 현재 UI에서 서버 재시작 후 남은 ID의 404 안내와 탭 초기화 뒤 두 번째 시연을 처음부터 확인하고, 기존 API·드래그 경계 검증 근거를 하나의 완료 표에 연결한다.

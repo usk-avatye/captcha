@@ -41,9 +41,11 @@
 .brand-eyebrow { color: #647065; font-size: 9px; letter-spacing: .28em; font-weight: 600; }
 .brand-panel h3 { margin-top: 10px; font-size: clamp(18px, 4.6vw, 34px); font-weight: 700; line-height: 1.1; letter-spacing: -.06em; white-space: nowrap; }
 .brand-panel p { color: #68716a; font-size: 12px; line-height: 1.5; margin-top: 12px; }
-.cta-slot { margin-top: 28px; height: 38px; }
+.cta-slot { margin-top: 24px; }
 .brand-cta { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 38px; padding: 0 12px; border: 0; border-radius: 4px; background: #243c30; color: #eaf0eb; font-size: 11px; pointer-events: auto; }
-.brand-cta:disabled { opacity: .78; }
+.brand-cta:hover { background: #365846; }
+.brand-cta:focus-visible { outline: 2px solid #3a896a; outline-offset: 2px; }
+.cta-new-tab-note { display: block; margin-top: 6px; color: #69766d; font-size: 9px; text-align: right; }
 .brand-cta > span { font-size: 16px; }
 .stage-message { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font-size: 13px; color: #727d72; }
 .loading-dot { width: 20px; height: 20px; border: 2px solid #c6cfc5; border-top-color: #436b53; border-radius: 50%; animation: loading-spin .8s linear infinite; }
@@ -70,8 +72,9 @@
   .brand-eyebrow { font-size: 6px; letter-spacing: .2em; }
   .brand-panel h3 { margin-top: 5px; font-size: 20px; }
   .brand-panel p { font-size: 8px; margin-top: 7px; }
-  .cta-slot { margin-top: 12px; height: 28px; }
+  .cta-slot { margin-top: 12px; }
   .brand-cta { min-height: 28px; padding: 0 7px; font-size: 9px; }
+  .cta-new-tab-note { font-size: 7px; margin-top: 3px; }
   .preview-status { min-height: 39px; font-size: 10px; }
   .preview-note { font-size: 8px; }
   .captcha-footer { min-height: 83px; padding: 14px 16px; gap: 12px; }

@@ -1,0 +1,317 @@
+{
+  "recordedAt": "2026-10-25T11:31:56.682554+00:00",
+  "projectRoot": "/Users/jungle/dev/missions/final_mission",
+  "baselineCommit": "a2d163cc56437b26ad1115c15d06a655354a31f0",
+  "scope": "4단계 선택적 CTA·새 탭 모의 신청·클라이언트 이벤트",
+  "unit": {
+    "frontend": {
+      "command": "npm test",
+      "passed": 49,
+      "failed": 0,
+      "existingAuthentication": 34,
+      "conversionAndBoundary": 15
+    },
+    "backend": {
+      "command": ".venv/bin/python -m pytest -q",
+      "passed": 152,
+      "failed": 0,
+      "sourceChanged": false
+    }
+  },
+  "browser": {
+    "conversion-results.json": {
+      "recordedAt": "2026-10-25T11:31:18.795Z",
+      "browser": "155.0.8059.85",
+      "origin": "http://127.0.0.1:5173",
+      "passed": 16,
+      "failed": 0,
+      "pageErrors": [],
+      "cases": [
+        {
+          "name": "cta_visibility_and_reopen_once",
+          "status": "passed"
+        },
+        {
+          "name": "middle_and_keyboard_cta_activations_are_recorded",
+          "status": "passed"
+        },
+        {
+          "name": "native_popup_and_independent_application",
+          "status": "passed"
+        },
+        {
+          "name": "lost_application_response_reuses_snapshot",
+          "status": "passed"
+        },
+        {
+          "name": "non_json_503_keeps_application_snapshot",
+          "status": "passed"
+        },
+        {
+          "name": "malformed_success_keeps_application_snapshot",
+          "status": "passed"
+        },
+        {
+          "name": "validation_422_allows_new_choices",
+          "status": "passed"
+        },
+        {
+          "name": "actual_conflict_does_not_show_success",
+          "status": "passed"
+        },
+        {
+          "name": "missing_click_id_blocks_network_actions",
+          "status": "passed"
+        },
+        {
+          "name": "unknown_click_404_blocks_application",
+          "status": "passed"
+        },
+        {
+          "name": "event_5xx_retries_survive_modal_close",
+          "status": "passed"
+        },
+        {
+          "name": "event_4xx_does_not_retry_or_repeat_on_reopen",
+          "status": "passed"
+        },
+        {
+          "name": "landing_reload_creates_new_event_and_reuses_lead",
+          "status": "passed"
+        },
+        {
+          "name": "pending_duplicate_submit_sends_one_application",
+          "status": "passed"
+        },
+        {
+          "name": "mobile_landing_and_completion_fit",
+          "status": "passed"
+        },
+        {
+          "name": "opaque_click_id_is_not_trimmed",
+          "status": "passed"
+        }
+      ]
+    },
+    "regression-results.json": {
+      "recordedAt": "2026-10-25T11:31:16.560Z",
+      "browser": "155.0.8059.85",
+      "origin": "http://127.0.0.1:5173",
+      "mode": "stage3 regressions with enabled stage4 CTA and exposure logging",
+      "passed": 12,
+      "failed": 0,
+      "pageErrors": [],
+      "cases": [
+        {
+          "name": "desktop_flow_without_cta",
+          "status": "passed"
+        },
+        {
+          "name": "server_and_animation_reward_gate",
+          "status": "passed"
+        },
+        {
+          "name": "close_challenge_keeps_draft_and_id",
+          "status": "passed"
+        },
+        {
+          "name": "close_verifying_preserves_snapshot",
+          "status": "passed"
+        },
+        {
+          "name": "close_snapping_defers_reward",
+          "status": "passed"
+        },
+        {
+          "name": "close_revealing_defers_reward",
+          "status": "passed"
+        },
+        {
+          "name": "completed_close_edit_reopen_uses_current_draft",
+          "status": "passed"
+        },
+        {
+          "name": "lost_response_retry_rewards_once",
+          "status": "passed"
+        },
+        {
+          "name": "new_post_starts_new_attempt_and_preserves_rewards",
+          "status": "passed"
+        },
+        {
+          "name": "mobile_reduced_motion_completes_original_work",
+          "status": "passed"
+        },
+        {
+          "name": "blank_draft_does_not_create_challenge",
+          "status": "passed"
+        },
+        {
+          "name": "public_sdk_uses_latest_callbacks_without_restarting",
+          "status": "passed"
+        }
+      ]
+    },
+    "host-results.json": {
+      "checkedAt": "2026-10-25T11:30:54.270Z",
+      "browser": "155.0.8059.85",
+      "mode": "real React StrictMode host hook boundary",
+      "pageErrors": [],
+      "cases": [
+        {
+          "name": "host_duplicate_completion_and_continue",
+          "passed": true
+        },
+        {
+          "name": "host_continue_requires_completion_and_close_preserves_draft",
+          "passed": true
+        },
+        {
+          "name": "host_latest_draft_after_completed_close",
+          "passed": true
+        },
+        {
+          "name": "host_new_attempt_ignores_stale_callbacks",
+          "passed": true
+        },
+        {
+          "name": "host_completion_id_set_survives_new_post",
+          "passed": true
+        },
+        {
+          "name": "host_whitespace_and_premature_reset_are_blocked",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "quality": {
+    "lint": {
+      "command": "npm run lint",
+      "warnings": 0,
+      "errors": 0
+    },
+    "build": {
+      "command": "npm run build",
+      "status": "passed",
+      "typescript": true,
+      "vite": true
+    },
+    "visual": {
+      "viewports": [
+        "1280x900",
+        "390x844"
+      ],
+      "inspected": [
+        "desktop-cta.png",
+        "desktop-test-drive.png",
+        "desktop-application-completed.png",
+        "uncertain-application.png",
+        "mobile-test-drive.png"
+      ],
+      "horizontalOverflow": false
+    }
+  },
+  "redBeforeGreen": {
+    "boundaryUnit": {
+      "tests": 7,
+      "failedBefore": 5,
+      "passedBefore": 2,
+      "passedAfter": 7
+    },
+    "opaqueClickId": {
+      "red": "red-click-id-results.json",
+      "reason": "URL ID의 trim으로 실제 입력이 바뀜",
+      "resolved": true
+    },
+    "middleButton": {
+      "red": "red-middle-click-results.json",
+      "reason": "새 탭은 열리지만 onClick만 연결해 cta_clicked 누락",
+      "resolved": true
+    }
+  },
+  "review": {
+    "independent": true,
+    "initialFindings": 1,
+    "resolvedFindings": 1,
+    "remainingFindings": 0,
+    "followup": "가운데 버튼 auxclick만 기존 handler로 전달, 기본 링크 동작 유지"
+  },
+  "sourceSha256": {
+    "frontend/src/App.tsx": "988ed426ed928afbfddd2683dad46db45c87be15adde2bdddaf0e10d3cb0dc3c",
+    "frontend/src/main.tsx": "6e9e5807fcbd48b75a96db5cbef36c996262196be42e6d4760dc86babbe61ad2",
+    "frontend/src/App.css": "af86a0fb80666f16c6f47d9aa597d262ea767288021ff38131c987eeb672ef80",
+    "frontend/src/index.css": "926d361d46236019978f6e6fdd6988c62ed8613db7116184b90def8e459bef2e",
+    "frontend/src/demo/testDriveApi.ts": "97096b62d2c7dc7b4b50ab9107ac14154d6babb4a0bec550010e8d283cfd74d0",
+    "frontend/src/demo/testDriveOptions.ts": "32333b040a9e7a116ff5099d7af057963c1f689cc0deaf8aea4a64c51790e0fb",
+    "frontend/src/pages/useCommunityDraft.ts": "239ef690c671469e65578daacdfddc6160bab4642b04626bdfa1755c84c5920f",
+    "frontend/src/pages/TestDrivePage.tsx": "e9b6f5dd83d998b7260627189c1c2c2b5296501e294464313aca64d66437caea",
+    "frontend/src/pages/TestDrivePage.css": "908d1e262ea6dfad6ac28f39238ebf6f712bf3fe92bd5ee2d47851588a97256e",
+    "frontend/src/pages/DemoCommunityPage.tsx": "26a047f7be5314914240c28d1fba357e045f76bf9900a67b0c46af0b8b5ee49d",
+    "frontend/src/sdk/captchavatye/tracking.ts": "d0b6e4a4803d2595b9ca2d506d9e47b4e5663dc28d7aabd44d4c7f50d800933d",
+    "frontend/src/sdk/captchavatye/stageCompletion.ts": "3d282d548bc18c8b009f6df33d61ac10442868281090136de20a5dbe23f736b0",
+    "frontend/src/sdk/captchavatye/CaptchaModal.tsx": "9c1cc821c32e92bd7d193ceb6476691f01d5ef050a13ca11d33facefc8da7d69",
+    "frontend/src/sdk/captchavatye/geometry.ts": "000b992b3b088afd052d19b5602c2ef041059001b0911f8680285caf935b74d5",
+    "frontend/src/sdk/captchavatye/CarPuzzle.tsx": "5cdd612b194bf360171b199b749976b88cab64d277a515b2b4660bf1afd3a3c9",
+    "frontend/src/sdk/captchavatye/api.ts": "c26af383b63a3fd13a27407f4192456159716e880fc57fcdfd5381ac56778ec2",
+    "frontend/src/sdk/captchavatye/types.ts": "d9ab56e61ca50dd65787065e08a170ba6c09c38d44560c32cbfac41e7f1464e1",
+    "frontend/src/sdk/captchavatye/captchavatye.css": "90d1f304672948c414b1307641945dac537dde21483917b6259ab39e1bbbf5eb",
+    "frontend/src/sdk/captchavatye/flow.ts": "42bfcd4d10ffb2c1fc4560d7d4906e4008f3cdf1d77dea11f2781ccdf780191e",
+    "frontend/src/sdk/captchavatye/useCaptchaFlow.ts": "d5b6ad1b7d7a00d5b0e7c3e6a05999aab99e0dc4a1948d4b201060ae61203cd8",
+    "frontend/src/sdk/captchavatye/index.ts": "24df2a9bc981644ab881ed00aa1863dd15d509adc6bd9edb5c2c4bf69958f728",
+    "frontend/src/sdk/captchavatye/creativeAssets.ts": "5057141954614cd756e629b08cb9b4e9756e25a022329d1577763644a56124da",
+    "frontend/tests/stage3Harness.tsx": "b6ee700d0eb9a41bccc49291565616e5c090b3f548c138c4e3b5938bfd9d308a",
+    "frontend/tests/fixtures.ts": "4a901c659fe293189e2a7b46b7b16c3e598647a669fda50a87dcac3773d360c8",
+    "frontend/tests/testDriveApi.test.ts": "92b97394fae1d88f89f41476a778d03dc9c99f1ad3d0d862b5b8eaef57bc46d5",
+    "frontend/tests/geometry.test.ts": "6ee9f65bdabfdb64e5e4310c7738b7591eecc19ce51f0d79ba5f539b86722bba",
+    "frontend/tests/stageCompletion.test.ts": "38c9f21538fc93eaea999a9a7af6fba6067d072e2382704554dd99316fd8e477",
+    "frontend/tests/stage3.html": "3b3fc66061558cfc5e5be6cafb6e3d57185e548f9447700e5fe275aed14a8d81",
+    "frontend/tests/dragGeometry.test.ts": "b4879583cced685736c87b4405be56380153df0822ab880dea0fe48866d09ecf",
+    "frontend/tests/flow.test.ts": "bbb4568b1ae9806c18dae269c4053864f72eb3fbb25d33fe3e433a4662d16e0d",
+    "frontend/tests/tracking.test.ts": "ceb1ec924199631aa4c4467ccf984956f8badb2cd86443a5804cfecb3e6a17e3",
+    "frontend/tests/conversionContracts.test.ts": "561400aaa8db9443d4ecb9290639446cb0f4429c7b23b575dd8be59b4d45c106",
+    "frontend/tests/api.test.ts": "65341fbb239ba95bc1b59154f3474157baab115171d2e754defb778cefff649b",
+    "frontend/package.json": "95ef3647d1fcae85bdf3056ac018e4438201cce7c61510953a40de9eb86893e6",
+    "frontend/tsconfig.app.json": "8e5d12ba330e7d86409edec74b95451e0db22ee09b9426c94b5bf817571eddb0"
+  },
+  "preservedSha256": {
+    "DESIGN.md": "6dc2bb74265fe7712be817ecc3b4d6536d7696055caf4426601e20f9081c9342",
+    "frontend/public/creatives/bmw-m3/vehicle.webp": "c3680a008bdc0923c365c9e02e5b2ed9f33235bf4082fdaebbe0c5e82871a1af",
+    "frontend/public/creatives/bmw-m3/lamp.png": "36f5466b968b18063916e40538941a189e7fcc2a1a1457039c06c890edec75f7",
+    "frontend/public/creatives/bmw-m3/socket-cover.png": "217dbcd666ddb7e0db6731f9636c76ff2e639a0d80b018c658826225684084c3"
+  },
+  "preservedContract": [
+    "SDK 공개 입력·콜백·일곱 상태",
+    "기존 인증 API·네 업무 API와 ID/중복 규칙",
+    "backend 및 의존성",
+    "DESIGN.md와 세 소재"
+  ],
+  "excludedConcurrentChanges": [
+    "docs/verification/stage3/host-results.json",
+    "docs/verification/stage4-frontend/"
+  ],
+  "limits": [
+    "메모리 단일 워커 PoC, 실제 예약·보상·봇 탐지 없음",
+    "격리된 Mac Chrome headless, 모바일 실기기·Safari 미검증",
+    "페이지 종료 후 이벤트 전달 보장 없음",
+    "5단계 전체 V01~V08 및 현재 UI의 서버 재시작·초기화 재시연은 다음 작업"
+  ],
+  "postVerificationWhitespaceOnly": {
+    "paths": [
+      "docs/verification/stage4-ui/verify.host.cjs",
+      "docs/verification/stage4-ui/verify.regression.cjs",
+      "frontend/src/demo/testDriveApi.ts",
+      "frontend/src/demo/testDriveOptions.ts"
+    ],
+    "description": "git diff --check 지적에 따라 마지막 빈 줄만 제거했다. 실행 내용은 동일하며 기능 변경은 없다.",
+    "beforeSourceSha256": {
+      "frontend/src/demo/testDriveApi.ts": "33d879cb5ef9017ef917e9095bd61620b2756fde272bf979219a6b04c8ea22d2",
+      "frontend/src/demo/testDriveOptions.ts": "aa9f8aa51b82a8e345a8ad8e2d23265e060706c5f3be45c7dc69bf4467350f33"
+    }
+  },
+  "verificationScriptSha256": {
+    "docs/verification/stage4-ui/verify.regression.cjs": "891f97dd35aab49e358e42150599e84441eafc86d6f88e832bce4aac0fb6c95a",
+    "docs/verification/stage4-ui/verify.conversion.cjs": "4b02301e7e785aaccfbf72a7d9ab217b7605cba99ea6e03ae9a3c43cadf60865",
+    "docs/verification/stage4-ui/verify.host.cjs": "09408d213599d9489eeee0cc6645e6ef9ad678488b9e68c9b127c48d7ed2f033"
+  }
+}

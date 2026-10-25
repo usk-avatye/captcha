@@ -19,6 +19,8 @@ type Props = {
   onError: () => void;
   onStageEnd: (phase: 'snapping' | 'revealing') => void;
   onResize: () => void;
+  ctaHref: string | null;
+  onCtaClick: () => void;
 };
 
 function spriteStyle(crop: RasterCrop): CSSProperties {
@@ -32,7 +34,7 @@ function spriteStyle(crop: RasterCrop): CSSProperties {
 
 export function CarPuzzle({
   creative, pieceCrop, coverCrop, open, phase, run, loadAttempt,
-  lastDrop, onDrop, onReady, onError, onStageEnd, onResize,
+  lastDrop, onDrop, onReady, onError, onStageEnd, onResize, ctaHref, onCtaClick,
 }: Props) {
   const stageElement = useRef<HTMLDivElement>(null);
   const pieceElement = useRef<HTMLDivElement>(null);
@@ -247,12 +249,15 @@ export function CarPuzzle({
           <h3>{creative.brandTitle}</h3>
           <p>{creative.tagline}</p>
           <div className="cta-slot">
-            {phase === 'completed' && (
-              <button className="brand-cta" type="button" disabled
-                title="시승 신청은 후속 단계에서 연결됩니다."
-                aria-label="시승 신청 — 다음 단계에서 연결">
-                {creative.ctaLabel}<span aria-hidden="true">↗</span>
-              </button>
+            {phase === 'completed' && ctaHref && (
+              <>
+                <a className="brand-cta" href={ctaHref} target="_blank" rel="noopener noreferrer"
+                  onClick={onCtaClick} onAuxClick={event => { if (event.button === 1) onCtaClick(); }}
+                  aria-label={creative.ctaLabel + ' (새 탭에서 열림)'}>
+                  {creative.ctaLabel}<span aria-hidden="true">↗</span>
+                </a>
+                <span className="cta-new-tab-note">새 탭에서 열립니다</span>
+              </>
             )}
           </div>
         </div>

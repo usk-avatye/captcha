@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CarPuzzle } from './CarPuzzle';
 import { coverCrop, pieceCrop } from './creativeAssets';
 import { useCaptchaFlow } from './useCaptchaFlow';
+import { createEventTracker } from './tracking';
 import type { CaptchaModalProps } from './types';
 import './captchavatye.css';
 
@@ -10,6 +11,17 @@ export function CaptchaModal(props: CaptchaModalProps) {
   const dialog = useRef<HTMLDialogElement>(null);
   const { state, flow } = useCaptchaFlow(props);
   const { phase, creative, run, error } = state;
+  const [trackEvent] = useState(() => createEventTracker(props.apiBaseUrl ?? '/api'));
+  const shownClickId = useRef<string | null>(null);
+  const clickId = state.result?.clickId ?? null;
+  let ctaHref: string | null = null;
+  if (creative && clickId) {
+    const landing = new URL(creative.landingPath, window.location.origin);
+    if (landing.origin === window.location.origin) {
+      landing.searchParams.set('clickId', clickId);
+      ctaHref = landing.pathname + landing.search + landing.hash;
+    }
+  }
   const animating = phase === 'snapping' || phase === 'revealing';
 
   useLayoutEffect(() => {
@@ -23,6 +35,18 @@ export function CaptchaModal(props: CaptchaModalProps) {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = previous; };
   }, [open]);
+
+  useEffect(() => {
+    if (!open || phase !== 'completed' || !clickId || !ctaHref || shownClickId.current === clickId) return;
+    shownClickId.current = clickId; // 재열기에 동일 노출을 재수집하지 않는다.
+    void trackEvent('cta_shown', clickId).catch(() => {});
+  }, [open, phase, clickId, ctaHref, trackEvent]);
+
+  const handleCtaClick = useCallback(() => {
+    if (!open || phase !== 'completed' || !clickId) return;
+    // 링크 기본 동작을 막거나 이벤트 API 응답을 기다리지 않는다.
+    void trackEvent('cta_clicked', clickId).catch(() => {});
+  }, [open, phase, clickId, trackEvent]);
 
   const handleReady = useCallback(() => flow.assetsReady(run), [flow, run]);
   const handleError = useCallback(() => flow.assetsError(run), [flow, run]);
@@ -60,7 +84,7 @@ export function CaptchaModal(props: CaptchaModalProps) {
         {creative ? <CarPuzzle creative={creative} pieceCrop={pieceCrop} coverCrop={coverCrop}
           open={open} phase={phase} run={run} loadAttempt={state.loadAttempt} lastDrop={state.lastVerify}
           onDrop={flow.drop} onReady={handleReady} onError={handleError}
-          onStageEnd={handleStageEnd} onResize={flow.resize} />
+          onStageEnd={handleStageEnd} onResize={flow.resize} ctaHref={ctaHref} onCtaClick={handleCtaClick} />
           : <div className="car-stage" data-phase={phase} aria-busy={phase === 'loading'}>
               <div className="stage-message">
                 {phase === 'loading' && <span className="loading-dot" />}
