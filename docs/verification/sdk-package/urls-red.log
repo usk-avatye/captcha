@@ -1,0 +1,82 @@
+✖ 소재와 랜딩은 고객사 origin이 아닌 각각의 설정 주소로 해석한다 (20.004833ms)
+✖ 상대 경로와 절대 CDN URL은 표준 URL 규칙을 유지한다 (2.485625ms)
+✖ HTTP(S)가 아닌 소재·CTA 및 자격증명 URL은 복구 불가능한 설정 오류다 (2.364667ms)
+✖ 잘못된 base 설정은 위치 검증이나 이미지 준비로 넘기지 않는다 (1.159042ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 180.133583
+
+✖ failing tests:
+
+test at tests/sdkUrls.test.ts:21:1
+✖ 소재와 랜딩은 고객사 origin이 아닌 각각의 설정 주소로 해석한다 (20.004833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '/creatives/bmw-m3/vehicle.webp'
+  - 'https://assets.example.test/creatives/bmw-m3/vehicle.webp'
+
+      at TestContext.<anonymous> (file:///Users/jungle/dev/missions/final_mission/frontend/tests/sdkUrls.test.ts:24:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/creatives/bmw-m3/vehicle.webp',
+    expected: 'https://assets.example.test/creatives/bmw-m3/vehicle.webp',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/sdkUrls.test.ts:31:1
+✖ 상대 경로와 절대 CDN URL은 표준 URL 규칙을 유지한다 (2.485625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'vehicle.webp'
+  - 'https://assets.example.test/bmw/vehicle.webp'
+
+      at TestContext.<anonymous> (file:///Users/jungle/dev/missions/final_mission/frontend/tests/sdkUrls.test.ts:34:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'vehicle.webp',
+    expected: 'https://assets.example.test/bmw/vehicle.webp',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/sdkUrls.test.ts:39:1
+✖ HTTP(S)가 아닌 소재·CTA 및 자격증명 URL은 복구 불가능한 설정 오류다 (2.364667ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: imageUrl
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/jungle/dev/missions/final_mission/frontend/tests/sdkUrls.test.ts:42:5)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/sdkUrls.test.ts:47:1
+✖ 잘못된 base 설정은 위치 검증이나 이미지 준비로 넘기지 않는다 (1.159042ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/jungle/dev/missions/final_mission/frontend/tests/sdkUrls.test.ts:49:3)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }

@@ -19,22 +19,57 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1
 ### 프론트엔드
 
 ```bash
-cd /Users/jungle/dev/missions/final_mission/frontend
+cd /Users/jungle/dev/missions/final_mission
 npm ci
 npm run dev
 ```
 
 브라우저에서 **http://127.0.0.1:5173/** 를 연다. Vite가 `/api`를 `127.0.0.1:8000`으로 전달한다. 이미지와 화면은 Vite에서 제공한다. 포트가 사용 중이면 다른 포트로 자동 이동하지 않는다.
 
-확인한 환경: Python **3.14.6**, FastAPI **0.162.0**, Pydantic **2.14.1**, Uvicorn **0.54.0**; Node.js **26.7.0**, npm **11.19.0**, React **19.3.1**, Vite **8.3.5**, TypeScript **6.0.3**. 프론트엔드 버전은 package-lock.json, 백엔드 직접 의존성은 pyproject.toml에 고정했다.
+확인한 환경: Python **3.14.6**, FastAPI **0.162.0**, Pydantic **2.14.1**, Uvicorn **0.54.0**; Node.js **26.7.0**, npm **11.19.0**, React **19.3.1**, Vite **8.3.5**, TypeScript **6.0.3**. 프론트엔드와 SDK 버전은 루트 package-lock.json, 백엔드 직접 의존성은 pyproject.toml에 고정했다.
+
+## 설치 가능한 React SDK
+
+`@captchavatye/react@0.1.0`을 로컬 tarball로 설치할 수 있다. npm 공개 발행은 하지 않았고 `private: true`로 막았다. 사용 계약은 [SDK README](packages/react/README.md)에 있다.
+
+```sh
+# SDK 저장소 루트
+npm ci
+npm run pack:sdk
+
+# 고객사 React 앱 폴더에서
+npm install /Users/jungle/dev/missions/final_mission/artifacts/captchavatye-react-0.1.0.tgz
+```
+
+```tsx
+import { CaptchaModal } from '@captchavatye/react';
+import '@captchavatye/react/style.css';
+```
+
+`packages/react`는 SDK, `frontend`는 공개 패키지를 사용하는 커뮤니티/시승 데모다. 루트 npm workspaces와 lockfile 하나로 관리한다. SDK 개발 변경 후에는 `npm run build:sdk`로 다시 빌드한다. `npm run dev`와 `npm run build`는 SDK 빌드를 먼저 실행한다.
+
+[독립 소비 앱](examples/react-consumer/README.md)은 저장소 내부 소스를 import하지 않고 `.tgz`를 설치한다. 회의실 서비스의 실제 예약 연동이 아니라 UI 설치 예시이며, 서버 확인 없이 예약이나 보상을 생성하지 않는다. API는 `/captcha-api`로 프록시하고 이미지·CTA는 별도 서비스 주소로 연결한다.
+
+```sh
+npm run verify:package
+node scripts/verify-sdk-install.mjs          # 임시 폴더에 실제 설치·타입 검사·빌드
+# 해당 출력의 CONSUMER 폴더에서 npm run preview 실행 후:
+CAPTCHAVATYE_PLAYWRIGHT_MODULE=/absolute/path/to/playwright node scripts/verify-sdk-consumer.cjs
+# 기존 데모가 5173에서 실행 중일 때:
+CAPTCHAVATYE_PLAYWRIGHT_MODULE=/absolute/path/to/playwright node scripts/verify-demo-regression.cjs
+```
+
+SDK 소비 앱의 검증은 React 19.3.1, Vite, Chrome으로 수행했다. React 19 peer 범위이며 다른 버전 조합·SSR·모바일 실기기는 확인하지 않았다. SDK는 실제 봇 탐지를 제공하지 않으며 인증 서버는 여전히 메모리 저장소다. PostgreSQL·고객사 서버의 완료 결과 확인·실제 예약 서비스 연동은 다음 단계다.
+
+패키지화 검증과 한계는 [검증 기록](docs/verification/sdk-package/README.md)에 있다.
 
 ## 시연 순서
 
-1. 제목과 본문을 쓰고 **등록**를 누른다. 첫 열기 전에는 시작 API를 호출하지 않는다.
+1. 제목과 본문을 쓰고 **등록**을 누른다. 첫 열기 전에는 시작 API를 호출하지 않는다.
 2. 램프 조각을 빈 소켓으로 드래그한다. 조각 중심을 확대된 전체 원본 기준 0~1 좌표로 서버에 전송한다.
 3. 서버의 true 뒤에만 180ms 스냅 → 650ms 줌아웃을 실행한다. 열린 유효 연출이 끝나면 **모의 10P**가 한 번 반영된다.
 4. **원래 작업 계속하기**를 누르면 작성한 제목·본문이 아래 등록 목록에 한 번 표시된다. 시승 CTA를 누를 필요가 없다.
-5. 완료 화면에서 × 또는 Esc로 닫으면 포인트는 유지되고 글은 등록되지 않는다. 글을 수정한 뒤 **등록**를 누르면 같은 완료 화면으로 돌아온다. 계속하기 시점의 제목·본문을 등록한다.
+5. 완료 화면에서 × 또는 Esc로 닫으면 포인트는 유지되고 글은 등록되지 않는다. 글을 수정한 뒤 **등록**을 누르면 같은 완료 화면으로 돌아온다. 계속하기 시점의 제목·본문을 등록한다.
 6. 등록 후 **새 글 쓰기**를 누르면 빈 초안과 새 인증 시도를 만든다. 누적 포인트·등록 목록은 유지한다. 두 번째 정상 등록을 마치면 총 20P·글 두 건이다.
 
 제목이나 본문이 공백뿐이면 인증을 열지 않는다. 글과 포인트는 페이지 메모리만 사용하고 새로고침하면 초기화된다. 제목·본문은 SDK 또는 서버에 전송하지 않는다.
@@ -43,12 +78,14 @@ npm run dev
 
 ## SDK 공개 경계와 데이터 처리
 
-커뮤니티는 `frontend/src/sdk/captchavatye/index.ts`에서 `CaptchaModal`과 공개 타입만 가져온다.
+커뮤니티는 `@captchavatye/react`에서 `CaptchaModal`과 공개 타입을 가져오고 앱 진입점에서 `@captchavatye/react/style.css`를 불러온다. SDK 구현은 `packages/react/src`에 있다. 모달은 포인트를 표시하거나 지급하지 않으며, 아래 10P 정책은 샘플 커뮤니티가 소유한다.
 
 | 입력·콜백 | 처리 |
 | --- | --- |
 | `open` | 같은 글 시도에서 표시만 바꾼다. SDK는 계속 마운트 |
 | `creativeId`, `apiBaseUrl` | 한 시도 동안 고정. 소재는 bmw-m3-v1, 기본 API 경로 /api |
+| `assetBaseUrl`, `landingBaseUrl` | 한 시도 동안 고정. 상대 이미지·시승 URL의 기준 절대 HTTP(S) 주소. 기본 현재 origin |
+| `continueLabel` | 계속하기 버튼 문구. 기본 `원래 작업 계속하기` |
 | `onComplete(result)` | 열린 현재 reveal 종료 뒤 challengeId/completionId/creativeId/clickId를 한 번 전달 |
 | `onContinue()` | 열린 completed에서만 허용. 호스트가 별도 등록 가드로 글을 등록하고 닫음 |
 | `onClose()` | 표시만 닫음. 초안·진행·이미 반영한 포인트 보존 |
@@ -154,16 +191,16 @@ SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 comp
 | `frontend/src/pages/TestDrivePage.tsx`, `TestDrivePage.css` | URL ID, 랜딩 이벤트, 선택·신청 스냅샷, 오류·완료 화면과 반응형 배치 |
 | `frontend/src/demo/testDriveApi.ts` | 신청 HTTP, 10초 기한·취소, 실제 상태 코드와 요청/응답 일치 검사 |
 | `frontend/src/demo/testDriveOptions.ts` | 서버와 동일한 두 지점·두 시간 ID 및 표시 이름 |
-| `frontend/src/sdk/captchavatye/index.ts`, `types.ts` | 공개 컴포넌트와 입력/결과 타입 |
-| `frontend/src/sdk/captchavatye/api.ts` | 시작·검증 HTTP, 10초 기한·취소, 응답 계약 검사·오류 정규화 |
-| `frontend/src/sdk/captchavatye/flow.ts` | 한 인증 시도의 상태·요청·성공 ID·재시도·실행 세대·완료 전달 가드 |
-| `frontend/src/sdk/captchavatye/useCaptchaFlow.ts` | 흐름 구독, 표시/마운트 수명과 최신 콜백 참조를 분리해 연결 |
-| `frontend/src/sdk/captchavatye/CaptchaModal.tsx` | 안내·닫기·재시도·계속하기, 완료 CTA URL과 노출/클릭 이벤트 연결 |
-| `frontend/src/sdk/captchavatye/tracking.ts` | 클라이언트 이벤트 생성·동일 payload 재시도·실패 격리 |
-| `frontend/src/sdk/captchavatye/CarPuzzle.tsx` | 이미지 준비, Pointer Events, 캡처/취소, scene·조각, 스냅·줌아웃 |
-| `frontend/src/sdk/captchavatye/geometry.ts` | 확대 변환, 조각 중심 정규화, 포인터 오프셋 계산 |
-| `frontend/src/sdk/captchavatye/stageCompletion.ts` | 종료 이벤트·우회 타이머의 한 번 완료와 늦은 이벤트 방어 |
-| `frontend/src/sdk/captchavatye/creativeAssets.ts` | 기존 투명 PNG의 내부 CSS crop. 공개 API에는 새 필드를 추가하지 않음 |
+| `packages/react/src/index.ts`, `types.ts` | 공개 컴포넌트와 입력/결과 타입 |
+| `packages/react/src/api.ts` | 시작·검증 HTTP, 10초 기한·취소, 응답 계약 검사·오류 정규화 |
+| `packages/react/src/flow.ts` | 한 인증 시도의 상태·요청·성공 ID·재시도·실행 세대·완료 전달 가드 |
+| `packages/react/src/useCaptchaFlow.ts` | 흐름 구독, 표시/마운트 수명과 최신 콜백 참조를 분리해 연결 |
+| `packages/react/src/CaptchaModal.tsx` | 안내·닫기·재시도·계속하기, 완료 CTA URL과 노출/클릭 이벤트 연결 |
+| `packages/react/src/tracking.ts` | 클라이언트 이벤트 생성·동일 payload 재시도·실패 격리 |
+| `packages/react/src/CarPuzzle.tsx` | 이미지 준비, Pointer Events, 캡처/취소, scene·조각, 스냅·줌아웃 |
+| `packages/react/src/geometry.ts` | 확대 변환, 조각 중심 정규화, 포인터 오프셋 계산 |
+| `packages/react/src/stageCompletion.ts` | 종료 이벤트·우회 타이머의 한 번 완료와 늦은 이벤트 방어 |
+| `packages/react/src/creativeAssets.ts` | 기존 투명 PNG의 내부 CSS crop. 공개 API에는 새 필드를 추가하지 않음 |
 | `backend/app/main.py` | 앱별 Store 한 개, 라우트와 422 직렬화 처리 |
 | `backend/app/api/routes/captcha.py` | 두 HTTP 진입점과 업무 오류의 상태 코드 변환 |
 | `backend/app/schemas/captcha.py` | camelCase 요청/응답 계약과 엄격한 좌표 검증 |

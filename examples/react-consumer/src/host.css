@@ -1,0 +1,6 @@
+body { margin: 0; background: #f7f8fa; color: #17202b; font: 16px sans-serif; }
+.host-page { max-width: 800px; padding: 32px; margin: auto; }
+.primary-button { background: rgb(31, 85, 161); color: white; font-size: 18px; border-radius: 0; padding: 12px 20px; border: 0; }
+button { font-family: monospace; }
+h2 { margin: 40px; color: rgb(177, 31, 31); }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }

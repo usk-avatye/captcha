@@ -1,0 +1,394 @@
+{
+  "recordedAt": "2026-10-25T13:26:23.186Z",
+  "browser": "155.0.8059.85",
+  "origin": "http://127.0.0.1:5173",
+  "mode": "stage3 regressions with enabled stage4 CTA and exposure logging",
+  "passed": 12,
+  "failed": 0,
+  "results": [
+    {
+      "name": "desktop_flow_without_cta",
+      "status": "passed",
+      "before": {
+        "dialog": {
+          "x": 280,
+          "y": 129,
+          "width": 720,
+          "height": 642
+        },
+        "stage": {
+          "x": 304,
+          "y": 289,
+          "width": 672,
+          "height": 378
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 944,
+            "y": 143.5,
+            "width": 32,
+            "height": 32
+          }
+        ]
+      },
+      "after": {
+        "dialog": {
+          "x": 280,
+          "y": 129,
+          "width": 720,
+          "height": 642
+        },
+        "stage": {
+          "x": 304,
+          "y": 289,
+          "width": 672,
+          "height": 378
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 944,
+            "y": 143.5,
+            "width": 32,
+            "height": 32
+          },
+          {
+            "x": 774.390625,
+            "y": 509.65625,
+            "width": 174.71875,
+            "height": 38
+          },
+          {
+            "x": 835.375,
+            "y": 709.5,
+            "width": 140.625,
+            "height": 44
+          }
+        ]
+      },
+      "verify": {
+        "challengeId": "ch_ZJ9FYZSD_gyGt0PbC-MU6ZVM",
+        "dropX": 0.2742047945658366,
+        "dropY": 0.43355244954427086
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "server_and_animation_reward_gate",
+      "status": "passed",
+      "phases": [
+        {
+          "phase": "challenge",
+          "points": "0P"
+        },
+        {
+          "phase": "verifying",
+          "points": "0P"
+        },
+        {
+          "phase": "snapping",
+          "points": "0P"
+        },
+        {
+          "phase": "revealing",
+          "points": "0P"
+        },
+        {
+          "phase": "completed",
+          "points": "10P"
+        }
+      ],
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "close_challenge_keeps_draft_and_id",
+      "status": "passed",
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "close_verifying_preserves_snapshot",
+      "status": "passed",
+      "attempts": [
+        {
+          "request": {
+            "challengeId": "ch_DIlzBPgSHYKBZFVPMmIE8gls",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_-BGDwNHJbdbgd8SJzAVdEoQn",
+            "clickId": "clk_ySCFbKEA96YUPz0j2kNuyNdb"
+          }
+        },
+        {
+          "request": {
+            "challengeId": "ch_DIlzBPgSHYKBZFVPMmIE8gls",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_-BGDwNHJbdbgd8SJzAVdEoQn",
+            "clickId": "clk_ySCFbKEA96YUPz0j2kNuyNdb"
+          }
+        }
+      ],
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 2,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "close_snapping_defers_reward",
+      "status": "passed",
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "close_revealing_defers_reward",
+      "status": "passed",
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "completed_close_edit_reopen_uses_current_draft",
+      "status": "passed",
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "lost_response_retry_rewards_once",
+      "status": "passed",
+      "attempts": [
+        {
+          "request": {
+            "challengeId": "ch_TIZTPYmFyhnRPQlARHdYZB_c",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp___LvIOY_3GXeUpZMugXB-TTl",
+            "clickId": "clk_VeK606sYuiMgqEALgownMGkj"
+          }
+        },
+        {
+          "request": {
+            "challengeId": "ch_TIZTPYmFyhnRPQlARHdYZB_c",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp___LvIOY_3GXeUpZMugXB-TTl",
+            "clickId": "clk_VeK606sYuiMgqEALgownMGkj"
+          }
+        }
+      ],
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 2,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "new_post_starts_new_attempt_and_preserves_rewards",
+      "status": "passed",
+      "challengeIds": [
+        "ch_BtcmfS-94CDx6YeqJ97K6yz5",
+        "ch_OZsXUcedemurw8_6NQu23FvC"
+      ],
+      "completions": [
+        {
+          "passed": true,
+          "completionId": "cmp_8YT-TGWMyEnZkPOZTPtvVm5Z",
+          "clickId": "clk_-KOp-U5sO7RV7wFbAa7rOfHQ"
+        },
+        {
+          "passed": true,
+          "completionId": "cmp_FxsTfbEkWK9fZe-YHAuFkv4M",
+          "clickId": "clk_jsec74hhTh8qoJOYxTin9Txe"
+        }
+      ],
+      "requestCounts": {
+        "starts": 2,
+        "verifies": 2,
+        "exposures": 2,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "mobile_reduced_motion_completes_original_work",
+      "status": "passed",
+      "before": {
+        "dialog": {
+          "x": 12,
+          "y": 201.5625,
+          "width": 366,
+          "height": 440.875
+        },
+        "stage": {
+          "x": 28,
+          "y": 351.5625,
+          "width": 334,
+          "height": 187.875
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 330,
+            "y": 212.5625,
+            "width": 32,
+            "height": 32
+          }
+        ]
+      },
+      "after": {
+        "dialog": {
+          "x": 12,
+          "y": 201.5625,
+          "width": 366,
+          "height": 440.875
+        },
+        "stage": {
+          "x": 28,
+          "y": 351.5625,
+          "width": 334,
+          "height": 187.875
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 330,
+            "y": 212.5625,
+            "width": 32,
+            "height": 32
+          },
+          {
+            "x": 261.796875,
+            "y": 480.125,
+            "width": 86.828125,
+            "height": 28
+          },
+          {
+            "x": 242.671875,
+            "y": 581.4375,
+            "width": 119.328125,
+            "height": 40
+          }
+        ]
+      },
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "blank_draft_does_not_create_challenge",
+      "status": "passed",
+      "requestCounts": {
+        "starts": 0,
+        "verifies": 0,
+        "exposures": 0,
+        "clicks": 0,
+        "applications": 0
+      }
+    },
+    {
+      "name": "public_sdk_uses_latest_callbacks_without_restarting",
+      "status": "passed",
+      "calls": [
+        {
+          "name": "complete",
+          "revision": 2,
+          "result": {
+            "challengeId": "ch_nuKaalK270ExLvEE-lVVOTjt",
+            "creativeId": "bmw-m3-v1",
+            "completionId": "cmp_sK7ftXo73mwo5E1ftybuo8-Z",
+            "clickId": "clk_xo2V3b-H2VbOggRiQcEssOQF"
+          }
+        },
+        {
+          "name": "close",
+          "revision": 2
+        },
+        {
+          "name": "continue",
+          "revision": 3
+        }
+      ],
+      "requestCounts": {
+        "starts": 1,
+        "verifies": 1,
+        "exposures": 1,
+        "clicks": 0,
+        "applications": 0
+      }
+    }
+  ],
+  "pageErrors": []
+}

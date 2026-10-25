@@ -1,0 +1,106 @@
+{
+  "recordedAt": "2026-10-25T13:18:52.220Z",
+  "consumer": "/Users/jungle/.agentdock/tmp/captchavatye-consumer-Cb7Kfr",
+  "artifact": "/Users/jungle/dev/missions/final_mission/artifacts/captchavatye-react-0.1.0.tgz",
+  "sha256": "3443022d16144311fcfe5e0d73cbf69ad12b777d209e9ff39a3d26b1f5c0d0ab",
+  "installedAsSymlink": false,
+  "files": [
+    {
+      "path": "README.md",
+      "size": 5413,
+      "mode": 420
+    },
+    {
+      "path": "dist/api.d.ts",
+      "size": 588,
+      "mode": 420
+    },
+    {
+      "path": "dist/CaptchaModal.d.ts",
+      "size": 143,
+      "mode": 420
+    },
+    {
+      "path": "dist/CarPuzzle.d.ts",
+      "size": 750,
+      "mode": 420
+    },
+    {
+      "path": "dist/creativeAssets.d.ts",
+      "size": 131,
+      "mode": 420
+    },
+    {
+      "path": "dist/flow.d.ts",
+      "size": 1331,
+      "mode": 420
+    },
+    {
+      "path": "dist/geometry.d.ts",
+      "size": 822,
+      "mode": 420
+    },
+    {
+      "path": "dist/index.d.ts",
+      "size": 215,
+      "mode": 420
+    },
+    {
+      "path": "dist/index.js",
+      "size": 32315,
+      "mode": 420
+    },
+    {
+      "path": "dist/stageCompletion.d.ts",
+      "size": 211,
+      "mode": 420
+    },
+    {
+      "path": "dist/style.css",
+      "size": 7224,
+      "mode": 420
+    },
+    {
+      "path": "dist/tracking.d.ts",
+      "size": 967,
+      "mode": 420
+    },
+    {
+      "path": "dist/types.d.ts",
+      "size": 1848,
+      "mode": 420
+    },
+    {
+      "path": "dist/urls.d.ts",
+      "size": 325,
+      "mode": 420
+    },
+    {
+      "path": "dist/useCaptchaFlow.d.ts",
+      "size": 306,
+      "mode": 420
+    },
+    {
+      "path": "package.json",
+      "size": 898,
+      "mode": 420
+    }
+  ],
+  "results": [
+    {
+      "name": "install",
+      "exitCode": 0,
+      "output": "\nadded 24 packages in 1s\n"
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "output": "\n> captchavatye-install-example@0.0.0 build\n> tsc --noEmit && vite build\n\nvite v8.3.5 building client environment for production...\ntransforming...\n✓ 17 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.35 kB │ gzip:  0.28 kB\ndist/assets/index-DKoiS58S.css    6.85 kB │ gzip:  2.00 kB\ndist/assets/index-Bx5Pjtqh.js   239.95 kB │ gzip: 75.67 kB\n\n✓ built in 217ms\n"
+    },
+    {
+      "name": "react-tree",
+      "exitCode": 0,
+      "output": "captchavatye-install-example@0.0.0 /Users/jungle/.agentdock/tmp/captchavatye-consumer-Cb7Kfr\n+-- @captchavatye/react@0.1.0\n| +-- react-dom@19.3.1 deduped\n| `-- react@19.3.1 deduped\n+-- react-dom@19.3.1\n| `-- react@19.3.1 deduped\n`-- react@19.3.1\n\n"
+    }
+  ]
+}

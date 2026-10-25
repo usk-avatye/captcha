@@ -1,0 +1,35 @@
+
+> captchavatye-workspace@0.0.0 build
+> npm run build --workspace captchavatye
+
+
+> captchavatye@0.0.0 prebuild
+> npm run build --workspace @captchavatye/react
+
+
+> @captchavatye/react@0.1.0 build
+> vite build && tsc -p tsconfig.build.json
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 14 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/style.css   7.22 kB │ gzip: 2.03 kB
+dist/index.js   32.31 kB │ gzip: 9.17 kB
+
+✓ built in 28ms
+
+> captchavatye@0.0.0 build
+> tsc -b && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 25 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.58 kB │ gzip:  0.39 kB
+dist/assets/index-CeQc8PDw.css   14.93 kB │ gzip:  3.80 kB
+dist/assets/index-KPRMsL3z.js   249.96 kB │ gzip: 78.07 kB
+
+✓ built in 120ms

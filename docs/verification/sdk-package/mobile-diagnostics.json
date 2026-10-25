@@ -1,0 +1,374 @@
+[
+  {
+    "i": 0,
+    "before": {
+      "dialog": {
+        "box": {
+          "x": 12,
+          "y": 201.5625,
+          "width": 366,
+          "height": 440.875,
+          "top": 201.5625,
+          "right": 378,
+          "bottom": 642.4375,
+          "left": 12
+        },
+        "transform": "none"
+      },
+      "stage": {
+        "box": {
+          "x": 28,
+          "y": 351.5625,
+          "width": 334,
+          "height": 187.875,
+          "top": 351.5625,
+          "right": 362,
+          "bottom": 539.4375,
+          "left": 28
+        },
+        "transform": "none"
+      },
+      "piece": {
+        "box": {
+          "x": 46.37000274658203,
+          "y": 477.5238342285156,
+          "width": 159.09375,
+          "height": 49.906219482421875,
+          "top": 477.5238342285156,
+          "right": 205.46375274658203,
+          "bottom": 527.4300537109375,
+          "left": 46.37000274658203
+        },
+        "transform": "matrix(1, 0, 0, 1, 18.37, 125.961)"
+      },
+      "socket": {
+        "box": {
+          "x": 115.43638610839844,
+          "y": 420.53448486328125,
+          "width": 159.04017639160156,
+          "height": 49.888427734375,
+          "top": 420.53448486328125,
+          "right": 274.4765625,
+          "bottom": 470.42291259765625,
+          "left": 115.43638610839844
+        },
+        "transform": "none"
+      },
+      "scrollY": 0
+    },
+    "piece": {
+      "x": 46.37000274658203,
+      "y": 477.5238342285156,
+      "width": 159.09374237060547,
+      "height": 49.906219482421875
+    },
+    "socket": {
+      "x": 115.43638610839844,
+      "y": 420.53448486328125,
+      "width": 159.04017639160156,
+      "height": 49.888427734375
+    },
+    "hit": {
+      "piece": "cv-sprite-window",
+      "socket": "cv-socket-cover cv-sprite-window"
+    },
+    "after": {
+      "phase": "completed",
+      "pointers": [
+        {
+          "target": "cv-sprite-window",
+          "x": 125.9168701171875,
+          "y": 502.4769287109375
+        }
+      ],
+      "notice": "C\nCAPTCHAvatye\n광고\n×\n인증 완료\nTHE M3\nBMW M3\n\nSheer Driving Pleasure\n\n시승 신청\n↗\n새 탭에서 열립니다\n원래 작업 계속하기",
+      "scrollY": 0
+    },
+    "requests": [
+      {
+        "challengeId": "ch_bHSmgVkkNOSQYfpYdyMnJ7Bm",
+        "dropX": 0.2741860105101513,
+        "dropY": 0.43354961367173
+      }
+    ]
+  },
+  {
+    "i": 1,
+    "before": {
+      "dialog": {
+        "box": {
+          "x": 12,
+          "y": 201.5625,
+          "width": 366,
+          "height": 440.875,
+          "top": 201.5625,
+          "right": 378,
+          "bottom": 642.4375,
+          "left": 12
+        },
+        "transform": "none"
+      },
+      "stage": {
+        "box": {
+          "x": 28,
+          "y": 351.5625,
+          "width": 334,
+          "height": 187.875,
+          "top": 351.5625,
+          "right": 362,
+          "bottom": 539.4375,
+          "left": 28
+        },
+        "transform": "none"
+      },
+      "piece": {
+        "box": {
+          "x": 46.37000274658203,
+          "y": 477.5238342285156,
+          "width": 159.09375,
+          "height": 49.906219482421875,
+          "top": 477.5238342285156,
+          "right": 205.46375274658203,
+          "bottom": 527.4300537109375,
+          "left": 46.37000274658203
+        },
+        "transform": "matrix(1, 0, 0, 1, 18.37, 125.961)"
+      },
+      "socket": {
+        "box": {
+          "x": 115.43638610839844,
+          "y": 420.53448486328125,
+          "width": 159.04017639160156,
+          "height": 49.888427734375,
+          "top": 420.53448486328125,
+          "right": 274.4765625,
+          "bottom": 470.42291259765625,
+          "left": 115.43638610839844
+        },
+        "transform": "none"
+      },
+      "scrollY": 0
+    },
+    "piece": {
+      "x": 46.37000274658203,
+      "y": 477.5238342285156,
+      "width": 159.09374237060547,
+      "height": 49.906219482421875
+    },
+    "socket": {
+      "x": 115.43638610839844,
+      "y": 420.53448486328125,
+      "width": 159.04017639160156,
+      "height": 49.888427734375
+    },
+    "hit": {
+      "piece": "cv-sprite-window",
+      "socket": "cv-socket-cover cv-sprite-window"
+    },
+    "after": {
+      "phase": "completed",
+      "pointers": [
+        {
+          "target": "cv-sprite-window",
+          "x": 125.9168701171875,
+          "y": 502.4769287109375
+        }
+      ],
+      "notice": "C\nCAPTCHAvatye\n광고\n×\n인증 완료\nTHE M3\nBMW M3\n\nSheer Driving Pleasure\n\n시승 신청\n↗\n새 탭에서 열립니다\n원래 작업 계속하기",
+      "scrollY": 0
+    },
+    "requests": [
+      {
+        "challengeId": "ch_0tNGgRrDTWw2d6aaOvTbMUqG",
+        "dropX": 0.2741860105101513,
+        "dropY": 0.43354961367173
+      }
+    ]
+  },
+  {
+    "i": 2,
+    "before": {
+      "dialog": {
+        "box": {
+          "x": 12,
+          "y": 201.5625,
+          "width": 366,
+          "height": 440.875,
+          "top": 201.5625,
+          "right": 378,
+          "bottom": 642.4375,
+          "left": 12
+        },
+        "transform": "none"
+      },
+      "stage": {
+        "box": {
+          "x": 28,
+          "y": 351.5625,
+          "width": 334,
+          "height": 187.875,
+          "top": 351.5625,
+          "right": 362,
+          "bottom": 539.4375,
+          "left": 28
+        },
+        "transform": "none"
+      },
+      "piece": {
+        "box": {
+          "x": 46.37000274658203,
+          "y": 477.5238342285156,
+          "width": 159.09375,
+          "height": 49.906219482421875,
+          "top": 477.5238342285156,
+          "right": 205.46375274658203,
+          "bottom": 527.4300537109375,
+          "left": 46.37000274658203
+        },
+        "transform": "matrix(1, 0, 0, 1, 18.37, 125.961)"
+      },
+      "socket": {
+        "box": {
+          "x": 115.43638610839844,
+          "y": 420.53448486328125,
+          "width": 159.04017639160156,
+          "height": 49.888427734375,
+          "top": 420.53448486328125,
+          "right": 274.4765625,
+          "bottom": 470.42291259765625,
+          "left": 115.43638610839844
+        },
+        "transform": "none"
+      },
+      "scrollY": 0
+    },
+    "piece": {
+      "x": 46.37000274658203,
+      "y": 477.5238342285156,
+      "width": 159.09374237060547,
+      "height": 49.906219482421875
+    },
+    "socket": {
+      "x": 115.43638610839844,
+      "y": 420.53448486328125,
+      "width": 159.04017639160156,
+      "height": 49.888427734375
+    },
+    "hit": {
+      "piece": "cv-sprite-window",
+      "socket": "cv-socket-cover cv-sprite-window"
+    },
+    "after": {
+      "phase": "completed",
+      "pointers": [
+        {
+          "target": "cv-sprite-window",
+          "x": 125.9168701171875,
+          "y": 502.4769287109375
+        }
+      ],
+      "notice": "C\nCAPTCHAvatye\n광고\n×\n인증 완료\nTHE M3\nBMW M3\n\nSheer Driving Pleasure\n\n시승 신청\n↗\n새 탭에서 열립니다\n원래 작업 계속하기",
+      "scrollY": 0
+    },
+    "requests": [
+      {
+        "challengeId": "ch_VXpQtF1yZVAA0OHjkoxmk6To",
+        "dropX": 0.2741860105101513,
+        "dropY": 0.43354961367173
+      }
+    ]
+  },
+  {
+    "i": 3,
+    "before": {
+      "dialog": {
+        "box": {
+          "x": 12,
+          "y": 201.5625,
+          "width": 366,
+          "height": 440.875,
+          "top": 201.5625,
+          "right": 378,
+          "bottom": 642.4375,
+          "left": 12
+        },
+        "transform": "none"
+      },
+      "stage": {
+        "box": {
+          "x": 28,
+          "y": 351.5625,
+          "width": 334,
+          "height": 187.875,
+          "top": 351.5625,
+          "right": 362,
+          "bottom": 539.4375,
+          "left": 28
+        },
+        "transform": "none"
+      },
+      "piece": {
+        "box": {
+          "x": 46.37000274658203,
+          "y": 477.5238342285156,
+          "width": 159.09375,
+          "height": 49.906219482421875,
+          "top": 477.5238342285156,
+          "right": 205.46375274658203,
+          "bottom": 527.4300537109375,
+          "left": 46.37000274658203
+        },
+        "transform": "matrix(1, 0, 0, 1, 18.37, 125.961)"
+      },
+      "socket": {
+        "box": {
+          "x": 115.43638610839844,
+          "y": 420.53448486328125,
+          "width": 159.04017639160156,
+          "height": 49.888427734375,
+          "top": 420.53448486328125,
+          "right": 274.4765625,
+          "bottom": 470.42291259765625,
+          "left": 115.43638610839844
+        },
+        "transform": "none"
+      },
+      "scrollY": 0
+    },
+    "piece": {
+      "x": 46.37000274658203,
+      "y": 477.5238342285156,
+      "width": 159.09374237060547,
+      "height": 49.906219482421875
+    },
+    "socket": {
+      "x": 115.43638610839844,
+      "y": 420.53448486328125,
+      "width": 159.04017639160156,
+      "height": 49.888427734375
+    },
+    "hit": {
+      "piece": "cv-sprite-window",
+      "socket": "cv-socket-cover cv-sprite-window"
+    },
+    "after": {
+      "phase": "completed",
+      "pointers": [
+        {
+          "target": "cv-sprite-window",
+          "x": 125.9168701171875,
+          "y": 502.4769287109375
+        }
+      ],
+      "notice": "C\nCAPTCHAvatye\n광고\n×\n인증 완료\nTHE M3\nBMW M3\n\nSheer Driving Pleasure\n\n시승 신청\n↗\n새 탭에서 열립니다\n원래 작업 계속하기",
+      "scrollY": 0
+    },
+    "requests": [
+      {
+        "challengeId": "ch_ByH4xkVEWRrFlIvZLtruZ64N",
+        "dropX": 0.2741860105101513,
+        "dropY": 0.43354961367173
+      }
+    ]
+  }
+]

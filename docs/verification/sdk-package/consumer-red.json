@@ -1,0 +1,38 @@
+{
+  "recordedAt": "2026-10-25T13:16:37.106Z",
+  "origin": "http://127.0.0.1:5190",
+  "contentOrigin": "http://127.0.0.1:5173",
+  "passed": 1,
+  "failed": 4,
+  "pageErrors": [],
+  "results": [
+    {
+      "name": "standalone_styles_urls_callbacks_and_reopen",
+      "status": "failed",
+      "error": "AssertionError [ERR_ASSERTION]: 호스트 h2 색상이 모달로 유입되면 안 된다\n+ actual - expected\n\n+ 'rgb(177, 31, 31)'\n- 'rgb(25, 39, 34)'\n       ^\n\n    at /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:80:14\n    at async run (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:51:20)\n    at async /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:64:5"
+    },
+    {
+      "name": "cross_origin_cta_and_independent_application",
+      "status": "failed",
+      "error": "locator.selectOption: Timeout 10000ms exceeded.\nCall log:\n  - waiting for getByLabel('전시장', { exact: true })\n\n    at /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:117:54\n    at async run (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:51:20)\n    at async /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:106:5"
+    },
+    {
+      "name": "mobile_without_rewards_or_cta",
+      "status": "failed",
+      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('dialog[open]').locator('[data-phase=\"challenge\"]') to be visible\n\n    at phase (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:13:62)\n    at ready (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:30:9)\n    at async run.width (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:129:7)\n    at async run (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:51:20)\n    at async /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:128:5"
+    },
+    {
+      "name": "invalid_asset_base_is_not_completed",
+      "status": "passed",
+      "detail": {
+        "error": "CREATIVE_URL",
+        "completions": 0
+      }
+    },
+    {
+      "name": "verify_response_loss_reuses_server_result",
+      "status": "failed",
+      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('dialog[open]').locator('[data-phase=\"challenge\"]') to be visible\n\n    at phase (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:13:62)\n    at ready (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:30:9)\n    at async /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:162:7\n    at async run (/Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:51:20)\n    at async /Users/jungle/dev/missions/final_mission/scripts/verify-sdk-consumer.cjs:155:5"
+    }
+  ]
+}

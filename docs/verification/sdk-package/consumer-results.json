@@ -1,0 +1,68 @@
+{
+  "recordedAt": "2026-10-25T13:20:39.022Z",
+  "origin": "http://127.0.0.1:5190",
+  "contentOrigin": "http://127.0.0.1:5173",
+  "passed": 5,
+  "failed": 0,
+  "pageErrors": [],
+  "results": [
+    {
+      "name": "standalone_styles_urls_callbacks_and_reopen",
+      "status": "passed",
+      "detail": {
+        "metrics": {
+          "hostBackground": "rgb(31, 85, 161)",
+          "hostSize": "18px",
+          "titleColor": "rgb(25, 39, 34)",
+          "rootColor": "rgb(25, 39, 34)",
+          "titleMargin": "0px",
+          "titleReference": true,
+          "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+          "bodyOverflow": "hidden"
+        },
+        "result": {
+          "challengeId": "ch_wZDCr7wsU8nSjtHciSZnlFoV",
+          "creativeId": "bmw-m3-v1",
+          "completionId": "cmp_2ztQVMlY27HbGex2hVagxuPc",
+          "clickId": "clk_72ok2Dd6H-73wjiTTDR9jCrg"
+        }
+      }
+    },
+    {
+      "name": "cross_origin_cta_and_independent_application",
+      "status": "passed",
+      "detail": {
+        "completionId": "cmp_eqLDgovPv5oNeiLUnCT3WpwE",
+        "clickId": "clk_wuflP7wHy6gyTjgKgihjEsmc",
+        "leadId": "lead_Zp7CLZqANs2AP9rVywS2LUp2"
+      }
+    },
+    {
+      "name": "mobile_without_rewards_or_cta",
+      "status": "passed",
+      "detail": {
+        "x": 12,
+        "right": 378,
+        "width": 390,
+        "overflow": false,
+        "ratio": 1.7777777777777777
+      }
+    },
+    {
+      "name": "invalid_asset_base_is_not_completed",
+      "status": "passed",
+      "detail": {
+        "error": "CREATIVE_URL",
+        "completions": 0
+      }
+    },
+    {
+      "name": "verify_response_loss_reuses_server_result",
+      "status": "passed",
+      "detail": {
+        "completionId": "cmp_4nCZep8DDHOMv5dZBT6WkX5M",
+        "retries": 1
+      }
+    }
+  ]
+}

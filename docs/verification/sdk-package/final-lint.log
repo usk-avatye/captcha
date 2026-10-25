@@ -1,0 +1,16 @@
+
+> captchavatye-workspace@0.0.0 lint
+> npm run lint --workspaces --if-present
+
+
+> captchavatye@0.0.0 lint
+> oxlint
+
+Found 0 warnings and 0 errors.
+Finished in 28ms on 19 files with 116 rules using 10 threads.
+
+> @captchavatye/react@0.1.0 lint
+> oxlint src
+
+Found 0 warnings and 0 errors.
+Finished in 9ms on 13 files with 96 rules using 10 threads.
