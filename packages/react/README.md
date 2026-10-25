@@ -54,15 +54,24 @@ CSS import는 앱 진입점에서 한 번 수행한다. SDK가 고객사 사이�
 | `open` | 모달 표시 여부. 같은 시도에서는 컴포넌트를 유지하고 이 값만 바꾼다. |
 | `creativeId` | 서버 소재 ID. 현재 서버는 `bmw-m3-v1`을 지원합니다. |
 | `challenge` | 고객사 서버가 발급한 `{challengeId, creative}`. 생략하면 SDK가 시작 API를 호출합니다. |
-| `apiBaseUrl` | 시작·검증·이벤트 API 접두사. 기본 `/api`. 고객사의 예약 API와 분리한다. |
+| `apiBaseUrl` | 시작, 검증, 이벤트와 상호작용 요약 API 접두사. 기본 `/api`. 고객사의 예약 API와 분리한다. |
 | `assetBaseUrl` | 서버가 주는 이미지 URL의 기준 절대 HTTP(S) 주소. 기본 현재 origin. |
 | `landingBaseUrl` | 서버가 주는 랜딩 URL의 기준 절대 HTTP(S) 주소. 기본 현재 origin. |
 | `continueLabel` | 완료 화면의 업무 재개 버튼. 기본 `원래 작업 계속하기`. |
+| `telemetry` | `{enabled?: boolean, pathSampleRate?: number}`. 기본 수집 활성화, 경로 표본 0.01. 한 인증 동안 고정한다. |
 | `onComplete(result)` | 열린 모달에서 성공 연출이 끝나면 `challengeId`, `completionId`, `creativeId`, `clickId`를 한 번 전달한다. |
 | `onContinue()` | 완료 화면의 계속하기 선택. 실제 업무와 중복 방지는 고객사 책임이다. |
 | `onClose()` | 호스트가 `open=false`로 바꾼다. 초안과 SDK 컴포넌트를 제거하지 않는다. |
 
-소재와 접속 주소는 한 인증 시도 동안 고정한다. 새 시도는 호스트의 React `key`를 바꿔 생성한다. 이미 완료한 시도를 닫고 다시 열면 결과를 유지하고 `onComplete`를 재호출하지 않는다. SDK는 포인트를 표시·지급하지 않는다.
+소재와 접속 주소는 한 인증 시도 동안 고정한다. 새 시도는 호스트의 React `key`를 바꿔 생성한다. 이미 완료한 시도를 닫고 다시 열면 결과를 유지하고 `onComplete`를 재호출하지 않는다. 포인트 표시와 지급은 소비 앱에서 처리한다.
+
+## 상호작용 요약
+
+첫 램프 조작 시간, 성공 응답까지의 풀이 시간과 서버 위치 불일치 횟수를 인증 ID에 연결해 수집한다. 이미지를 준비한 뒤 모달이 열려 있고 문서가 보이는 동안 시간을 누적한다. 숨김과 닫힘 시간은 제외한다. 미측정 시간은 `null`이다.
+
+경로는 인증별 확률로 선택하며 기본 비율은 1%다. 램프 드래그의 시작과 끝, 100ms 간격의 이동을 퍼즐 영역 기준 좌표로 기록한다. 최대 100점을 저장하고 상한 이후에는 마지막 점을 갱신한다. `path=null`은 표본 미선택, `path=[]`는 선택됐지만 드래그가 없는 상태다.
+
+성공, 닫기, 탭 숨김과 페이지 종료 시 `/interaction-summaries`로 고정 스냅샷을 전송한다. 인증별 revision이 증가하며 재시도는 같은 본문을 사용한다. 서버는 최신 revision 한 행을 유지한다. `telemetry={{enabled: false}}`로 요약 수집을 끌 수 있다. 시연에서 모든 경로를 확인하려면 `telemetry={{pathSampleRate: 1}}`로 설정한다.
 
 URL은 `new URL(value, base)` 규칙을 따른다. `/creatives/...`처럼 `/`로 시작하면 base의 경로를 대체한다. 절대 이미지/랜딩 URL은 그대로 사용한다. HTTP(S) 이외의 프로토콜과 자격증명을 포함한 URL은 거절한다. API 설정과 콘텐츠 주소는 개발자가 관리하는 신뢰할 수 있는 주소여야 한다.
 

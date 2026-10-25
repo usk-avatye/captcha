@@ -105,6 +105,12 @@ def test_parallel_summary_revision_survives_restart(client):
     with create_engine(DATABASE_URL).connect() as connection:
         assert connection.scalar(select(func.count()).select_from(InteractionRow)) == 1
         assert connection.scalar(select(InteractionRow.metrics))['solveMs'] == 700
+    from app.inspect_interactions import recent_interactions
+    records = recent_interactions(PostgresStore(DATABASE_URL))
+    assert len(records) == 1
+    assert records[0]['challengeId'] == challenge['challengeId']
+    assert records[0]['status'] == 'pending'
+    assert records[0]['metrics'] == latest['metrics']
 
 
 @pytest.mark.parametrize("size", [121, 5000])

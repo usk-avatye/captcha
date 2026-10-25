@@ -27,6 +27,7 @@ services:
     environment:
       CAPTCHAVATYE_DATABASE_URL: postgresql+psycopg://postgres:${POSTGRES_PASSWORD:?Run start.command to initialize the demo}@postgres:5432/captchavatye_demo
       CAPTCHAVATYE_SERVICE_KEY: ${CAPTCHAVATYE_SERVICE_KEY:?Run start.command to initialize the demo}
+      CAPTCHAVATYE_LANDING_URL: "${DEMO_LANDING_URL:-https://www.bmw.co.kr/ko/fastlane/tda-experience.html?agCode=31HJ}"
     depends_on:
       postgres:
         condition: service_healthy

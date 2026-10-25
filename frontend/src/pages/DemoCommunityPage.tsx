@@ -71,6 +71,7 @@ export function DemoCommunityPage() {
       </div>
     </main>
     <CaptchaModal key={community.attemptKey} open={community.open} creativeId="bmw-m3-v1"
+      telemetry={{ pathSampleRate: 1 }}
       onComplete={community.onComplete} onContinue={community.onContinue} onClose={community.onClose} />
   </>;
 }

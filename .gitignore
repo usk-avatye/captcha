@@ -17,3 +17,4 @@ __pycache__/
 
 # Local SDK release artifacts
 artifacts/
+demo/reports/
