@@ -1,0 +1,37 @@
+{
+  "recordedAt": "2026-10-25T05:47:19.062Z",
+  "checks": [
+    {
+      "name": "backend pytest",
+      "command_ok": true,
+      "exit_code": 0,
+      "stdout": "...........................................                              [100%]\n43 passed in 0.27s\n",
+      "stderr": "",
+      "sessionId": "session-e138f1e00abbdfce8053e718"
+    },
+    {
+      "name": "frontend node tests",
+      "command_ok": true,
+      "exit_code": 0,
+      "stdout": "\n> captchavatye@0.0.0 test\n> node --test tests/*.test.ts\n\n✔ 시작 계약과 검증 payload를 그대로 전송한다 (19.915334ms)\n✔ ID가 없거나 잘못된 passed 응답은 성공으로 처리하지 않는다 (5.071208ms)\n✔ 잘못된 소재 rect와 다른 creative 응답은 이미지 준비로 넘기지 않는다 (4.715667ms)\n✔ 업무 404와 배열 422를 다른 오류로 정규화한다 (1.133458ms)\n✔ 닫혀서 취소된 요청은 전송하지 않는다 (0.160917ms)\n✔ 조각 중심을 확대된 전체 원본 경계로 정규화한다 (2.733292ms)\n✔ CSS 크기가 절반이면 같은 원본 위치의 드롭 좌표는 유지된다 (0.076792ms)\n✔ 원본 밖 조각 중심과 유효하지 않은 경계는 clamp하지 않고 거절한다 (0.085667ms)\n✔ grab 오프셋과 마지막 포인터 좌표로 조각 좌상단을 계산한다 (0.059708ms)\n✔ 첫 열기 전에는 시작하지 않고, 받은 ID로 이미지 준비만 수행한다 (2.674625ms)\n✔ 검증 중 추가 드롭을 차단하고 false는 오류가 아닌 재도전으로 복귀한다 (0.200458ms)\n✔ 서버 성공 뒤에만 연출하며 ID와 현재 연출 번호를 보존한다 (0.871ms)\n✔ 검증 중 닫아도 스냅샷을 보존하고 늦은 응답은 무시한다 (0.304458ms)\n✔ 이전 시작 응답은 재열기 요청의 ID와 소재를 덮어쓰지 않는다 (0.382416ms)\n✔ 통신 오류 재열기는 오류를 보존하고 명시 재시도는 동일 verify 내용을 사용한다 (0.334625ms)\n✔ 이미지 실패 재시도는 새 인증을 만들지 않으며 이전 준비 완료는 무시한다 (0.299541ms)\n✔ 연출 중 닫기는 스냅부터 복원하고 완료 재열기는 재검증하지 않는다 (0.288333ms)\n✔ 사라진 인증은 무의미한 동일 요청 재시도를 제공하지 않는다 (0.229125ms)\n✔ 리사이즈로 연출을 다시 시작하면 이전 실행의 종료가 적용되지 않는다 (0.426666ms)\n✔ 확대한 원본의 램프와 별도 오버레이 조각이 같은 위치를 사용한다 (0.7865ms)\n✔ 창 너비가 반으로 줄어도 램프 위치와 조각 크기가 함께 줄어든다 (0.076917ms)\n✔ 폭이 없는 확대 영역은 무한대 transform 대신 오류로 거절한다 (0.1735ms)\n✔ 종료 이벤트와 우회 타이머가 겹쳐도 다음 단계는 한 번만 실행한다 (8.600417ms)\n✔ 닫기로 취소한 연출은 타이머와 늦은 종료 이벤트 모두 무시한다 (0.805375ms)\n✔ 종료 이벤트가 누락되면 공개 시간과 여유 시간이 지난 뒤 완료한다 (0.118709ms)\n✔ 0ms 연출은 transitionend 없이도 완료한다 (0.081459ms)\n✔ 이전 연출의 늦은 종료 이벤트는 새 연출을 일찍 끝내지 않는다 (0.101583ms)\nℹ tests 27\nℹ suites 0\nℹ pass 27\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 199.175083\n",
+      "stderr": "",
+      "sessionId": "session-258e3e36e45ae8c770416d17"
+    },
+    {
+      "name": "frontend build",
+      "command_ok": true,
+      "exit_code": 0,
+      "stdout": "\n> captchavatye@0.0.0 build\n> tsc -b && vite build\n\nvite v8.3.5 building client environment for production...\ntransforming...\n✓ 26 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.58 kB │ gzip:  0.39 kB\ndist/assets/index-CVBUKnpw.css    7.59 kB │ gzip:  2.46 kB\ndist/assets/index-BxCYe6Oj.js   239.27 kB │ gzip: 75.20 kB\n\n✓ built in 87ms\n",
+      "stderr": "",
+      "sessionId": "session-8785d9f5453c59d08659d4f4"
+    },
+    {
+      "name": "frontend lint",
+      "command_ok": true,
+      "exit_code": 0,
+      "stdout": "\n> captchavatye@0.0.0 lint\n> oxlint\n\nFound 0 warnings and 0 errors.\nFinished in 26ms on 18 files with 116 rules using 10 threads.\n",
+      "stderr": "",
+      "sessionId": "session-3ef8d673c50463854167bae7"
+    }
+  ]
+}

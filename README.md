@@ -1,0 +1,182 @@
+# CAPTCHAvatye — 3단계 고객사 연결
+
+[DESIGN.md](DESIGN.md)의 **0~3단계**를 구현했다. 커뮤니티에서 글을 작성하고 리어램프를 맞추면 서버 판정 → 스냅·줌아웃 → 모의 10P 반영이 이어진다. **원래 작업 계속하기**로 작성한 글을 한 번 등록한다.
+
+## 실행
+
+터미널 두 개에서 각각 실행한다. 이미 해당 포트에서 실행 중이면 같은 서버를 사용한다.
+
+### 백엔드
+
+```bash
+cd /Users/jungle/dev/missions/final_mission/backend
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[test]'
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1
+```
+
+### 프론트엔드
+
+```bash
+cd /Users/jungle/dev/missions/final_mission/frontend
+npm ci
+npm run dev
+```
+
+브라우저에서 **http://127.0.0.1:5173/** 를 연다. Vite가 `/api`를 `127.0.0.1:8000`으로 전달한다. 이미지와 화면은 Vite에서 제공한다. 포트가 사용 중이면 다른 포트로 자동 이동하지 않는다.
+
+확인한 환경: Python **3.14.6**, FastAPI **0.162.0**, Pydantic **2.14.1**, Uvicorn **0.54.0**; Node.js **26.7.0**, npm **11.19.0**, React **19.3.1**, Vite **8.3.5**, TypeScript **6.0.3**. 프론트엔드 버전은 package-lock.json, 백엔드 직접 의존성은 pyproject.toml에 고정했다.
+
+## 시연 순서
+
+1. 제목과 본문을 쓰고 **인증하고 등록하기**를 누른다. 첫 열기 전에는 시작 API를 호출하지 않는다.
+2. 램프 조각을 빈 소켓으로 드래그한다. 조각 중심을 확대된 전체 원본 기준 0~1 좌표로 서버에 전송한다.
+3. 서버의 true 뒤에만 180ms 스냅 → 650ms 줌아웃을 실행한다. 열린 유효 연출이 끝나면 **모의 10P**가 한 번 반영된다.
+4. **원래 작업 계속하기**를 누르면 작성한 제목·본문이 아래 등록 목록에 한 번 표시된다. 시승 CTA를 누를 필요가 없다.
+5. 완료 화면에서 × 또는 Esc로 닫으면 포인트는 유지되고 글은 등록되지 않는다. 글을 수정한 뒤 **인증 결과 이어보기**를 누르면 같은 완료 화면으로 돌아온다. 계속하기 시점의 제목·본문을 등록한다.
+6. 등록 후 **새 글 쓰기**를 누르면 빈 초안과 새 인증 시도를 만든다. 누적 포인트·등록 목록은 유지한다. 두 번째 정상 등록을 마치면 총 20P·글 두 건이다.
+
+제목이나 본문이 공백뿐이면 인증을 열지 않는다. 글과 포인트는 페이지 메모리만 사용하고 새로고침하면 초기화된다. 제목·본문은 SDK 또는 서버에 전송하지 않는다.
+
+시승 CTA는 아직 비활성이다. 새 탭의 모의 신청 화면과 이벤트·신청 API는 **4단계**에서 연결한다.
+
+## SDK 공개 경계와 데이터 처리
+
+커뮤니티는 `frontend/src/sdk/captchavatye/index.ts`에서 `CaptchaModal`과 공개 타입만 가져온다.
+
+| 입력·콜백 | 처리 |
+| --- | --- |
+| `open` | 같은 글 시도에서 표시만 바꾼다. SDK는 계속 마운트 |
+| `creativeId`, `apiBaseUrl` | 한 시도 동안 고정. 소재는 bmw-m3-v1, 기본 API 경로 /api |
+| `onComplete(result)` | 열린 현재 reveal 종료 뒤 challengeId/completionId/creativeId/clickId를 한 번 전달 |
+| `onContinue()` | 열린 completed에서만 허용. 호스트가 별도 등록 가드로 글을 등록하고 닫음 |
+| `onClose()` | 표시만 닫음. 초안·진행·이미 반영한 포인트 보존 |
+
+SDK는 완료 가드를 호스트 호출 **전에** 세운다. 호스트는 completionId를 적용 Set에 **먼저** 넣고 +10P를 수행한다. 글 등록에는 별도의 동기 ref 가드를 사용하고, React state updater 안에서 Set/가드를 변경하지 않는다.
+
+최신 커밋된 콜백 참조는 open을 처리하는 effect와 별도로 갱신한다. 호스트 재렌더로 인증 요청·연출이 재시작되지 않는다. 콜백 자체의 예외는 인증 HTTP 오류로 바꾸거나 자동 재전달하지 않는다.
+
+글 등록 뒤 새 글을 시작할 때만 내부 시도 번호를 증가시켜 SDK의 React key를 바꾼다. 공개 attemptId/reset 입력이나 서버 필드를 추가하지 않았다. 이전 글 시도에 묶인 늦은 콜백은 호스트에서도 무시한다.
+
+구현 가정: 닫고 수정한 경우 **계속하기 시점의 현재 글**을 등록하며, 공백만 있는 제목·본문을 막는다. 등록 실패를 고친 뒤 다시 계속할 수 있도록 SDK의 계속하기에 영구 소진 가드를 두지 않고 호스트의 등록 가드로 중복을 막는다.
+
+### 실패·닫기·재열기
+
+| 상황 | 처리 |
+| --- | --- |
+| 이미지 준비 실패 | 받은 인증 ID를 유지하고 이미지만 다시 준비한다 |
+| 시작 응답 전 닫기 | 이전 응답을 무시하고 재열기에 시작을 재실행한다. 이전 pending 인증은 남을 수 있다 |
+| 조작 중 닫기·포인터 취소·리사이즈 | 포인터 캡처를 해제하고 초기 위치로 돌린다 |
+| 조각 중심이 전체 원본 밖 | 좌표를 보정하거나 전송하지 않고 복귀한다 |
+| 검증 중 닫기 | 요청 취소를 시도하고 응답을 무효화한다. 재열기에 동일 스냅샷으로 확인한다 |
+| 스냅·줌아웃 중 닫기 | 성공 ID를 보존하고 재열기에 스냅부터 연출한다 |
+| 완료 후 재열기 | 재검증·연출 재실행·추가 보상 없음. 계속하기로 글 등록 가능 |
+| 통신 오류·10초 초과·응답 형식 오류 | 오류 화면에서 같은 작업만 재시도한다 |
+| 서버에 인증이 없음(404) | 반복 검증 대신 화면 초기화를 안내한다 |
+
+진행 상태는 설계의 `loading → challenge → verifying → snapping → revealing → completed`와 `error`를 사용한다. 표시 여부는 상태와 별개다. 닫기 시 실행 세대를 즉시 바꿔 이전 응답·오류·finally·연출 완료가 새 실행을 변경하지 못하게 한다.
+
+## 서버 계약과 기록
+
+| API | 입력 | 결과 |
+| --- | --- | --- |
+| `POST /api/challenges` | `{creativeId:"bmw-m3-v1"}` | 201 `{challengeId, creative}`; 없는 소재 404 |
+| `POST /api/verify` | `{challengeId, dropX, dropY}` | 200 `{passed:false}` 또는 `{passed:true, completionId, clickId}`; 없는 인증 404 |
+
+문자열·boolean·비유한 값·범위 밖 좌표는 422다. 422의 `detail` 배열을 유지하며, NaN/Infinity가 오류 응답 JSON을 깨뜨리지 않도록 해당 입력값만 문자열로 표현한다.
+
+동기 경로가 사용하는 Store의 공통 `threading.Lock` 안에서 인증 조회, 성공 여부 확인, 위치 판정, ID 생성, `passed`와 `click_links` 저장까지 처리한다. 결과를 저장한 뒤 응답한다. 이미 성공한 인증은 입력 검증을 통과한 다른 좌표에도 기존 ID 쌍을 반환한다. 최초 성공만 `captcha_passed challengeId=… completionId=… clickId=…` 로그를 남긴다.
+
+서버가 `secrets`로 생성하는 `ch_`, `cmp_`, `clk_` ID는 충돌을 확인한다. 프론트엔드는 성공 ID를 만들지 않는다. 이 단계의 Store에는 인증과 클릭 연결이 있고, 이벤트·신청 레코드는 4단계에서 추가한다.
+
+이 PoC는 위치 맞추기 흐름을 검증한다. 실제 봇 탐지·실제 보상·예약·DB·다중 워커는 구현 범위가 아니다.
+
+## 파일 책임
+
+| 경로 | 책임 |
+| --- | --- |
+| `frontend/src/App.tsx` | 현재 커뮤니티 화면 진입점. 모의 신청 화면 분기는 4단계 |
+| `frontend/src/pages/DemoCommunityPage.tsx` | 글쓰기·등록 목록·포인트 표시, 공개 SDK 연결 |
+| `frontend/src/pages/useCommunityDraft.ts` | 페이지의 React 상태와 적용 ID Set·시도/등록 ref 가드 |
+| `frontend/src/sdk/captchavatye/index.ts`, `types.ts` | 공개 컴포넌트와 입력/결과 타입 |
+| `frontend/src/sdk/captchavatye/api.ts` | 시작·검증 HTTP, 10초 기한·취소, 응답 계약 검사·오류 정규화 |
+| `frontend/src/sdk/captchavatye/flow.ts` | 한 인증 시도의 상태·요청·성공 ID·재시도·실행 세대·완료 전달 가드 |
+| `frontend/src/sdk/captchavatye/useCaptchaFlow.ts` | 흐름 구독, 표시/마운트 수명과 최신 콜백 참조를 분리해 연결 |
+| `frontend/src/sdk/captchavatye/CaptchaModal.tsx` | 안내·닫기·재시도·계속하기와 CarPuzzle 연결 |
+| `frontend/src/sdk/captchavatye/CarPuzzle.tsx` | 이미지 준비, Pointer Events, 캡처/취소, scene·조각, 스냅·줌아웃 |
+| `frontend/src/sdk/captchavatye/geometry.ts` | 확대 변환, 조각 중심 정규화, 포인터 오프셋 계산 |
+| `frontend/src/sdk/captchavatye/stageCompletion.ts` | 종료 이벤트·우회 타이머의 한 번 완료와 늦은 이벤트 방어 |
+| `frontend/src/sdk/captchavatye/creativeAssets.ts` | 기존 투명 PNG의 내부 CSS crop. 공개 API에는 새 필드를 추가하지 않음 |
+| `backend/app/main.py` | 앱별 Store 한 개, 라우트와 422 직렬화 처리 |
+| `backend/app/api/routes/captcha.py` | 두 HTTP 진입점과 업무 오류의 상태 코드 변환 |
+| `backend/app/schemas/captcha.py` | camelCase 요청/응답 계약과 엄격한 좌표 검증 |
+| `backend/app/services/captcha.py` | 인증 생성·위치 판정·성공 ID 재사용 |
+| `backend/app/store.py` | 인증·클릭 연결 레코드와 공통 잠금 |
+| `backend/app/demo_config.py` | 공개 소재 설정과 서버 전용 허용 오차 |
+| `frontend/tests/`, `backend/tests/` | API·좌표·흐름·동시성·연출 회귀 검증 |
+| `frontend/tests/stage3.html`, `stage3Harness.tsx` | 제품 App에서 참조하지 않는 실제 React/공개 SDK 검증 fixture |
+| `docs/verification/stage3/` | 현재 호스트 경계·통합 Chrome 검증 스크립트·결과·캡처 |
+
+## 소재와 허용 오차
+
+원본은 **1672×941px**, 램프 영역은 **(347, 373, 223, 70)px**다. `lampRect`는 원본 크기로 나눈 좌표, `zoomRect`는 x=0.1342224880, y=0.2935812965, width=height=0.28이다.
+
+서버의 첫 허용 오차는 원본 **X ±12px, Y ±8px**다. 램프 223×70px의 중심 부근을 맞추되 작은 손 조작 오차를 허용하는 시연용 결정이다. 각 축의 안·정확한 경계·밖을 테스트한다. 양쪽 축을 모두 만족해야 성공하며 허용 오차는 API 응답에 포함하지 않는다. 좌표를 반올림하지 않는다.
+
+세 이미지와 [asset-manifest.json](docs/assets/asset-manifest.json)은 1단계에서 준비한 파일을 유지한다. 차량 전체 이미지는 정확한 16:9와 약 0.06% 차이가 있어 같은 창 크기로 미세 조정한다. 두 PNG는 원본을 정확히 잘라낸 조각이 아닌 생성된 파생 소재이며, 공통 CSS crop (276, 311, 1172, 350)을 사용한다. 원본과 픽셀 단위 질감의 동일성은 보장하지 않는다. 생성 기록은 [generation-prompts.txt](docs/assets/generation-prompts.txt)에 있다. BMW 소재는 실제 제휴를 전제로 하지 않는 시연용이다.
+
+## 검증 — 2026-10-25 KST
+
+| 검증 | 결과 |
+| --- | --- |
+| 백엔드 전체 회귀 | **43/43 통과**. 기존 API·스키마·허용 오차·동시성 유지 |
+| 프론트엔드 전체 | **34/34 통과**. 기존 27개 + 완료 콜백 시점/인자/재진입/예외/수명/최신 참조/계속하기 조건 |
+| 실제 React 호스트 경계 | **6/6 통과**. 동일 이벤트 루프의 중복 완료·등록, 최신 초안, 이전 시도, 페이지 전체 적용 Set, 공백 입력 |
+| 실제 서버·화면 통합 | **12/12 통과**, page error 0. Mac Chrome 155.0.8059.85 (headless), 1280×900·390×844 |
+| 린트 | 경고 0·오류 0 |
+| 빌드 | TypeScript 검사·Vite production build 통과 |
+| 화면 확인 | 데스크톱 작성/완료/등록 및 작은 화면 작성/완료 캡처 확인. 모달 크기·16:9·가로 넘침 확인 |
+| 보존 확인 | DESIGN.md·세 이미지 SHA-256 동일. 백엔드 13개 파일은 이전 검토 복사본의 마지막 줄바꿈 차이를 제외한 전체 내용 동일 |
+| 독립 코드 검토 | Critical·Important·Minor 각 0건. 정적 검토와 판단은 review.md에 기록 |
+
+통합 테스트는 실제 FastAPI가 저장한 성공 응답의 **전달만** 지연하거나 유실시켜 실행했다. 검증·스냅·줌아웃 동안 0P, 유효한 완료 뒤 10P를 확인했다. 검증/연출 중 닫기·재열기, 완료 후 수정, 동일 재시도, 새 글의 다른 인증 ID와 총 20P·두 글, 동작 줄이기, HTML 형태의 사용자 문자열이 텍스트로 표시되는 경우를 포함한다.
+
+공개 SDK fixture는 React StrictMode에서 부모를 검증·줌아웃 중 재렌더하고 콜백 참조를 바꾼다. 같은 인증을 유지하면서 최신 콜백을 한 번 호출하는지 확인한다. 호스트 fixture는 실제 페이지 hook에 완료/계속하기를 각각 같은 이벤트 루프에서 다섯 번 전달하여 중복 가드를 검사한다. 이 fixture에서 사용하는 ID는 콜백 경계 시험용이며 실제 서버 통합 시험과 구분한다. 제품 App이나 SDK에는 시험용 메서드를 추가하지 않았다.
+
+신규 콜백 7개 및 호스트 6개 시험의 미구현 실패를 먼저 확인한 뒤 구현했다. 스마트폰 실기기·Safari 시험이나 전체 PoC V01~V08 완료를 주장하지 않는다. 이벤트·모의 신청을 포함한 V05 후반~V07은 4단계 이후 검증한다.
+
+결과:
+- [integration-results.json](docs/verification/stage3/integration-results.json): 실제 서버·브라우저 12개 결과, 단계별 포인트·요청/ID·화면 크기.
+- [host-results.json](docs/verification/stage3/host-results.json): 실제 React 호스트 경계 6개 결과.
+- [checks.json](docs/verification/stage3/checks.json): 단위·빌드·린트와 테스트 실패→통과 기록.
+- [review.md](docs/verification/stage3/review.md): 독립 정적 검토와 판단.
+- [3단계 실행 기록](docs/superpowers/plans/2026-10-25-stage-3-community.md): 범위·결정·실행 결과.
+
+```bash
+cd /Users/jungle/dev/missions/final_mission/backend
+.venv/bin/python -m pytest -q
+
+cd /Users/jungle/dev/missions/final_mission/frontend
+npm test
+npm run lint
+npm run build
+```
+
+두 서버를 실행한 뒤 Mac의 기존 Playwright 모듈로 검증한다. 별도 headless Chrome의 격리된 context를 사용하며 개인 브라우저 프로필·탭을 열지 않는다. 새 브라우저 테스트 의존성은 설치하지 않았다.
+
+```bash
+cd /Users/jungle/dev/missions/final_mission
+CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_modules/playwright \
+  node docs/verification/stage3/verify.host.cjs
+CAPTCHAVATYE_PLAYWRIGHT_MODULE=/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_modules/playwright \
+  node docs/verification/stage3/verify.integration.cjs
+```
+
+다른 Mac에서는 설치된 Playwright 모듈 경로를 위 환경 변수에 지정한다. 결과와 캡처는 stage3 폴더에 저장한다. stage1/stage2의 스크립트·기록은 당시 화면 기준의 보존 자료이며 현재 글쓰기 화면의 검증에는 stage3 스크립트를 사용한다.
+
+## 초기화와 다음 단계
+
+서버 메모리는 한 프로세스에서만 유지한다. 시연 중에는 `--reload`·다중 워커를 사용하지 않는다. 현재 페이지에서 새 인증을 시작하려면 글 등록 후 **새 글 쓰기**를 누른다. 새로고침은 커뮤니티의 글·포인트·적용 Set을 초기화한다. 모든 서버 기록까지 초기화하려면 백엔드를 재시작한 뒤 열린 데모 탭도 새로고침한다.
+
+다음은 DESIGN.md **4단계 모의 전환**이다. 선택적 새 탭 CTA, 모의 신청 화면, 이벤트·신청 API와 서버 내부 전환 기록을 연결한다. 포인트와 원래 글 등록은 이 전환 흐름과 독립적으로 유지한다.

@@ -1,0 +1,319 @@
+{
+  "recordedAt": "2026-10-25T08:18:22.252Z",
+  "browser": "155.0.8059.85",
+  "origin": "http://127.0.0.1:5173",
+  "results": [
+    {
+      "name": "desktop_flow_without_cta",
+      "status": "passed",
+      "before": {
+        "dialog": {
+          "x": 280,
+          "y": 113,
+          "width": 720,
+          "height": 674
+        },
+        "stage": {
+          "x": 304,
+          "y": 286,
+          "width": 672,
+          "height": 378
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 944,
+            "y": 127.5,
+            "width": 32,
+            "height": 32
+          },
+          {
+            "x": 849.953125,
+            "y": 725.5,
+            "width": 126.046875,
+            "height": 44
+          }
+        ]
+      },
+      "after": {
+        "dialog": {
+          "x": 280,
+          "y": 113,
+          "width": 720,
+          "height": 674
+        },
+        "stage": {
+          "x": 304,
+          "y": 286,
+          "width": 672,
+          "height": 378
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 944,
+            "y": 127.5,
+            "width": 32,
+            "height": 32
+          },
+          {
+            "x": 774.390625,
+            "y": 507.65625,
+            "width": 174.71875,
+            "height": 38
+          },
+          {
+            "x": 835.375,
+            "y": 725.5,
+            "width": 140.625,
+            "height": 44
+          }
+        ]
+      },
+      "verify": {
+        "challengeId": "ch_qYR8eRe38LCmfkWIQKCkbt5A",
+        "dropX": 0.2742047945658366,
+        "dropY": 0.43355244954427086
+      }
+    },
+    {
+      "name": "server_and_animation_reward_gate",
+      "status": "passed",
+      "phases": [
+        {
+          "phase": "challenge",
+          "points": "0P"
+        },
+        {
+          "phase": "verifying",
+          "points": "0P"
+        },
+        {
+          "phase": "snapping",
+          "points": "0P"
+        },
+        {
+          "phase": "revealing",
+          "points": "0P"
+        },
+        {
+          "phase": "completed",
+          "points": "10P"
+        }
+      ]
+    },
+    {
+      "name": "close_challenge_keeps_draft_and_id",
+      "status": "passed"
+    },
+    {
+      "name": "close_verifying_preserves_snapshot",
+      "status": "passed",
+      "attempts": [
+        {
+          "request": {
+            "challengeId": "ch_DwNLgzhZeO-emIz2SfAlp0BX",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_rzhR1uvGJ_rjpBoE2r4Ix7sK",
+            "clickId": "clk_r7aOYdqVAczFWpK6pPbzUFYZ"
+          }
+        },
+        {
+          "request": {
+            "challengeId": "ch_DwNLgzhZeO-emIz2SfAlp0BX",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_rzhR1uvGJ_rjpBoE2r4Ix7sK",
+            "clickId": "clk_r7aOYdqVAczFWpK6pPbzUFYZ"
+          }
+        }
+      ]
+    },
+    {
+      "name": "close_snapping_defers_reward",
+      "status": "passed"
+    },
+    {
+      "name": "close_revealing_defers_reward",
+      "status": "passed"
+    },
+    {
+      "name": "completed_close_edit_reopen_uses_current_draft",
+      "status": "passed"
+    },
+    {
+      "name": "lost_response_retry_rewards_once",
+      "status": "passed",
+      "attempts": [
+        {
+          "request": {
+            "challengeId": "ch_50QqOs6d6w_FfFZFfsQPCx3M",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_fmGyiMVUyibl9lBuLe9wEl1y",
+            "clickId": "clk_CFG8MgSvzBO5Y7Ky9MGQM5jy"
+          }
+        },
+        {
+          "request": {
+            "challengeId": "ch_50QqOs6d6w_FfFZFfsQPCx3M",
+            "dropX": 0.2742047945658366,
+            "dropY": 0.43355244954427086
+          },
+          "result": {
+            "passed": true,
+            "completionId": "cmp_fmGyiMVUyibl9lBuLe9wEl1y",
+            "clickId": "clk_CFG8MgSvzBO5Y7Ky9MGQM5jy"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_post_starts_new_attempt_and_preserves_rewards",
+      "status": "passed",
+      "challengeIds": [
+        "ch_lTi0Ha1YuRQYzPK4o6BmzCAG",
+        "ch_Me2orTJbfen9oz8cXoXZnR2f"
+      ],
+      "completions": [
+        {
+          "passed": true,
+          "completionId": "cmp_AAS8KmFgV6szVPEZ2HhvP2P7",
+          "clickId": "clk_AwNHMZjFtVs0brLuFXzo0Hek"
+        },
+        {
+          "passed": true,
+          "completionId": "cmp_Mg86WjI93dZFOFg362VS5bdB",
+          "clickId": "clk_Tnnad8Y3mNEyK1Z1L3s0DURN"
+        }
+      ]
+    },
+    {
+      "name": "mobile_reduced_motion_completes_original_work",
+      "status": "passed",
+      "before": {
+        "dialog": {
+          "x": 12,
+          "y": 180.0625,
+          "width": 366,
+          "height": 483.875
+        },
+        "stage": {
+          "x": 28,
+          "y": 354.0625,
+          "width": 334,
+          "height": 187.875
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 330,
+            "y": 191.0625,
+            "width": 32,
+            "height": 32
+          },
+          {
+            "x": 256.1875,
+            "y": 602.9375,
+            "width": 105.8125,
+            "height": 40
+          }
+        ]
+      },
+      "after": {
+        "dialog": {
+          "x": 12,
+          "y": 180.0625,
+          "width": 366,
+          "height": 483.875
+        },
+        "stage": {
+          "x": 28,
+          "y": 354.0625,
+          "width": 334,
+          "height": 187.875
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "source": "http://127.0.0.1:5173/creatives/bmw-m3/vehicle.webp",
+        "controls": [
+          {
+            "x": 330,
+            "y": 191.0625,
+            "width": 32,
+            "height": 32
+          },
+          {
+            "x": 261.796875,
+            "y": 479.625,
+            "width": 86.828125,
+            "height": 28
+          },
+          {
+            "x": 242.671875,
+            "y": 602.9375,
+            "width": 119.328125,
+            "height": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "blank_draft_does_not_create_challenge",
+      "status": "passed"
+    },
+    {
+      "name": "public_sdk_uses_latest_callbacks_without_restarting",
+      "status": "passed",
+      "calls": [
+        {
+          "name": "complete",
+          "revision": 2,
+          "result": {
+            "challengeId": "ch_olFWdHcepvZxm3cYQOpM_8XI",
+            "creativeId": "bmw-m3-v1",
+            "completionId": "cmp_oQnBNOudgYE77I-LjpHpmo7W",
+            "clickId": "clk_RdMvrZSCPWeHY9Xl-8EXPKQh"
+          }
+        },
+        {
+          "name": "close",
+          "revision": 2
+        },
+        {
+          "name": "continue",
+          "revision": 3
+        }
+      ]
+    }
+  ],
+  "pageErrors": []
+}
