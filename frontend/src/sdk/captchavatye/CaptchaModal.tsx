@@ -56,19 +56,18 @@ export function CaptchaModal(props: CaptchaModalProps) {
     onClose();
   };
 
-  const title = phase === 'completed' ? '인증이 완료됐어요'
-    : phase === 'error' ? '인증을 진행하지 못했어요'
-    : phase === 'verifying' ? '램프 위치를 확인하고 있어요'
-    : '리어램프를 제자리에 맞춰주세요';
-  const description = phase === 'completed' ? '모의 포인트 10P가 반영됐어요. 원래 작업을 계속해 주세요.'
-    : phase === 'error' ? error?.message
-    : phase === 'verifying' ? '잠시만 기다려 주세요.'
-    : state.notice === 'miss' ? '아직 위치가 맞지 않아요. 램프를 다시 옮겨 주세요.'
-    : '아래 램프 조각을 빈 소켓으로 드래그해 주세요.';
+  const title = phase === 'completed' ? '인증 완료'
+    : phase === 'error' ? '인증할 수 없습니다'
+    : phase === 'loading' ? '불러오는 중…'
+    : phase === 'verifying' || animating ? '확인 중…'
+    : '램프를 빈칸으로 옮겨주세요.';
+  const description = phase === 'error' ? error?.message
+    : phase === 'challenge' && state.notice === 'miss' ? '위치가 맞지 않습니다.'
+    : null;
 
   return (
     <dialog ref={dialog} className="captcha-modal" aria-labelledby="captcha-title"
-      aria-describedby="captcha-description" onCancel={(event) => { event.preventDefault(); close(); }}>
+      aria-describedby={description ? 'captcha-description' : undefined} onCancel={(event) => { event.preventDefault(); close(); }}>
       <header className="captcha-header">
         <div className="captcha-wordmark"><span className="brand-symbol" aria-hidden="true">C</span>CAPTCHAvatye</div>
         <div className="header-actions"><span className="ad-label">광고</span>
@@ -76,33 +75,21 @@ export function CaptchaModal(props: CaptchaModalProps) {
         </div>
       </header>
       <div className="captcha-content">
-        <div className="captcha-intro" aria-live="polite">
-          <span className="eyebrow">INTERACTIVE EXPERIENCE</span>
+        <div className="captcha-intro" aria-live="polite" aria-atomic="true">
           <h2 id="captcha-title">{title}</h2>
-          <p id="captcha-description">{description}</p>
+          {description && <p id="captcha-description">{description}</p>}
         </div>
         {creative ? <CarPuzzle creative={creative} pieceCrop={pieceCrop} coverCrop={coverCrop}
           open={open} phase={phase} run={run} loadAttempt={state.loadAttempt} lastDrop={state.lastVerify}
           onDrop={flow.drop} onReady={handleReady} onError={handleError}
           onStageEnd={handleStageEnd} onResize={flow.resize} ctaHref={ctaHref} onCtaClick={handleCtaClick} />
           : <div className="car-stage" data-phase={phase} aria-busy={phase === 'loading'}>
-              <div className="stage-message">
-                {phase === 'loading' && <span className="loading-dot" />}
-                {phase === 'loading' ? '인증을 준비하고 있어요' : '서버 연결을 확인해 주세요'}
-              </div>
+              {phase === 'loading' && <div className="stage-message" aria-hidden="true"><span className="loading-dot" /></div>}
             </div>}
-        <div className="preview-status" role="status">
-          <span className={'status-mark' + (phase === 'completed' ? ' status-complete' : '')} aria-hidden="true">
-            {phase === 'completed' ? '✓' : '·'}
-          </span>
-          <span>{phase === 'completed' ? '인증 완료' : animating ? '차량을 공개하고 있어요'
-            : phase === 'verifying' ? '위치 확인 중' : '램프를 드래그해 주세요'}</span>
-          <span className="preview-note">시연용 모의 포인트</span>
-        </div>
       </div>
       <footer className="captcha-footer">
-        <div className="benefit"><span className="point-icon" aria-hidden="true">P</span>
-          <div><strong>{phase === 'completed' ? '10P 반영 완료' : '완성 혜택 10P'}</strong><small>실제 보상이 아닌 모의 포인트</small></div>
+        <div className="benefit" role="status"><span className="point-icon" aria-hidden="true">P</span>
+          <strong>{phase === 'completed' ? '모의 포인트 +10P' : '모의 포인트 10P'}</strong>
         </div>
         <div className="preview-controls">
           {phase === 'completed'
@@ -111,9 +98,7 @@ export function CaptchaModal(props: CaptchaModalProps) {
               ? error?.retryable
                 ? <button className="primary-button" type="button" onClick={flow.retry}>다시 시도</button>
                 : <button className="primary-button" type="button" onClick={close}>닫기</button>
-              : <button className="primary-button" type="button" disabled>
-                  {phase === 'loading' ? '준비 중…' : phase === 'verifying' ? '확인 중…' : animating ? '연출 중…' : '드래그하여 완성'}
-                </button>}
+              : null}
         </div>
       </footer>
     </dialog>

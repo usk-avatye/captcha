@@ -262,8 +262,7 @@ export function CarPuzzle({
           </div>
         </div>
       </div>
-      {phase === 'loading' && <div className="stage-message"><span className="loading-dot" />이미지를 준비하고 있어요</div>}
-      {phase === 'error' && <div className="stage-message">인증을 진행하지 못했어요.</div>}
+      {phase === 'loading' && <div className="stage-message" aria-hidden="true"><span className="loading-dot" /></div>}
     </div>
   );
 }

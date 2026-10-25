@@ -13,9 +13,9 @@
 .header-actions { display: flex; align-items: center; gap: 14px; }
 .ad-label { font-size: 10px; color: #8c968e; border: 1px solid #e0e5df; border-radius: 3px; padding: 2px 5px; }
 .icon-button { border: 0; background: none; width: 32px; height: 32px; padding: 0; color: #7f8a82; font-size: 28px; line-height: 1; }
-.captcha-content { padding: 22px 24px 0; }
-.captcha-intro { height: 89px; }
-.captcha-intro h2 { font-size: 21px; letter-spacing: -.6px; line-height: 1.4; font-weight: 650; margin-top: 7px; }
+.captcha-content { padding: 22px 24px 24px; }
+.captcha-intro { height: 76px; }
+.captcha-intro h2 { font-size: 21px; letter-spacing: -.6px; line-height: 1.4; font-weight: 650; }
 .captcha-intro p { color: #89938b; font-size: 12px; line-height: 1.6; margin-top: 5px; }
 .car-stage {
   position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
@@ -50,22 +50,16 @@
 .stage-message { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font-size: 13px; color: #727d72; }
 .loading-dot { width: 20px; height: 20px; border: 2px solid #c6cfc5; border-top-color: #436b53; border-radius: 50%; animation: loading-spin .8s linear infinite; }
 @keyframes loading-spin { to { transform: rotate(360deg); } }
-.preview-status { display: flex; align-items: center; gap: 7px; min-height: 43px; font-size: 11px; color: #7b887e; }
-.status-mark { width: 14px; height: 14px; display: grid; place-items: center; border: 1px solid #cbd6cc; border-radius: 50%; font-size: 14px; }
-.status-complete { color: #37674c; background: #eaf2e8; border: 0; font-size: 10px; }
-.preview-note { margin-left: auto; font-size: 10px; color: #9ba49b; }
 .captcha-footer { display: flex; align-items: center; justify-content: space-between; min-height: 80px; padding: 14px 24px; background: #f7f9f5; border-top: 1px solid #edf1e9; }
 .benefit { display: flex; align-items: center; gap: 9px; }
 .point-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #e8eee1; color: #6e8058; font-size: 13px; font-weight: 600; }
 .benefit strong { display: block; font-size: 12px; font-weight: 600; color: #54614d; }
-.benefit small { display: block; margin-top: 4px; color: #9aa38f; font-size: 10px; }
 .preview-controls { display: flex; align-items: center; gap: 13px; }
-.text-button { border: 0; background: none; color: #788575; padding: 8px 0; font-size: 11px; }
 @media (max-width: 600px) {
   .captcha-modal { max-width: calc(100vw - 24px); border-radius: 14px; }
   .captcha-header { height: 55px; padding: 0 16px; }
-  .captcha-content { padding: 19px 16px 0; }
-  .captcha-intro { height: 100px; }
+  .captcha-content { padding: 19px 16px 20px; }
+  .captcha-intro { height: 76px; }
   .captcha-intro h2 { font-size: 17px; }
   .captcha-intro p { font-size: 11px; max-width: 285px; }
   .brand-panel { top: 20%; }
@@ -75,20 +69,15 @@
   .cta-slot { margin-top: 12px; }
   .brand-cta { min-height: 28px; padding: 0 7px; font-size: 9px; }
   .cta-new-tab-note { font-size: 7px; margin-top: 3px; }
-  .preview-status { min-height: 39px; font-size: 10px; }
-  .preview-note { font-size: 8px; }
   .captcha-footer { min-height: 83px; padding: 14px 16px; gap: 12px; }
   .benefit strong { font-size: 11px; }
-  .benefit small { font-size: 8px; }
   .point-icon { width: 26px; height: 26px; }
   .captcha-footer .primary-button { min-height: 40px; padding: 0 15px; font-size: 12px; }
   .preview-controls { gap: 9px; }
-  .text-button { font-size: 10px; }
 }
 @media (max-width: 360px) {
   .brand-panel h3 { font-size: 18px; }
   .point-icon { display: none; }
-  .preview-note { font-size: 7px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .brand-panel { transition: none; }
