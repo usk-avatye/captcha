@@ -16,10 +16,10 @@ USER_ROOT="$(cd "${HOME:?HOME is not set}" && pwd -P)"
 [[ "$(basename "$SDK_ROOT")" == "final_mission" ]] || fail "SDK 저장소는 git clone URL final_mission 명령으로 폴더 이름을 지정해 주세요."
 case "$SDK_ROOT" in
   "$USER_ROOT/dev/"*) ;;
-  *) fail "저장소를 ~/dev/missions/final_mission 아래에 clone한 뒤 다시 실행해 주세요." ;;
+  *) fail "저장소를 ~/dev 아래의 시연 폴더에 clone한 뒤 다시 실행해 주세요." ;;
 esac
 
-[[ -f "$CUSTOMER_ROOT/backend/alembic.ini" ]] || fail "고객사 저장소를 나란한 폴더 ~/dev/missions/Internship-finalproject 에 clone해 주세요."
+[[ -f "$CUSTOMER_ROOT/backend/alembic.ini" ]] || fail "SDK의 final_mission 폴더와 고객사의 Internship-finalproject 폴더를 나란히 clone해 주세요."
 [[ -x "$(command -v docker || true)" ]] || fail "Docker Desktop을 설치하고 터미널을 다시 열어 주세요."
 docker info >/dev/null 2>&1 || fail "Docker Desktop을 실행한 뒤 다시 시도해 주세요."
 

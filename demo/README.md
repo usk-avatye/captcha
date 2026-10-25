@@ -7,8 +7,8 @@
 Docker Desktop을 실행하고 터미널에서 다음 명령을 한 번 입력한다.
 
 ```bash
-mkdir -p ~/dev/missions
-cd ~/dev/missions
+mkdir -p ~/dev/captchavatye-demo
+cd ~/dev/captchavatye-demo
 git clone --branch codex/captchavatye-demo --single-branch https://github.com/usk-avatye/captcha.git final_mission
 git clone --branch codex/captchavatye-demo --single-branch https://github.com/kimheejun-avatye/Internship-finalproject.git
 cd final_mission
