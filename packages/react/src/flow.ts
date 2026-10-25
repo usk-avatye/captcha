@@ -14,6 +14,13 @@ export type FlowSnapshot = {
   loadAttempt: number;
 };
 
+type FlowObserver = {
+  ready: (challengeId: string) => void;
+  miss: () => void;
+  passed: () => void;
+  setOpen: (open: boolean) => void;
+};
+
 // React 밖에서도 같은 수명 규칙을 검증한다. DOM/드래그/포인트는 소유하지 않는다.
 export class CaptchaFlow {
   private creativeId: string;
@@ -23,6 +30,7 @@ export class CaptchaFlow {
   private request: AbortController | null = null;
   private listeners = new Set<() => void>();
   private completionDelivered = false;
+  private observer?: FlowObserver;
   private callbacks: {
     onComplete: (result: CompletionResult) => void;
     onContinue: () => void;
@@ -32,9 +40,14 @@ export class CaptchaFlow {
     result: null, error: null, notice: null, run: 0, loadAttempt: 0,
   };
 
-  constructor(creativeId: string, api: CaptchaApi) {
+  constructor(creativeId: string, api: CaptchaApi, observer?: FlowObserver) {
     this.creativeId = creativeId;
     this.api = api;
+    this.observer = observer;
+  }
+
+  private observe(action: (observer: FlowObserver) => void) {
+    try { if (this.observer) action(this.observer); } catch { /* 수집 실패에도 인증 흐름을 계속한다. */ }
   }
 
   getSnapshot = () => this.state;
@@ -58,6 +71,7 @@ export class CaptchaFlow {
 
   setOpen = (open: boolean) => {
     if (this.opened === open) return;
+    this.observe(observer => observer.setOpen(open));
     this.opened = open;
     if (!open) {
       this.generation += 1;
@@ -122,9 +136,11 @@ export class CaptchaFlow {
       const response = await this.api.verify(request, execution.controller.signal);
       if (!execution.current()) return;
       if (!response.passed) {
+        this.observe(observer => observer.miss());
         this.update({ phase: 'challenge', run: this.state.run + 1, notice: 'miss' });
         return;
       }
+      this.observe(observer => observer.passed());
       this.update({
         phase: 'snapping', run: this.state.run + 1,
         result: {
@@ -141,6 +157,7 @@ export class CaptchaFlow {
 
   assetsReady = (run: number) => {
     if (this.opened && this.state.phase === 'loading' && this.state.challengeId && run === this.state.run) {
+      this.observe(observer => observer.ready(this.state.challengeId!));
       this.update({ phase: 'challenge', error: null, notice: null });
     }
   };

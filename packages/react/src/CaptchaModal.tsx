@@ -12,7 +12,7 @@ export function CaptchaModal(props: CaptchaModalProps) {
   const titleId = id + '-title';
   const descriptionId = id + '-description';
   const dialog = useRef<HTMLDialogElement>(null);
-  const { state, flow } = useCaptchaFlow(props);
+  const { state, flow, interaction } = useCaptchaFlow(props);
   const { phase, creative, run, error } = state;
   const [trackEvent] = useState(() => createEventTracker(props.apiBaseUrl ?? '/api'));
   const shownClickId = useRef<string | null>(null);
@@ -48,7 +48,7 @@ export function CaptchaModal(props: CaptchaModalProps) {
   const handleError = useCallback(() => flow.assetsError(run), [flow, run]);
   const handleStageEnd = useCallback((stage: 'snapping' | 'revealing') => flow.stageEnd(stage, run), [flow, run]);
   const close = () => {
-    flow.close(); // 부모의 다음 렌더 전에 요청·완료 실행을 무효화한다.
+    flow.close(); // 부모의 다음 렌더 전에 요청과 완료 실행을 무효화한다.
     onClose();
   };
 
@@ -78,6 +78,7 @@ export function CaptchaModal(props: CaptchaModalProps) {
         {creative ? <CarPuzzle creative={creative} pieceCrop={pieceCrop} coverCrop={coverCrop}
           open={open} phase={phase} run={run} loadAttempt={state.loadAttempt} lastDrop={state.lastVerify}
           onDrop={flow.drop} onReady={handleReady} onError={handleError}
+          interaction={interaction}
           onStageEnd={handleStageEnd} onResize={flow.resize} ctaHref={ctaHref} onCtaClick={handleCtaClick} />
           : <div className="cv-car-stage" data-phase={phase} aria-busy={phase === 'loading'}>
               {phase === 'loading' && <div className="cv-stage-message" aria-hidden="true"><span className="cv-loading-dot" /></div>}

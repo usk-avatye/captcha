@@ -68,6 +68,8 @@ export type CaptchaModalProps = {
   /** 상대 시승 URL을 해석할 절대 HTTP(S) 주소. 기본값은 현재 origin. */
   landingBaseUrl?: string;
   continueLabel?: string;
+  /** 인증별 수집 설정. 경로 표본 비율의 기본값은 0.01이다. */
+  telemetry?: { enabled?: boolean; pathSampleRate?: number };
   onComplete: (result: CompletionResult) => void;
   onContinue: () => void;
   onClose: () => void;

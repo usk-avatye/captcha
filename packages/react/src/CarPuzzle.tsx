@@ -4,6 +4,7 @@ import { calculatePuzzleLayout, normalizeDrop, pointerPosition } from './geometr
 import { armStageCompletion } from './stageCompletion';
 import type { StageCompletion } from './stageCompletion';
 import type { Creative, DropPoint, RasterCrop, VisualPhase } from './types';
+import type { InteractionRecorder } from './interactions';
 
 type Props = {
   creative: Creative;
@@ -21,6 +22,7 @@ type Props = {
   onResize: () => void;
   ctaHref: string | null;
   onCtaClick: () => void;
+  interaction: InteractionRecorder;
 };
 
 function spriteStyle(crop: RasterCrop): CSSProperties {
@@ -34,7 +36,7 @@ function spriteStyle(crop: RasterCrop): CSSProperties {
 
 export function CarPuzzle({
   creative, pieceCrop, coverCrop, open, phase, run, loadAttempt,
-  lastDrop, onDrop, onReady, onError, onStageEnd, onResize, ctaHref, onCtaClick,
+  lastDrop, onDrop, onReady, onError, onStageEnd, onResize, ctaHref, onCtaClick, interaction,
 }: Props) {
   const stageElement = useRef<HTMLDivElement>(null);
   const pieceElement = useRef<HTMLDivElement>(null);
@@ -44,10 +46,11 @@ export function CarPuzzle({
   const releaseDrag = useCallback(() => {
     const active = drag.current;
     drag.current = null;
+    if (active) interaction.release();
     const piece = pieceElement.current;
     piece?.removeAttribute('data-dragging');
     if (active && piece?.hasPointerCapture(active.pointerId)) piece.releasePointerCapture(active.pointerId);
-  }, []);
+  }, [interaction]);
   const applyPosition = useCallback((point: { x: number; y: number }) => {
     position.current = point;
     if (pieceElement.current) {
@@ -168,7 +171,11 @@ export function CarPuzzle({
   const move = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!open || phase !== 'challenge' || !drag.current || drag.current.pointerId !== event.pointerId) return;
     const stage = stageElement.current;
-    if (stage) applyPosition(pointerPosition(event, stage.getBoundingClientRect(), drag.current.offset));
+    if (stage) {
+      const bounds = stage.getBoundingClientRect();
+      applyPosition(pointerPosition(event, bounds, drag.current.offset));
+      interaction.move((event.clientX - bounds.left) / bounds.width, (event.clientY - bounds.top) / bounds.height);
+    }
   };
   const cancel = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (drag.current?.pointerId !== event.pointerId) return;
@@ -182,6 +189,9 @@ export function CarPuzzle({
     drag.current = { pointerId: event.pointerId, offset: { x: event.clientX - bounds.left, y: event.clientY - bounds.top } };
     event.currentTarget.setPointerCapture(event.pointerId);
     event.currentTarget.setAttribute('data-dragging', 'true');
+    const stageBounds = stageElement.current?.getBoundingClientRect();
+    if (stageBounds) interaction.press((event.clientX - stageBounds.left) / stageBounds.width,
+      (event.clientY - stageBounds.top) / stageBounds.height);
   };
   const pointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!open || phase !== 'challenge' || drag.current?.pointerId !== event.pointerId) return;
