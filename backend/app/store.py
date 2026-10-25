@@ -49,4 +49,12 @@ class Store:
     click_links: dict[str, ClickLink] = field(default_factory=dict)
     events: dict[str, EventRecord] = field(default_factory=dict)
     leads: dict[str, LeadRecord] = field(default_factory=dict)
+    interactions: dict[str, 'InteractionRecord'] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class InteractionRecord:
+    revision: int
+    metrics: dict
+    received_at: datetime
 

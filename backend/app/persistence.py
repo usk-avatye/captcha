@@ -7,6 +7,7 @@ from sqlalchemy import (
     CheckConstraint,
     DateTime,
     ForeignKey,
+    Integer,
     inspect,
     String,
     Text,
@@ -16,12 +17,14 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
 from app.demo_config import CREATIVE, TOLERANCE_X, TOLERANCE_Y
 from app.schemas.captcha import StartResponse, VerifyMiss, VerifyPassed, VerifyRequest
 from app.schemas.demo import TestDriveRequest, TestDriveResponse
 from app.schemas.events import EventRequest, EventResponse
+from app.schemas.interactions import InteractionSummaryRequest
 from app.store import EventRecord, LeadRecord
 
 
@@ -83,6 +86,17 @@ class LeadRow(Base):
     is_demo: Mapped[bool] = mapped_column(nullable=False)
 
 
+class InteractionRow(Base):
+    __tablename__ = 'captcha_interaction_summaries'
+
+    challenge_id: Mapped[str] = mapped_column(
+        ForeignKey('captcha_challenges.challenge_id', ondelete='RESTRICT'), primary_key=True,
+    )
+    revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    metrics: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
 def _lead_response(row: LeadRow) -> TestDriveResponse:
     return TestDriveResponse(
         leadId=row.lead_id, clickId=row.click_id,
@@ -107,12 +121,12 @@ class PostgresStore:
         sessions = self._sessions()
         with sessions() as session:
             names = set(inspect(session.bind).get_table_names())
-            required = {"alembic_version", "captcha_challenges", "captcha_events", "captcha_demo_leads"}
+            required = {"alembic_version", "captcha_challenges", "captcha_events", "captcha_demo_leads", "captcha_interaction_summaries"}
             if not required <= names:
                 missing = ", ".join(sorted(required - names))
                 raise RuntimeError(f"CAPTCHAvatye DB migration is missing: {missing}")
             revision = session.execute(text("SELECT version_num FROM alembic_version")).scalar_one_or_none()
-            if revision != "0003_event_keys":
+            if revision != "0004_interaction_summaries":
                 raise RuntimeError("CAPTCHAvatye DB is not at the required Alembic revision")
             session.execute(select(1))
 
@@ -201,6 +215,27 @@ class PostgresStore:
                     from app.services.events import EventRejected
                     raise EventRejected(409, "EVENT_ID_CONFLICT", "같은 이벤트 ID에 다른 내용이 이미 저장되어 있습니다.")
                 return EventResponse(duplicate=True)
+
+    def collect_interaction(self, request: InteractionSummaryRequest, received_at: datetime) -> EventResponse:
+        from app.services.events import EventRejected
+        from app.services.interactions import check_revision
+
+        metrics = request.metrics.model_dump()
+        with self._sessions()() as session, session.begin():
+            challenge = session.scalar(select(ChallengeRow).where(
+                ChallengeRow.challenge_id == request.challengeId,
+            ).with_for_update())
+            if challenge is None:
+                raise EventRejected(404, 'CHALLENGE_NOT_FOUND', '인증 ID를 찾을 수 없습니다.')
+            existing = session.get(InteractionRow, request.challengeId)
+            if existing:
+                if check_revision(request.revision, metrics, existing.revision, existing.metrics):
+                    return EventResponse(duplicate=True)
+                existing.revision, existing.metrics, existing.received_at = request.revision, metrics, received_at
+            else:
+                session.add(InteractionRow(challenge_id=request.challengeId, revision=request.revision,
+                    metrics=metrics, received_at=received_at))
+        return EventResponse(duplicate=False)
 
     def request_test_drive(self, request: TestDriveRequest, now: datetime) -> tuple[TestDriveResponse, bool]:
         with self._sessions()() as session:

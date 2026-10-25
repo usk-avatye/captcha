@@ -14,7 +14,7 @@ from alembic.config import Config
 
 from app.api.routes import internal as internal_routes
 from app.main import create_app
-from app.persistence import EventRow, LeadRow, PostgresStore
+from app.persistence import EventRow, LeadRow, InteractionRow, PostgresStore
 from conftest import ApiClient
 
 
@@ -54,7 +54,7 @@ def clean_dedicated_database(migrated_database):
     engine = create_engine(DATABASE_URL)
     with engine.begin() as connection:
         connection.execute(text(
-            "TRUNCATE captcha_events, captcha_demo_leads, captcha_challenges"
+            "TRUNCATE captcha_interaction_summaries, captcha_events, captcha_demo_leads, captcha_challenges"
         ))
     yield
     engine.dispose()
@@ -83,6 +83,28 @@ def solve(client, challenge):
     assert response.status_code == 200
     assert response.json()["passed"] is True
     return response.json()
+
+
+def test_parallel_summary_revision_survives_restart(client):
+    challenge = start(client)
+    base = {'challengeId': challenge['challengeId'], 'revision': 1, 'metrics': {
+        'firstInteractionMs': 200, 'solveMs': None, 'missCount': 1, 'path': [],
+    }}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = list(pool.map(lambda _: client.post('/api/interaction-summaries', json=base).status_code, range(8)))
+    assert results.count(201) == 1
+    assert results.count(200) == 7
+    latest = {**base, 'revision': 3, 'metrics': {**base['metrics'], 'solveMs': 700}}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = list(pool.map(lambda body: client.post('/api/interaction-summaries', json=body).status_code,
+            [latest, {**base, 'revision': 2}] * 4))
+    assert set(results) <= {200, 201}
+    restarted = ApiClient(create_app(store=PostgresStore(DATABASE_URL)))
+    assert restarted.post('/api/interaction-summaries', json=latest).status_code == 200
+    assert restarted.post('/api/interaction-summaries', json={**base, 'revision': 3}).status_code == 409
+    with create_engine(DATABASE_URL).connect() as connection:
+        assert connection.scalar(select(func.count()).select_from(InteractionRow)) == 1
+        assert connection.scalar(select(InteractionRow.metrics))['solveMs'] == 700
 
 
 @pytest.mark.parametrize("size", [121, 5000])
