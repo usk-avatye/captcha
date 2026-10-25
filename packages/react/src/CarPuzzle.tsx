@@ -202,10 +202,10 @@ export function CarPuzzle({
   };
 
   return (
-    <div ref={stageElement} className="car-stage" data-phase={phase} aria-busy={phase === 'loading' || phase === 'verifying'}>
-      <div className="car-artwork" style={{ visibility: phase === 'loading' || phase === 'error' ? 'hidden' : 'visible' }}>
+    <div ref={stageElement} className="cv-car-stage" data-phase={phase} aria-busy={phase === 'loading' || phase === 'verifying'}>
+      <div className="cv-car-artwork" style={{ visibility: phase === 'loading' || phase === 'error' ? 'hidden' : 'visible' }}>
         <div
-          className="car-scene"
+          className="cv-car-scene"
           data-scene
           onTransitionEnd={(event) => finish(event, 'revealing')}
           style={{
@@ -215,20 +215,20 @@ export function CarPuzzle({
               ? 'transform ' + (reducedMotion ? 0 : creative.revealMs) + 'ms cubic-bezier(.22,.72,.16,1)' : 'none',
           }}
         >
-          <img ref={imageElement} key={loadAttempt} className="vehicle-image" src={creative.imageUrl} alt="초록색 BMW M3의 후면" draggable={false} />
+          <img ref={imageElement} key={loadAttempt} className="cv-vehicle-image" src={creative.imageUrl} alt="초록색 BMW M3의 후면" draggable={false} />
           {showPiece && (
-            <div className="socket-cover sprite-window" data-socket style={{
+            <div className="cv-socket-cover cv-sprite-window" data-socket style={{
               left: creative.lampRect.x * 100 + '%',
               top: creative.lampRect.y * 100 + '%',
               width: creative.lampRect.width * 100 + '%',
               height: creative.lampRect.height * 100 + '%',
             }}>
-              <img src={creative.coverUrl} className="sprite-image" style={spriteStyle(coverCrop)} alt="" draggable={false} />
+              <img src={creative.coverUrl} className="cv-sprite-image" style={spriteStyle(coverCrop)} alt="" draggable={false} />
             </div>
           )}
         </div>
         {showPiece && (
-          <div ref={pieceElement} className="lamp-piece" data-piece data-draggable={open && phase === 'challenge'}
+          <div ref={pieceElement} className="cv-lamp-piece" data-piece data-draggable={open && phase === 'challenge'}
             onPointerDown={pointerDown} onPointerMove={move} onPointerUp={pointerUp}
             onPointerCancel={cancel} onLostPointerCapture={cancel}
             onTransitionEnd={(event) => finish(event, 'snapping')} style={{
@@ -239,30 +239,30 @@ export function CarPuzzle({
             transition: phase === 'snapping' && moving
               ? 'transform ' + (reducedMotion ? 0 : creative.snapMs) + 'ms ease-out' : 'none',
           }}>
-            <div className="sprite-window">
-              <img src={creative.pieceUrl} className="sprite-image" style={spriteStyle(pieceCrop)} alt="맞출 리어램프 조각" draggable={false} />
+            <div className="cv-sprite-window">
+              <img src={creative.pieceUrl} className="cv-sprite-image" style={spriteStyle(pieceCrop)} alt="맞출 리어램프 조각" draggable={false} />
             </div>
           </div>
         )}
-        <div className={'brand-panel' + (fullView ? ' brand-panel-visible' : '')} aria-hidden={!fullView}>
-          <span className="brand-eyebrow">THE M3</span>
+        <div className={'cv-brand-panel' + (fullView ? ' cv-brand-panel-visible' : '')} aria-hidden={!fullView}>
+          <span className="cv-brand-eyebrow">THE M3</span>
           <h3>{creative.brandTitle}</h3>
           <p>{creative.tagline}</p>
-          <div className="cta-slot">
+          <div className="cv-cta-slot">
             {phase === 'completed' && ctaHref && (
               <>
-                <a className="brand-cta" href={ctaHref} target="_blank" rel="noopener noreferrer"
+                <a className="cv-brand-cta" href={ctaHref} target="_blank" rel="noopener noreferrer"
                   onClick={onCtaClick} onAuxClick={event => { if (event.button === 1) onCtaClick(); }}
                   aria-label={creative.ctaLabel + ' (새 탭에서 열림)'}>
                   {creative.ctaLabel}<span aria-hidden="true">↗</span>
                 </a>
-                <span className="cta-new-tab-note">새 탭에서 열립니다</span>
+                <span className="cv-cta-new-tab-note">새 탭에서 열립니다</span>
               </>
             )}
           </div>
         </div>
       </div>
-      {phase === 'loading' && <div className="stage-message" aria-hidden="true"><span className="loading-dot" /></div>}
+      {phase === 'loading' && <div className="cv-stage-message" aria-hidden="true"><span className="cv-loading-dot" /></div>}
     </div>
   );
 }

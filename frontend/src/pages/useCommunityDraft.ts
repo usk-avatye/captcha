@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import type { CompletionResult } from '../sdk/captchavatye';
+import type { CompletionResult } from '@captchavatye/react';
 
 export type CommunityDraft = { title: string; body: string };
 export type LocalPost = CommunityDraft & { number: number };

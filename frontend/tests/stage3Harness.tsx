@@ -1,10 +1,11 @@
 // 검증 전용 진입점. 제품 App이나 SDK 공개 API에 시험용 메서드를 추가하지 않는다.
 import { StrictMode, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { CaptchaModal } from '../src/sdk/captchavatye';
-import type { CompletionResult } from '../src/sdk/captchavatye';
+import { CaptchaModal } from '@captchavatye/react';
+import type { CompletionResult } from '@captchavatye/react';
 import { useCommunityDraft } from '../src/pages/useCommunityDraft';
 import '../src/index.css';
+import '@captchavatye/react/style.css';
 
 export function HostHarness() {
   const state = useCommunityDraft();

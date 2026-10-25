@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
 import { createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { createCaptchaApi, ApiError } from '../src/sdk/captchavatye/api.ts';
+import { createCaptchaApi, ApiError } from '../../packages/react/src/api.ts';
 import { creative } from './fixtures.ts';
 
 let origin = '';

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { createEventTracker, deliverEvent } from '../src/sdk/captchavatye/tracking.ts';
+import { createEventTracker, deliverEvent } from '../../packages/react/src/tracking.ts';
 import { DemoApiError, submitTestDrive } from '../src/demo/testDriveApi.ts';
 
 const event = { eventId: 'ev_contract', eventName: 'cta_clicked' as const, clickId: 'clk_contract', occurredAt: '2026-10-25T00:00:00Z' };

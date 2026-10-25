@@ -4,7 +4,7 @@ import { locations, slots } from '../demo/testDriveOptions';
 import type { LocationId, SlotId } from '../demo/testDriveOptions';
 import { DemoApiError, submitTestDrive } from '../demo/testDriveApi';
 import type { TestDriveRequest, TestDriveResult } from '../demo/testDriveApi';
-import { createEventTracker } from '../sdk/captchavatye/tracking';
+import { createEventTracker } from '@captchavatye/react';
 import './TestDrivePage.css';
 
 type Status = 'editing' | 'sending' | 'retry' | 'completed' | 'blocked';

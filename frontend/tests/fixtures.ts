@@ -1,4 +1,4 @@
-import type { Creative } from '../src/sdk/captchavatye/types.ts';
+import type { Creative } from '../../packages/react/src/types.ts';
 
 export const creative: Creative = {
   creativeId: 'bmw-m3-v1', version: '1',

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { calculatePuzzleLayout } from '../src/sdk/captchavatye/geometry.ts';
+import { calculatePuzzleLayout } from '../../packages/react/src/geometry.ts';
 
 const lamp = { x: 0.5, y: 0.375, width: 0.125, height: 0.125 };
 const zoom = { x: 0.25, y: 0.25, width: 0.5, height: 0.5 };

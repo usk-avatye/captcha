@@ -1,27 +1,23 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useId } from 'react';
 import { CarPuzzle } from './CarPuzzle';
 import { coverCrop, pieceCrop } from './creativeAssets';
 import { useCaptchaFlow } from './useCaptchaFlow';
 import { createEventTracker } from './tracking';
 import type { CaptchaModalProps } from './types';
-import './captchavatye.css';
+import { createCtaHref } from './urls';
 
 export function CaptchaModal(props: CaptchaModalProps) {
-  const { open, onClose } = props;
+  const { open, onClose, continueLabel = '원래 작업 계속하기' } = props;
+  const id = useId();
+  const titleId = id + '-title';
+  const descriptionId = id + '-description';
   const dialog = useRef<HTMLDialogElement>(null);
   const { state, flow } = useCaptchaFlow(props);
   const { phase, creative, run, error } = state;
   const [trackEvent] = useState(() => createEventTracker(props.apiBaseUrl ?? '/api'));
   const shownClickId = useRef<string | null>(null);
   const clickId = state.result?.clickId ?? null;
-  let ctaHref: string | null = null;
-  if (creative && clickId) {
-    const landing = new URL(creative.landingPath, window.location.origin);
-    if (landing.origin === window.location.origin) {
-      landing.searchParams.set('clickId', clickId);
-      ctaHref = landing.pathname + landing.search + landing.hash;
-    }
-  }
+  const ctaHref = creative && clickId ? createCtaHref(creative.landingPath, clickId) : null;
   const animating = phase === 'snapping' || phase === 'revealing';
 
   useLayoutEffect(() => {
@@ -66,38 +62,35 @@ export function CaptchaModal(props: CaptchaModalProps) {
     : null;
 
   return (
-    <dialog ref={dialog} className="captcha-modal" aria-labelledby="captcha-title"
-      aria-describedby={description ? 'captcha-description' : undefined} onCancel={(event) => { event.preventDefault(); close(); }}>
-      <header className="captcha-header">
-        <div className="captcha-wordmark"><span className="brand-symbol" aria-hidden="true">C</span>CAPTCHAvatye</div>
-        <div className="header-actions"><span className="ad-label">광고</span>
-          <button className="icon-button" type="button" aria-label="인증 화면 닫기" onClick={close}>×</button>
+    <dialog ref={dialog} className="cv-captcha-modal" aria-labelledby={titleId}
+      aria-describedby={description ? descriptionId : undefined} onCancel={(event) => { event.preventDefault(); close(); }}>
+      <header className="cv-captcha-header">
+        <div className="cv-captcha-wordmark"><span className="cv-brand-symbol" aria-hidden="true">C</span>CAPTCHAvatye</div>
+        <div className="cv-header-actions"><span className="cv-ad-label">광고</span>
+          <button className="cv-icon-button" type="button" aria-label="인증 화면 닫기" onClick={close}>×</button>
         </div>
       </header>
-      <div className="captcha-content">
-        <div className="captcha-intro" aria-live="polite" aria-atomic="true">
-          <h2 id="captcha-title">{title}</h2>
-          {description && <p id="captcha-description">{description}</p>}
+      <div className="cv-captcha-content">
+        <div className="cv-captcha-intro" aria-live="polite" aria-atomic="true">
+          <h2 id={titleId}>{title}</h2>
+          {description && <p id={descriptionId}>{description}</p>}
         </div>
         {creative ? <CarPuzzle creative={creative} pieceCrop={pieceCrop} coverCrop={coverCrop}
           open={open} phase={phase} run={run} loadAttempt={state.loadAttempt} lastDrop={state.lastVerify}
           onDrop={flow.drop} onReady={handleReady} onError={handleError}
           onStageEnd={handleStageEnd} onResize={flow.resize} ctaHref={ctaHref} onCtaClick={handleCtaClick} />
-          : <div className="car-stage" data-phase={phase} aria-busy={phase === 'loading'}>
-              {phase === 'loading' && <div className="stage-message" aria-hidden="true"><span className="loading-dot" /></div>}
+          : <div className="cv-car-stage" data-phase={phase} aria-busy={phase === 'loading'}>
+              {phase === 'loading' && <div className="cv-stage-message" aria-hidden="true"><span className="cv-loading-dot" /></div>}
             </div>}
       </div>
-      <footer className="captcha-footer">
-        <div className="benefit" role="status"><span className="point-icon" aria-hidden="true">P</span>
-          <strong>{phase === 'completed' ? '모의 포인트 +10P' : '모의 포인트 10P'}</strong>
-        </div>
-        <div className="preview-controls">
+      <footer className="cv-captcha-footer">
+        <div className="cv-preview-controls">
           {phase === 'completed'
-            ? <button className="primary-button" type="button" onClick={flow.continue}>원래 작업 계속하기</button>
+            ? <button className="cv-primary-button" type="button" onClick={flow.continue}>{continueLabel}</button>
             : phase === 'error'
               ? error?.retryable
-                ? <button className="primary-button" type="button" onClick={flow.retry}>다시 시도</button>
-                : <button className="primary-button" type="button" onClick={close}>닫기</button>
+                ? <button className="cv-primary-button" type="button" onClick={flow.retry}>다시 시도</button>
+                : <button className="cv-primary-button" type="button" onClick={close}>닫기</button>
               : null}
         </div>
       </footer>

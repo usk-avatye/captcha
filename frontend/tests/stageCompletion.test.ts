@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { armStageCompletion } from '../src/sdk/captchavatye/stageCompletion.ts';
+import { armStageCompletion } from '../../packages/react/src/stageCompletion.ts';
 
 test('종료 이벤트와 우회 타이머가 겹쳐도 다음 단계는 한 번만 실행한다', (t) => {
   t.mock.timers.enable({ apis: ['setTimeout'] });

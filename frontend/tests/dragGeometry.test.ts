@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { normalizeDrop, pointerPosition } from '../src/sdk/captchavatye/geometry.ts';
+import { normalizeDrop, pointerPosition } from '../../packages/react/src/geometry.ts';
 
 test('조각 중심을 확대된 전체 원본 경계로 정규화한다', () => {
   assert.deepEqual(normalizeDrop(

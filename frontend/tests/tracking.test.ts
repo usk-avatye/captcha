@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createEventTracker, deliverEvent } from '../src/sdk/captchavatye/tracking.ts';
+import { createEventTracker, deliverEvent } from '../../packages/react/src/tracking.ts';
 
 const accepted = (status = 201) => new Response(JSON.stringify({
   accepted: true, duplicate: status === 200,

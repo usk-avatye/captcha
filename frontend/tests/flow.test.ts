@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { CaptchaFlow } from '../src/sdk/captchavatye/flow.ts';
-import { ApiError } from '../src/sdk/captchavatye/api.ts';
-import type { ChallengeResponse, VerifyRequest, VerifyResult } from '../src/sdk/captchavatye/types.ts';
+import { CaptchaFlow } from '../../packages/react/src/flow.ts';
+import { ApiError } from '../../packages/react/src/api.ts';
+import type { ChallengeResponse, VerifyRequest, VerifyResult } from '../../packages/react/src/types.ts';
 import { creative } from './fixtures.ts';
 
 function deferred<T>() {
@@ -187,7 +187,7 @@ test('리사이즈로 연출을 다시 시작하면 이전 실행의 종료가 �
   assert.ok(flow.getSnapshot().run > oldRun);
 });
 
-async function snapped(onComplete: (result: import('../src/sdk/captchavatye/types.ts').CompletionResult) => void, onContinue = () => {}) {
+async function snapped(onComplete: (result: import('../../packages/react/src/types.ts').CompletionResult) => void, onContinue = () => {}) {
   const fixture = await ready();
   fixture.flow.setCallbacks({ onComplete, onContinue });
   fixture.flow.drop({ dropX: .274, dropY: .433 });

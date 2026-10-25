@@ -1,3 +1,5 @@
+import { resolveCreativeUrls } from './urls.ts';
+import type { CreativeUrlBases } from './urls.ts';
 import type { ChallengeResponse, Creative, NormalizedRect, VerifyRequest, VerifyResult } from './types.ts';
 
 export class ApiError extends Error {
@@ -84,12 +86,18 @@ async function post<T>(
   }
 }
 
-export function createCaptchaApi(baseUrl = '/api'): CaptchaApi {
+export function createCaptchaApi(baseUrl = '/api', bases?: CreativeUrlBases): CaptchaApi {
   const base = baseUrl.replace(/\/+$/, '');
   return {
-    start: (creativeId, signal) => post(base + '/challenges', { creativeId }, signal, 201, value =>
-      record(value) && text(value.challengeId) && creative(value.creative, creativeId)
-        ? { challengeId: value.challengeId, creative: value.creative } : null),
+    start: (creativeId, signal) => post(base + '/challenges', { creativeId }, signal, 201, value => {
+      if (!record(value) || !text(value.challengeId) || !creative(value.creative, creativeId)) return null;
+      try {
+        return { challengeId: value.challengeId,
+          creative: bases ? resolveCreativeUrls(value.creative, bases) : value.creative };
+      } catch {
+        throw new ApiError('CREATIVE_URL', '광고 주소 설정을 확인해 주세요.', false);
+      }
+    }),
     verify: (request, signal) => post<VerifyResult>(base + '/verify', request, signal, 200, value => {
       if (!record(value)) return null;
       if (value.passed === false) return { passed: false };

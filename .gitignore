@@ -14,3 +14,6 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+# Local SDK release artifacts
+artifacts/

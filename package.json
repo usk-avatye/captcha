@@ -1,0 +1,19 @@
+{
+  "name": "captchavatye-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "packages/react"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace captchavatye",
+    "build": "npm run build --workspace captchavatye",
+    "build:sdk": "npm run build --workspace @captchavatye/react",
+    "pack:sdk": "node scripts/pack-sdk.mjs",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "verify:package": "node scripts/verify-package-contract.mjs"
+  }
+}

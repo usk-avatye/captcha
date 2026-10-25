@@ -61,6 +61,11 @@ export type CaptchaModalProps = {
   open: boolean;
   creativeId: string;
   apiBaseUrl?: string;
+  /** 상대 소재 URL을 해석할 절대 HTTP(S) 주소. 기본값은 현재 origin. */
+  assetBaseUrl?: string;
+  /** 상대 시승 URL을 해석할 절대 HTTP(S) 주소. 기본값은 현재 origin. */
+  landingBaseUrl?: string;
+  continueLabel?: string;
   onComplete: (result: CompletionResult) => void;
   onContinue: () => void;
   onClose: () => void;

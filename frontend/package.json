@@ -8,11 +8,14 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "node --test tests/*.test.ts"
+    "test": "node --test tests/*.test.ts",
+    "predev": "npm run build --workspace @captchavatye/react",
+    "prebuild": "npm run build --workspace @captchavatye/react"
   },
   "dependencies": {
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "@captchavatye/react": "0.1.0"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

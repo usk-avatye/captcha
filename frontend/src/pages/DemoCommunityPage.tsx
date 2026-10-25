@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CaptchaModal } from '../sdk/captchavatye';
+import { CaptchaModal } from '@captchavatye/react';
 import { useCommunityDraft } from './useCommunityDraft';
 
 export function DemoCommunityPage() {
