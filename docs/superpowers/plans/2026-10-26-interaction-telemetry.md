@@ -45,7 +45,7 @@
 
 **Files:** `packages/react/src/interactions.ts`, `packages/react/src/tracking.ts`, `packages/react/src/flow.ts`, `packages/react/src/useCaptchaFlow.ts`, `packages/react/src/CarPuzzle.tsx`, `packages/react/src/CaptchaModal.tsx`, `packages/react/src/types.ts`, `frontend/tests/interactions.test.ts`, `frontend/tests/interactionFlow.test.ts`, `frontend/tests/tracking.test.ts`.
 
-**Interfaces:** `InteractionRecorder`는 `ready(challengeId)`, `setOpen(open)`, `setVisible(visible)`, `press(x,y)`, `move(x,y)`, `release()`, `miss()`, `passed()`, `flush()`를 제공한다. 생성자는 제어 가능한 `now`, `random`, `deliver`와 `pathSampleRate`를 받는다. `CaptchaFlow`의 선택적 관측자는 `ready`, `miss`, `passed`를 받는다. SDK prop에 `telemetry?: {enabled?: boolean; pathSampleRate?: number}`를 추가한다. Task 1의 요청 계약을 사용한다.
+**Interfaces:** `InteractionRecorder`는 `bind(challengeId)`, `ready(challengeId)`, `setOpen(open)`, `setVisible(visible)`, `press(x,y)`, `move(x,y)`, `release()`, `miss()`, `passed()`, `flush()`를 제공한다. 인증 발급 직후 ID를 연결하고 이미지 준비 후 활성 측정을 시작한다. 생성자는 제어 가능한 `now`, `random`, `deliver`와 `pathSampleRate`를 받는다. `CaptchaFlow`의 선택적 관측자는 `bind`, `ready`, `setOpen`, `miss`, `passed`를 받는다. SDK prop에 `telemetry?: {enabled?: boolean; pathSampleRate?: number}`를 추가한다. Task 1의 요청 계약을 사용한다.
 
 - [ ] 제어한 시계에서 첫 조작 200ms, 숨김과 닫힘 시간을 제외한 성공 700ms, 미조작 null, 실패 후 재열기 누적, 성공 직후 닫기 중복 생략을 먼저 테스트한다.
 - [ ] 표본 미선택의 path=null, 선택 후 미조작의 path=[], 경로의 시작과 끝, 100ms 간격, 최대 100점과 마지막 점 보존을 테스트한다.

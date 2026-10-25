@@ -15,6 +15,7 @@ export type FlowSnapshot = {
 };
 
 type FlowObserver = {
+  bind?: (challengeId: string) => void;
   ready: (challengeId: string) => void;
   miss: () => void;
   passed: () => void;
@@ -110,6 +111,7 @@ export class CaptchaFlow {
     try {
       const response = await this.api.start(this.creativeId, execution.controller.signal);
       if (!execution.current()) return;
+      this.observe(observer => observer.bind?.(response.challengeId));
       this.update({
         challengeId: response.challengeId, creative: response.creative,
         loadAttempt: this.state.loadAttempt + 1,

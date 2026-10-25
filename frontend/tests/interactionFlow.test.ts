@@ -5,6 +5,24 @@ import { InteractionRecorder } from '../../packages/react/src/interactions.ts';
 import type { InteractionSummary } from '../../packages/react/src/interactions.ts';
 import { creative } from './fixtures.ts';
 
+test('closing during image loading or image failure still stores an unmeasured summary', async () => {
+  for (const fail of [false, true]) {
+    const sent: InteractionSummary[] = [];
+    const recorder = new InteractionRecorder({ pathSampleRate: 1,
+      deliver: async body => { sent.push(body); return true; } });
+    const flow = new CaptchaFlow('bmw-m3-v1', {
+      start: async () => ({challengeId: 'ch_loading', creative}),
+      verify: async () => ({passed: false}),
+    }, recorder);
+    flow.setOpen(true); await Promise.resolve();
+    if (fail) flow.assetsError(flow.getSnapshot().run);
+    flow.close(); await recorder.flush();
+    assert.equal(sent.length, 1);
+    assert.equal(sent[0].challengeId, 'ch_loading');
+    assert.deepEqual(sent[0].metrics, {firstInteractionMs: null, solveMs: null, missCount: 0, path: []});
+  }
+});
+
 test('real flow counts server misses and response time before animations, ignores stale responses', async () => {
   let time = 0;
   let resolve!: (result: {passed: false} | {passed: true; completionId: string; clickId: string}) => void;

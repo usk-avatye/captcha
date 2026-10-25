@@ -19,6 +19,7 @@ export class InteractionRecorder {
   private options: Options;
   private now: () => number;
   private challengeId: string | null = null;
+  private measuring = false;
   private open = false;
   private visible = true;
   private elapsed = 0;
@@ -48,11 +49,16 @@ export class InteractionRecorder {
     const elapsed = this.time();
     this.started = null;
     this.elapsed = elapsed;
-    if (this.challengeId && this.open && this.visible && this.metrics.solveMs === null) this.started = this.now();
+    if (this.measuring && this.open && this.visible && this.metrics.solveMs === null) this.started = this.now();
   }
-  ready = (challengeId: string) => {
+  bind = (challengeId: string) => {
     if (this.options.enabled === false || this.challengeId) return;
     this.challengeId = challengeId;
+  };
+  ready = (challengeId: string) => {
+    this.bind(challengeId);
+    if (!this.challengeId || this.measuring) return;
+    this.measuring = true;
     this.clock();
   };
   setOpen = (open: boolean) => {
@@ -66,7 +72,7 @@ export class InteractionRecorder {
     if (!visible) { this.release(); void this.flush(); }
   };
   private active() {
-    return this.challengeId !== null && this.open && this.visible && this.metrics.solveMs === null;
+    return this.measuring && this.open && this.visible && this.metrics.solveMs === null;
   }
   private point(x: number, y: number): PathPoint {
     const coordinate = (value: number) => Math.round(Math.max(0, Math.min(1, value)) * 10000) / 10000;
