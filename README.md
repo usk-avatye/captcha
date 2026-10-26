@@ -36,3 +36,5 @@ import '@captchavatye/react/style.css';
 `onComplete`에서 인증 완료 결과를 받고, `onContinue`에서 원래 작업을 재개합니다. 고객사 서버는 완료 결과를 검증한 뒤 업무를 처리합니다.
 
 컴포넌트 설정, 콜백과 상호작용 계측은 [React SDK 문서](packages/react/README.md)를 참고하세요. 인증 서버 실행과 API는 [백엔드 문서](backend/README.md)에 있습니다.
+
+전체 구성과 데이터 흐름은 [기술 설계](DESIGN.md)를 참고하세요.

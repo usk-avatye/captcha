@@ -1,5 +1,0 @@
-{
-  "expected": "SDK 내부에 포인트 문구 없음",
-  "actual": "C\nCAPTCHAvatye\n광고\n×\n램프를 빈칸으로 옮겨주세요.\nTHE M3\nBMW M3\n\nSheer Driving Pleasure\n\nP\n모의 포인트 10P",
-  "failure": "The input was expected to not match the regular expression /모의 포인트|10P/. Input:\n\n'C\\n' +\n  'CAPTCHAvatye\\n' +\n  '광고\\n' +\n  '×\\n' +\n  '램프를 빈칸으로 옮겨주세요.\\n' +\n  'THE M3\\n' +\n  'BMW M3\\n' +\n  '\\n' +\n  'Sheer Driving Pleasure\\n' +\n  '\\n' +\n  'P\\n' +\n  '모의 포인트 10P'\n"
-}

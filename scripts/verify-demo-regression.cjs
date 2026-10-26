@@ -4,7 +4,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const names = process.argv.slice(2).length ? process.argv.slice(2) : ['regression','conversion','host'];
-const allowed = { regression:'stage4-ui', conversion:'stage4-ui', host:'stage4-ui', edges:'stage5' };
+const allowed = new Set(['regression', 'conversion', 'host', 'edges']);
 const css = fs.readFileSync(path.join(root,'packages/react/src/captchavatye.css'),'utf8');
 const classes = [...new Set([...css.matchAll(/\.(cv-[a-zA-Z][\w-]*)/g)].map(m=>m[1]))].sort((a,b)=>b.length-a.length);
 const replacements = [
@@ -15,8 +15,8 @@ const replacements = [
 ];
 let failed = false;
 for (const name of names) {
- assert.ok(allowed[name], '검증 이름: regression, conversion, host, edges');
- const source = path.join(root,'docs/verification',allowed[name],'verify.'+name+'.cjs');
+ assert.ok(allowed.has(name), '검증 이름: regression, conversion, host, edges');
+ const source = path.join(root,'scripts/browser','verify.'+name+'.cjs');
  const output = path.join(root,'artifacts/sdk-regression',name);
  fs.mkdirSync(output,{recursive:true});
  let text = fs.readFileSync(source,'utf8');

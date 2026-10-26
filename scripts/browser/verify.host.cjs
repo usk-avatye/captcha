@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { chromium } = require(process.env.CAPTCHAVATYE_PLAYWRIGHT_MODULE || '/Users/jungle/.npm/_npx/31e32ef8478fbf80/node_modules/playwright');
+const { chromium } = require(process.env.CAPTCHAVATYE_PLAYWRIGHT_MODULE || 'playwright');
 const resultOne = { challengeId: 'ch_fixture_1', creativeId: 'bmw-m3-v1', completionId: 'cmp_fixture_1', clickId: 'clk_fixture_1' };
 const resultTwo = { challengeId: 'ch_fixture_2', creativeId: 'bmw-m3-v1', completionId: 'cmp_fixture_2', clickId: 'clk_fixture_2' };
 const results = [];

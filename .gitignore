@@ -18,3 +18,7 @@ __pycache__/
 # Local SDK release artifacts
 artifacts/
 demo/reports/
+
+# Local working notes and verification outputs
+/docs/superpowers/
+/docs/verification/
